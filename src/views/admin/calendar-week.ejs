@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Calendar &mdash; week</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Calendar</h1>
+    <p>
+      <a href="/admin/calendar/month">Month</a> &middot;
+      <a href="/admin/calendar/week">Week</a> &middot;
+      <a href="/admin/calendar/day">Day</a>
+    </p>
+    <div class="cal-nav">
+      <a href="/admin/calendar/week?date=<%= prevDate %>">&larr; Previous</a>
+      <strong>Week of <%= days[0].date.toISOString().slice(0, 10) %></strong>
+      <a href="/admin/calendar/week?date=<%= nextDate %>">Next &rarr;</a>
+    </div>
+
+    <div class="week-grid">
+      <% days.forEach(function (day) { %>
+        <div class="week-day <%= day.isToday ? 'today' : '' %>">
+          <strong><%= day.date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) %></strong>
+          <% if (day.items.length === 0) { %>
+            <p>No scheduled work.</p>
+          <% } %>
+          <% day.items.forEach(function (b) { %>
+            <a class="calendar-event badge-<%= b.status %>" href="/admin/bookings/<%= b.id %>">
+              <%= b.scheduledStartAt.toISOString().slice(11, 16) %>&ndash;<%= b.scheduledEndAt.toISOString().slice(11, 16) %><br>
+              <%= b.service.name %> &mdash; <%= b.customer.name %>
+            </a>
+          <% }) %>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+</body>
+</html>

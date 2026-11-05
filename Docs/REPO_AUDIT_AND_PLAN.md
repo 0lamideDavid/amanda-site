@@ -68,9 +68,18 @@ Implemented (`src/services/booking.service.ts`, `src/services/pricing.service.ts
 
 No HTTP routes or admin/public UI were added — reviewing requests, confirming, and rescheduling are still only reachable by calling the service functions directly (e.g. from Prisma Studio or a script), since routes/views are Phase 4 (admin) and Phase 6 (public).
 
+## Phase 4 — Admin booking views and calendar (done)
+
+First real admin UI (server-rendered EJS, no new frontend dependency). Scope note: the mockup exclusion in `README.md`/`PUBLIC_WEBSITE_SPEC.md` is specific to the *public* site, so this admin UI's layout/styling was my own call, kept plain and operational per `ADMIN_DASHBOARD_SPEC.md`'s "keep navigation clear and operationally focused."
+
+- `src/controllers/overview.controller.ts` — `/admin` now shows real counts (pending requests, upcoming confirmed appointments) and a pending-requests table, replacing the Phase 1 placeholder.
+- `src/controllers/booking.controller.ts` + `src/repositories/booking.repository.ts` additions (`listBookings`, `listBookingsScheduledBetween`, `listPendingRequests`, counts) — `/admin/bookings` (filterable by status/date) and `/admin/bookings/:id` (detail, with Confirm/Reschedule/Start/Complete/Cancel forms shown only for statuses where that action is valid, backed by the same transition guards from Phase 3). Errors (conflict, invalid transition) redirect back to the detail page with a message instead of a raw 500.
+- `src/controllers/calendar.controller.ts` + `src/utils/{dateRange,calendarGrid}.ts` — month/week/day calendar views. **Pending requests are structurally excluded from ever appearing as scheduled events**: the calendar queries by `scheduledStartAt`, which is `null` until a booking is confirmed, so there's no way for a pending request to render as a calendar slot. The day view additionally lists same-day pending requests in a separate "Pending requests for this date" section, satisfying the spec's "if pending requests are shown, make their status unmistakable" without plotting them as events.
+- Fixed a latent bug while touching this: `npm run build` compiled TypeScript but never copied `src/views`/`src/public` into `dist/`, so `npm start` would have served nothing. `build` now copies both.
+- Tests: `tests/calendarGrid.test.ts` (pure grid-building logic) and `tests/admin-booking-routes.test.ts` (HTTP, authenticated: list/detail render, month calendar shows the confirmed booking but never the pending one, day view separates the two sections, confirming via the real endpoint updates status, and confirming into a conflicting slot redirects with an error rather than crashing). Caught and fixed a real cross-file test-isolation bug along the way — `tests/booking.test.ts`'s cleanup used a `name: { startsWith: "Test-only" }` filter that deleted `tests/service.test.ts`'s fixtures when both files ran concurrently; narrowed it to exact names. **22/22 tests passing**, `tsc --noEmit` clean, and manually smoke-tested every new route live against the dev server with curl (login → overview → bookings list → all three calendar views → stylesheet, all 200).
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
-4. **Phase 4 — Admin booking views and calendar**: list/detail, month/week/day views, pending vs. confirmed distinction.
 5. **Phase 5 — Admin management**: services/pricing, customers, complaints, overview.
 6. **Phase 6 — Public one-page website**: real design, section navigation, booking modal wired to the backend.
 

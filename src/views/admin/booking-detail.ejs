@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Booking detail</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <p><a href="/admin/bookings">&larr; Back to bookings</a></p>
+    <h1><%= booking.service.name %> <span class="badge badge-<%= booking.status %>"><%= booking.status %></span></h1>
+
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+    <h2>Customer</h2>
+    <p><%= booking.customer.name %> &middot; <%= booking.customer.phone %><% if (booking.customer.email) { %> &middot; <%= booking.customer.email %><% } %></p>
+    <p><%= booking.address %>, <%= booking.postcode %></p>
+    <% if (booking.instructions) { %><p><em><%= booking.instructions %></em></p><% } %>
+
+    <h2>Requested</h2>
+    <p><%= booking.requestedDate.toISOString().slice(0, 10) %>, <%= booking.requestedTime %><% if (booking.frequency) { %> &middot; <%= booking.frequency %><% } %></p>
+
+    <h2>Scheduled</h2>
+    <% if (booking.scheduledStartAt && booking.scheduledEndAt) { %>
+      <p><%= booking.scheduledStartAt.toISOString().slice(0, 16).replace('T', ' ') %> to <%= booking.scheduledEndAt.toISOString().slice(0, 16).replace('T', ' ') %></p>
+    <% } else { %>
+      <p>Not yet scheduled.</p>
+    <% } %>
+
+    <h2>Price</h2>
+    <p><%= booking.priceSnapshot !== null ? ('£' + booking.priceSnapshot.toString()) : 'Not yet set' %></p>
+
+    <% if (booking.adminNotes) { %>
+      <h2>Admin notes</h2>
+      <p><%= booking.adminNotes %></p>
+    <% } %>
+
+    <% if (booking.status === 'PENDING' || booking.status === 'RESCHEDULE_REQUESTED') { %>
+      <div class="action-form">
+        <h3>Confirm</h3>
+        <form method="POST" action="/admin/bookings/<%= booking.id %>/confirm">
+          <label for="confirm-start">Scheduled start</label>
+          <input id="confirm-start" type="datetime-local" name="scheduledStartAt" required>
+          <label for="confirm-end">Scheduled end</label>
+          <input id="confirm-end" type="datetime-local" name="scheduledEndAt" required>
+          <% if (booking.priceSnapshot === null) { %>
+            <label for="confirm-price">Price (£) — this service has no automatic estimate</label>
+            <input id="confirm-price" type="number" step="0.01" min="0" name="priceSnapshot" required>
+          <% } %>
+          <p><button type="submit">Confirm booking</button></p>
+        </form>
+      </div>
+    <% } %>
+
+    <% if (booking.status === 'CONFIRMED') { %>
+      <div class="action-form">
+        <h3>Reschedule</h3>
+        <form method="POST" action="/admin/bookings/<%= booking.id %>/reschedule">
+          <label for="reschedule-start">New scheduled start</label>
+          <input id="reschedule-start" type="datetime-local" name="scheduledStartAt" required>
+          <label for="reschedule-end">New scheduled end</label>
+          <input id="reschedule-end" type="datetime-local" name="scheduledEndAt" required>
+          <p><button type="submit">Reschedule</button></p>
+        </form>
+      </div>
+      <form class="inline" method="POST" action="/admin/bookings/<%= booking.id %>/start">
+        <button type="submit">Mark as in progress</button>
+      </form>
+    <% } %>
+
+    <% if (booking.status === 'IN_PROGRESS') { %>
+      <form class="inline" method="POST" action="/admin/bookings/<%= booking.id %>/complete">
+        <button type="submit">Mark as completed</button>
+      </form>
+    <% } %>
+
+    <% if (booking.status !== 'COMPLETED' && booking.status !== 'CANCELLED') { %>
+      <form class="inline" method="POST" action="/admin/bookings/<%= booking.id %>/cancel" onsubmit="return confirm('Cancel this booking?');">
+        <button type="submit">Cancel booking</button>
+      </form>
+    <% } %>
+  </main>
+</body>
+</html>

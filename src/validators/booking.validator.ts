@@ -38,3 +38,7 @@ export const rescheduleBookingSchema = z
     message: "scheduledEndAt must be after scheduledStartAt",
     path: ["scheduledEndAt"],
   });
+
+export const cancelBookingSchema = z.object({
+  adminNotes: z.string().trim().min(1).optional(),
+});

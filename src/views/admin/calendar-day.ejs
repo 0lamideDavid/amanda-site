@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Calendar &mdash; day</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Calendar</h1>
+    <p>
+      <a href="/admin/calendar/month">Month</a> &middot;
+      <a href="/admin/calendar/week">Week</a> &middot;
+      <a href="/admin/calendar/day">Day</a>
+    </p>
+    <div class="cal-nav">
+      <a href="/admin/calendar/day?date=<%= prevDate %>">&larr; Previous</a>
+      <strong><%= date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) %></strong>
+      <a href="/admin/calendar/day?date=<%= nextDate %>">Next &rarr;</a>
+    </div>
+
+    <h2>Scheduled</h2>
+    <% if (bookings.length === 0) { %>
+      <p>No scheduled work this day.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Time</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <% bookings.forEach(function (b) { %>
+            <tr>
+              <td><%= b.scheduledStartAt.toISOString().slice(11, 16) %>&ndash;<%= b.scheduledEndAt.toISOString().slice(11, 16) %></td>
+              <td><%= b.service.name %></td>
+              <td><%= b.customer.name %></td>
+              <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
+              <td><a href="/admin/bookings/<%= b.id %>">View</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+
+    <h2>Pending requests for this date</h2>
+    <% if (pendingRequests.length === 0) { %>
+      <p>None.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Requested time</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <% pendingRequests.forEach(function (b) { %>
+            <tr>
+              <td><%= b.requestedTime %></td>
+              <td><%= b.service.name %></td>
+              <td><%= b.customer.name %></td>
+              <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
+              <td><a href="/admin/bookings/<%= b.id %>">Review</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

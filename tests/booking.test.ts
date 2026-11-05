@@ -17,7 +17,7 @@ let quoteServiceId: string;
 before(async () => {
   await prisma.booking.deleteMany({ where: { customer: { phone: { startsWith: "+44-test-" } } } });
   await prisma.customer.deleteMany({ where: { phone: { startsWith: "+44-test-" } } });
-  await prisma.service.deleteMany({ where: { name: { startsWith: "Test-only" } } });
+  await prisma.service.deleteMany({ where: { name: { in: ["Test-only hourly service", "Test-only quote service"] } } });
 
   const hourly = await prisma.service.create({
     data: {
@@ -45,7 +45,7 @@ before(async () => {
 after(async () => {
   await prisma.booking.deleteMany({ where: { customer: { phone: { startsWith: "+44-test-" } } } });
   await prisma.customer.deleteMany({ where: { phone: { startsWith: "+44-test-" } } });
-  await prisma.service.deleteMany({ where: { name: { startsWith: "Test-only" } } });
+  await prisma.service.deleteMany({ where: { name: { in: ["Test-only hourly service", "Test-only quote service"] } } });
   await prisma.$disconnect();
 });
 

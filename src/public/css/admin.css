@@ -1,0 +1,29 @@
+body { font: 16px/1.4 system-ui, sans-serif; margin: 0; color: #1a1a1a; background: #fafafa; }
+header.admin-nav { display: flex; gap: 16px; align-items: center; padding: 12px 20px; background: #f0f0f0; border-bottom: 1px solid #ccc; }
+header.admin-nav a { color: #1a1a1a; text-decoration: none; }
+header.admin-nav form { margin-left: auto; }
+main { padding: 20px; max-width: 1100px; margin: 0 auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; background: #fff; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #ddd; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.85em; font-weight: 600; white-space: nowrap; }
+.badge-PENDING { background: #fff3cd; color: #7a5b00; }
+.badge-CONFIRMED { background: #d4edda; color: #1d6b33; }
+.badge-RESCHEDULE_REQUESTED { background: #ffe5d0; color: #8a4b00; }
+.badge-IN_PROGRESS { background: #cfe2ff; color: #084298; }
+.badge-COMPLETED { background: #e2e3e5; color: #41464b; }
+.badge-CANCELLED { background: #f8d7da; color: #842029; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #ccc; margin-top: 12px; }
+.calendar-cell { background: #fff; min-height: 90px; padding: 6px; font-size: 0.85em; vertical-align: top; }
+.calendar-cell.not-current { background: #f5f5f5; color: #999; }
+.calendar-cell.today { outline: 2px solid #0f766e; }
+.calendar-event { display: block; margin-top: 4px; padding: 2px 4px; border-radius: 4px; font-size: 0.85em; text-decoration: none; color: inherit; }
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 12px; }
+.week-day { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; }
+form.inline { display: inline; margin-right: 8px; }
+.error { color: #842029; background: #f8d7da; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; }
+.filters { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; margin-top: 12px; }
+.filters label { display: block; font-size: 0.85em; font-weight: 600; }
+.cal-nav { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+.action-form { margin-top: 16px; padding: 16px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
+.action-form label { display: block; font-weight: 600; font-size: 0.9em; margin-top: 8px; }
+.action-form input { font: inherit; padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; }

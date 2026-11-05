@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Calendar &mdash; month</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Calendar</h1>
+    <p>
+      <a href="/admin/calendar/month">Month</a> &middot;
+      <a href="/admin/calendar/week">Week</a> &middot;
+      <a href="/admin/calendar/day">Day</a>
+    </p>
+    <div class="cal-nav">
+      <a href="/admin/calendar/month?date=<%= prevDate %>">&larr; Previous</a>
+      <strong><%= date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) %></strong>
+      <a href="/admin/calendar/month?date=<%= nextDate %>">Next &rarr;</a>
+    </div>
+
+    <div class="calendar-grid">
+      <% ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function (d) { %>
+        <div class="calendar-cell not-current"><strong><%= d %></strong></div>
+      <% }) %>
+      <% weeks.forEach(function (week) { %>
+        <% week.forEach(function (day) { %>
+          <div class="calendar-cell <%= day.isCurrentMonth ? '' : 'not-current' %> <%= day.isToday ? 'today' : '' %>">
+            <div><%= day.date.getDate() %></div>
+            <% day.items.forEach(function (b) { %>
+              <a class="calendar-event badge-<%= b.status %>" href="/admin/bookings/<%= b.id %>">
+                <%= b.scheduledStartAt.toISOString().slice(11, 16) %> <%= b.service.name %>
+              </a>
+            <% }) %>
+          </div>
+        <% }) %>
+      <% }) %>
+    </div>
+    <p class="note">Only scheduled (confirmed or later) bookings appear on the calendar. Pending requests are reviewed from <a href="/admin">Overview</a> or the <a href="/admin/bookings?status=PENDING">bookings list</a>.</p>
+  </main>
+</body>
+</html>

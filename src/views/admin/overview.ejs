@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin overview</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Overview</h1>
+    <p><strong><%= pendingCount %></strong> pending request<%= pendingCount === 1 ? '' : 's' %> awaiting review.</p>
+    <p><strong><%= upcomingConfirmedCount %></strong> upcoming confirmed appointment<%= upcomingConfirmedCount === 1 ? '' : 's' %>.</p>
+
+    <h2>Pending requests</h2>
+    <% if (pendingRequests.length === 0) { %>
+      <p>No pending requests.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Requested date</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <% pendingRequests.forEach(function (b) { %>
+            <tr>
+              <td><%= b.requestedDate.toISOString().slice(0, 10) %> (<%= b.requestedTime %>)</td>
+              <td><%= b.service.name %></td>
+              <td><%= b.customer.name %></td>
+              <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
+              <td><a href="/admin/bookings/<%= b.id %>">Review</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

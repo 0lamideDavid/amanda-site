@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bookings</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Bookings</h1>
+
+    <form class="filters" method="GET" action="/admin/bookings">
+      <div>
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">All</option>
+          <% statuses.forEach(function (s) { %>
+            <option value="<%= s %>" <%= filters.status === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div>
+        <label for="from">From</label>
+        <input id="from" type="date" name="from" value="<%= filters.from %>">
+      </div>
+      <div>
+        <label for="to">To</label>
+        <input id="to" type="date" name="to" value="<%= filters.to %>">
+      </div>
+      <div><button type="submit">Filter</button></div>
+    </form>
+
+    <% if (bookings.length === 0) { %>
+      <p>No bookings match this filter.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr><th>Requested</th><th>Scheduled</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% bookings.forEach(function (b) { %>
+            <tr>
+              <td><%= b.requestedDate.toISOString().slice(0, 10) %> (<%= b.requestedTime %>)</td>
+              <td><%= b.scheduledStartAt ? b.scheduledStartAt.toISOString().slice(0, 16).replace('T', ' ') : '—' %></td>
+              <td><%= b.service.name %></td>
+              <td><%= b.customer.name %></td>
+              <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
+              <td><a href="/admin/bookings/<%= b.id %>">View</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>
