@@ -1,5 +1,6 @@
 import path from "node:path";
 import express from "express";
+import type { ErrorRequestHandler } from "express";
 import { sessionMiddleware } from "./config/session";
 import { publicRouter } from "./routes/public.routes";
 import { authRouter } from "./routes/auth.routes";
@@ -20,3 +21,12 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.use(authRouter);
 app.use("/admin", adminRouter);
 app.use("/", publicRouter);
+
+// Catches anything forwarded via next(err) by asyncHandler — never leaks
+// error details to the client, just logs server-side and responds plainly.
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  console.error(err);
+  if (res.headersSent) return next(err);
+  res.status(500).send("Something went wrong. Please try again.");
+};
+app.use(errorHandler);

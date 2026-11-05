@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= contact.brand %> | <%= contact.tagline %></title>
+<meta name="description" content="<%= contact.tagline %>. Regular cleaning, errands, holiday-let turnovers and deep cleans in <%= contact.area %>.">
+<script>
+  // Runs before paint to avoid a flash of the wrong theme.
+  (function () {
+    var saved = localStorage.getItem("amandas-theme");
+    if (saved === "dark" || saved === "light") {
+      document.documentElement.setAttribute("data-theme", saved);
+    }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#top">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg>
+      <%= contact.brand %>
+    </a>
+    <nav class="links">
+      <a class="navlink" href="#services">Services</a>
+      <a class="navlink" href="#how-it-works">How it works</a>
+      <a class="navlink" href="#pricing">Pricing</a>
+      <a class="navlink" href="#contact">Contact</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">☾</button>
+      <a class="btn accent small" href="#book" data-open-booking>Book now</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <span class="eyebrow">Corporate-grade clean, for your home</span>
+      <h1>Smart cleaning,<br><span style="color:var(--deep)">swift errands.</span></h1>
+      <p class="lede">One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean, and the jobs you never get round to. Serving <%= contact.area %> and nearby areas.</p>
+      <div class="cta-row">
+        <a class="btn accent" href="#book" data-open-booking>Request a booking</a>
+        <a class="btn alt" href="#services">See services</a>
+      </div>
+      <ul class="chips">
+        <li>Insured</li>
+        <li>DBS-checked</li>
+        <li>Photo confirmation after every job</li>
+        <li>Clear, upfront pricing</li>
+      </ul>
+      <svg class="hero-art" viewBox="0 0 800 240" role="img" aria-label="Illustration of a sparkling clean home with a mop bucket and a shopping bag">
+        <defs><path id="st" d="M0-12L3-3L12 0L3 3L0 12L-3 3L-12 0L-3-3Z"/></defs>
+        <path class="s1" d="M18 0H782A18 18 0 0 1 800 18V222A18 18 0 0 1 782 240H18A18 18 0 0 1 0 222V18A18 18 0 0 1 18 0Z"/>
+        <path class="s2" d="M0 200H800V222A18 18 0 0 1 782 240H18A18 18 0 0 1 0 222Z"/>
+        <rect class="fs" x="310" y="112" width="180" height="88"/>
+        <polygon class="fa" points="295,112 400,50 505,112"/>
+        <rect class="fa" x="385" y="150" width="30" height="50" rx="3"/>
+        <rect class="fs" x="335" y="132" width="34" height="34" rx="3"/>
+        <rect class="fs" x="431" y="132" width="34" height="34" rx="3"/>
+        <use href="#st" class="sp" transform="translate(352 142)"/>
+        <use href="#st" class="sp" transform="translate(448 142) scale(.8)"/>
+        <path class="fa" d="M120 160H180L172 200H128Z"/>
+        <path class="sa" d="M126 160Q150 126 174 160"/>
+        <line class="st" x1="212" y1="200" x2="240" y2="96"/>
+        <path class="fa" d="M196 200H228L224 214H200Z"/>
+        <path class="sa" d="M606 132Q620 104 634 132"/>
+        <rect class="fa" x="585" y="132" width="70" height="68" rx="8"/>
+        <path class="sp" d="M620 132Q612 100 592 92Q596 120 620 132Z"/>
+        <line class="sm" x1="530" y1="150" x2="565" y2="150"/>
+        <line class="sm" x1="538" y1="166" x2="568" y2="166"/>
+        <line class="sm" x1="530" y1="182" x2="560" y2="182"/>
+        <use href="#st" class="sp" transform="translate(270 92) scale(1.2)"/>
+        <use href="#st" class="sp" transform="translate(545 84) scale(.9)"/>
+        <use href="#st" class="sp" transform="translate(160 96) scale(.8)"/>
+        <use href="#st" class="sp" transform="translate(690 120) scale(.7)"/>
+      </svg>
+    </section>
+
+    <section id="services">
+      <div class="wrap">
+        <span class="eyebrow">What we do</span>
+        <h2>Services built around your week</h2>
+        <div class="grid" style="margin-top:24px">
+          <% services.forEach(function (s) { %>
+            <div class="card">
+              <h3><%= s.name %></h3>
+              <p><%= s.description %></p>
+              <p class="price">
+                <% if (s.basePrice === null) { %>
+                  Quoted after a site visit
+                <% } else if (s.pricingUnit === 'hourly') { %>
+                  £<%= s.basePrice.toString() %> an hour<% if (s.minimum) { %>, <%= s.minimum.toString() %>-hour minimum<% } %>
+                <% } else if (s.pricingUnit === 'flat') { %>
+                  £<%= s.basePrice.toString() %> per visit
+                <% } else { %>
+                  From £<%= s.basePrice.toString() %>
+                <% } %>
+              </p>
+              <p><a class="btn small" href="#book" data-open-booking data-service-id="<%= s.id %>">Book this</a></p>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="deep">
+      <div class="wrap">
+        <span class="eyebrow">How it works</span>
+        <h2>From request to spotless, in three steps</h2>
+        <ol class="steps" style="margin-top:24px">
+          <li><h3>Request</h3><p>Fill in the short booking form with what you need and when.</p></li>
+          <li><h3>Confirm</h3><p>We reply to confirm the time, the price, and anything we need to know.</p></li>
+          <li><h3>Relax</h3><p>We do the job, send photos, and you pay once it's done.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="wrap">
+        <span class="eyebrow">Pricing</span>
+        <h2>Clear, upfront pricing</h2>
+        <div class="tbl" style="margin-top:24px">
+          <table>
+            <thead><tr><th>Service</th><th>Price</th><th>Notes</th></tr></thead>
+            <tbody>
+              <% services.forEach(function (s) { %>
+                <tr>
+                  <td><%= s.name %></td>
+                  <td>
+                    <% if (s.basePrice === null) { %>Quote<% } %>
+                    <% if (s.basePrice !== null && s.pricingUnit === 'hourly') { %>£<%= s.basePrice.toString() %>/hr<% } %>
+                    <% if (s.basePrice !== null && s.pricingUnit === 'flat') { %>£<%= s.basePrice.toString() %> each<% } %>
+                    <% if (s.basePrice !== null && s.pricingUnit === 'from') { %>From £<%= s.basePrice.toString() %><% } %>
+                  </td>
+                  <td><%= s.minimum ? (s.minimum.toString() + (s.pricingUnit === 'hourly' ? '-hour minimum' : ' minimum')) : '—' %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="margin-top:16px;color:var(--muted)">Ask about our Home Care Plan: a regular clean plus errand hours at a small discount.</p>
+      </div>
+    </section>
+
+    <section id="book" class="deep">
+      <div class="wrap" style="text-align:center">
+        <span class="eyebrow">Ready when you are</span>
+        <h2>Get started today</h2>
+        <p class="muted" style="max-width:480px;margin:0 auto 24px">Tell us what you need and we'll confirm a time, the price, and anything we need to know. This is a request, not a confirmed booking.</p>
+        <a class="btn accent" href="#" data-open-booking>Request a booking</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="wrap">
+      <div class="cols">
+        <div>
+          <strong style="font-size:1.1rem"><%= contact.brand %></strong>
+          <p class="muted" style="color:#b9d9c3;margin-top:8px">Smart Cleaning, Swift Errand &middot; <%= contact.area %></p>
+        </div>
+        <div>
+          <p>Email <a href="mailto:<%= contact.email %>"><%= contact.email %></a></p>
+          <p>Phone <%= contact.phone %></p>
+        </div>
+      </div>
+      <div class="legal">
+        <span>&copy; <%= new Date().getFullYear() %> <%= contact.brand %>. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="booking-overlay" hidden>
+    <div class="modal">
+      <button class="modal-close" id="booking-close" type="button" aria-label="Close">&times;</button>
+      <h2>Request a booking</h2>
+      <p class="muted" style="color:var(--muted)">This is a request, not a confirmed booking &mdash; we'll reply to confirm the time and price.</p>
+      <p class="form-error" id="form-errors"></p>
+
+      <form id="booking-form">
+        <div class="fields">
+          <div>
+            <label for="service">Service</label>
+            <select id="service" required>
+              <option value="">Choose a service</option>
+              <% services.forEach(function (s) { %>
+                <option value="<%= s.id %>"><%= s.name %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div id="qtyBox" hidden>
+            <label for="qty" id="qtyLabel">Quantity</label>
+            <input id="qty" type="number" min="1" max="10" step="0.5" value="2">
+          </div>
+          <div>
+            <label for="freq">How often</label>
+            <select id="freq">
+              <option>One-off</option>
+              <option>Weekly</option>
+              <option>Fortnightly</option>
+              <option>Monthly</option>
+            </select>
+          </div>
+          <div>
+            <label for="date">Preferred date</label>
+            <input id="date" type="date" required>
+          </div>
+          <div>
+            <label for="time">Preferred time</label>
+            <select id="time">
+              <option>Morning (8am to 12pm)</option>
+              <option>Afternoon (12pm to 4pm)</option>
+              <option>Evening (4pm to 7pm)</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+          <div>
+            <label for="name">Your name</label>
+            <input id="name" autocomplete="name" required>
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" type="tel" autocomplete="tel" required>
+          </div>
+          <div>
+            <label for="email">Email (optional)</label>
+            <input id="email" type="email" autocomplete="email">
+          </div>
+          <div>
+            <label for="pc">Postcode</label>
+            <input id="pc" autocomplete="postal-code" placeholder="e.g. PL4" required>
+          </div>
+          <div class="full">
+            <label for="address">Service address</label>
+            <input id="address" autocomplete="street-address" required>
+          </div>
+          <div class="full">
+            <label for="notes">Anything we should know</label>
+            <textarea id="notes" rows="3" placeholder="Property size, access, pets, special requests"></textarea>
+          </div>
+          <div class="full est" id="est" aria-live="polite">Choose a service to see an estimate.</div>
+          <div class="full"><button class="btn accent" type="submit">Send request</button></div>
+        </div>
+      </form>
+
+      <div class="done" id="booking-done" hidden>
+        <div class="accent-icon">&check;</div>
+        <h3>Request received</h3>
+        <p>Thanks &mdash; we'll be in touch by phone or email to confirm the time and price.</p>
+        <p><button class="btn alt small" id="booking-edit" type="button">Send another request</button></p>
+      </div>
+    </div>
+  </div>
+
+  <script>window.AMANDAS_SERVICES = <%- servicesJson %>;</script>
+  <script src="/js/site.js"></script>
+</body>
+</html>

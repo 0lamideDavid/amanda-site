@@ -1,0 +1,32 @@
+import type { Request, Response } from "express";
+import { findActiveServices } from "../repositories/service.repository";
+
+// Contact details shown in the footer/nav. Not a pricing or business rule
+// the spec asks to be database-driven, so a small constant here (unlike
+// Service pricing, which must stay in the database).
+export const BUSINESS_CONTACT = {
+  brand: "Amanda's",
+  tagline: "Smart Cleaning, Swift Errand",
+  email: "hello@amandas.example",
+  phone: "07000 000000",
+  whatsapp: "447000000000",
+  area: "Plymouth, Devon",
+};
+
+export async function showHome(req: Request, res: Response) {
+  const services = await findActiveServices();
+  res.render("public/index", {
+    services,
+    contact: BUSINESS_CONTACT,
+    servicesJson: JSON.stringify(
+      services.map((s) => ({
+        id: s.id,
+        name: s.name,
+        description: s.description,
+        pricingUnit: s.pricingUnit,
+        basePrice: s.basePrice !== null ? Number(s.basePrice) : null,
+        minimum: s.minimum !== null ? Number(s.minimum) : null,
+      })),
+    ),
+  });
+}

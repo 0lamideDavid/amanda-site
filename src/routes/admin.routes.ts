@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { requireAdminAuth } from "../middleware/requireAdminAuth";
+import { asyncHandler } from "../utils/asyncHandler";
 import { showOverview } from "../controllers/overview.controller";
 import {
   listBookingsPage,
@@ -31,33 +32,33 @@ export const adminRouter = Router();
 
 adminRouter.use(requireAdminAuth);
 
-adminRouter.get("/", showOverview);
+adminRouter.get("/", asyncHandler(showOverview));
 
-adminRouter.get("/bookings", listBookingsPage);
-adminRouter.get("/bookings/:id", showBookingDetail);
-adminRouter.post("/bookings/:id/confirm", handleConfirm);
-adminRouter.post("/bookings/:id/reschedule", handleReschedule);
-adminRouter.post("/bookings/:id/cancel", handleCancel);
-adminRouter.post("/bookings/:id/start", handleStart);
-adminRouter.post("/bookings/:id/complete", handleComplete);
+adminRouter.get("/bookings", asyncHandler(listBookingsPage));
+adminRouter.get("/bookings/:id", asyncHandler(showBookingDetail));
+adminRouter.post("/bookings/:id/confirm", asyncHandler(handleConfirm));
+adminRouter.post("/bookings/:id/reschedule", asyncHandler(handleReschedule));
+adminRouter.post("/bookings/:id/cancel", asyncHandler(handleCancel));
+adminRouter.post("/bookings/:id/start", asyncHandler(handleStart));
+adminRouter.post("/bookings/:id/complete", asyncHandler(handleComplete));
 
-adminRouter.get("/calendar", showMonthView);
-adminRouter.get("/calendar/month", showMonthView);
-adminRouter.get("/calendar/week", showWeekView);
-adminRouter.get("/calendar/day", showDayView);
+adminRouter.get("/calendar", asyncHandler(showMonthView));
+adminRouter.get("/calendar/month", asyncHandler(showMonthView));
+adminRouter.get("/calendar/week", asyncHandler(showWeekView));
+adminRouter.get("/calendar/day", asyncHandler(showDayView));
 
-adminRouter.get("/services", listServicesPage);
-adminRouter.get("/services/new", showNewServiceForm);
-adminRouter.post("/services", handleCreateService);
-adminRouter.get("/services/:id/edit", showEditServiceForm);
-adminRouter.post("/services/:id", handleUpdateService);
+adminRouter.get("/services", asyncHandler(listServicesPage));
+adminRouter.get("/services/new", asyncHandler(showNewServiceForm));
+adminRouter.post("/services", asyncHandler(handleCreateService));
+adminRouter.get("/services/:id/edit", asyncHandler(showEditServiceForm));
+adminRouter.post("/services/:id", asyncHandler(handleUpdateService));
 
-adminRouter.get("/customers", listCustomersPage);
-adminRouter.get("/customers/:id", showCustomerDetail);
-adminRouter.post("/customers/:id", handleUpdateCustomer);
+adminRouter.get("/customers", asyncHandler(listCustomersPage));
+adminRouter.get("/customers/:id", asyncHandler(showCustomerDetail));
+adminRouter.post("/customers/:id", asyncHandler(handleUpdateCustomer));
 
-adminRouter.get("/complaints", listComplaintsPage);
-adminRouter.get("/complaints/new", showNewComplaintForm);
-adminRouter.post("/complaints", handleCreateComplaint);
-adminRouter.get("/complaints/:id", showComplaintDetail);
-adminRouter.post("/complaints/:id", handleUpdateComplaint);
+adminRouter.get("/complaints", asyncHandler(listComplaintsPage));
+adminRouter.get("/complaints/new", asyncHandler(showNewComplaintForm));
+adminRouter.post("/complaints", asyncHandler(handleCreateComplaint));
+adminRouter.get("/complaints/:id", asyncHandler(showComplaintDetail));
+adminRouter.post("/complaints/:id", asyncHandler(handleUpdateComplaint));

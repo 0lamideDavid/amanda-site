@@ -94,8 +94,27 @@ Ran a complete check before starting Phase 6, at the user's request: clean `npm 
 
 Everything else checked out with no further issues.
 
+## Phase 6 — Public one-page website (done)
+
+The mockup exclusion was explicitly lifted by the user for this phase: they shared a published Framer template ("Claritas — Cleaning Service," a stock template, not a competitor's brand) and asked to use its visual style with Amanda's real content and the dark/light mechanism already present in the approved HTML mockup.
+
+**How the design was read:** the Chrome extension wasn't connected and no other browser tool was available, so the live Framer page couldn't be inspected directly. The user instead dropped a full-page screenshot into a new `templates/` folder (gitignored — large reference images, not an app asset). Colors were extracted by pixel-sampling that screenshot directly with Pillow (a venv in the scratchpad dir, not a project dependency), not estimated by eye: cream background `#F5F3EC`, deep forest green `#163A2C`/`#12271C` (alternating sections, buttons, footer), lime accent `~#E6FFB4`, sage secondary text `#48755A`. Confirmed with the user before building.
+
+**Built:**
+- `src/public/css/site.css` — the palette above as CSS custom properties, light by default, dark via `[data-theme="dark"]` or `prefers-color-scheme`, same mechanism as the approved mockup. Claritas-style components adapted to Amanda's actual data shape (pill buttons/badges, eyebrow labels, alternating cream/dark-green sections, numbered step list, card grid) rather than copied verbatim — there's no "3-tier plan" layout since Amanda's five services don't map to that shape; they're a card grid plus a pricing table instead.
+- `src/public/js/site.js` — dark/light toggle with `localStorage` persistence (plus a blocking inline script in `<head>` to avoid a flash of the wrong theme on load), the booking modal, and a live price estimate that mirrors `src/services/pricing.service.ts`'s rules client-side for instant feedback — the server always recomputes the authoritative price on submission, so this duplication is UX only, not a trust boundary.
+- `src/controllers/public.controller.ts` — `GET /` renders real, active `Service` rows (via `findActiveServices`), not hardcoded content.
+- `src/controllers/booking-request.controller.ts` + `POST /booking-requests` — the public write path. Validates with the existing `createBookingRequestSchema` and calls the existing `createBookingRequest` service (Phase 3) unchanged, so a public submission always lands as `PENDING`, never auto-confirmed, exactly like the admin-side booking flow already did.
+- Content ported from the approved HTML mockup (copy, five services, pricing, booking form fields, "how it works" steps) — not the Framer template's generic corporate-cleaning copy.
+
+**Found and fixed a real app-wide bug while wiring the new write endpoint:** none of the route handlers across any phase forwarded thrown errors to Express — there was no `asyncHandler`-style wrapper and no global error middleware. In Express 4, a rejected promise from an `async` route handler isn't caught automatically; left unhandled, it can hang the request and, since Node terminates on unhandled rejections by default, crash the whole server. Added `src/utils/asyncHandler.ts` and wrapped every route across `admin.routes.ts`, `auth.routes.ts`, and `public.routes.ts`, plus a global error-handling middleware in `app.ts`. `tests/asyncHandler.test.ts` proves the fix directly (a thrown error now reaches a clean 500, not a hang), and the full suite stayed green with this wrapping applied everywhere, confirming it didn't change any existing behavior.
+
+**Verified:** `tsc --noEmit` clean, **35/35 tests passing** (stable across repeated runs), `npm run build && npm start` smoke-tested against the compiled public page/CSS/JS, and the live dev server exercised with curl end to end — including a real booking request through `POST /booking-requests` confirmed in Postgres as `PENDING` with the correct computed price and no `scheduledStartAt`, a validation-error path returning 400 with field errors, and an inactive-service submission correctly rejected with 400 instead of a crash.
+
+**Not done, deliberately:** I could not visually verify the rendered page myself (no browser tool connected this session) — the CSS/markup were authored carefully against the sampled palette and checked structurally via curl, but an actual look in a real browser (light and dark) is worth doing before calling this final.
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
-6. **Phase 6 — Public one-page website**: real design, section navigation, booking modal wired to the backend.
+Phases 1–6 are now all implemented. Remaining: your visual review of the live public page (light and dark), and any content/business-rule decisions from the open items noted above (single-provider conflict assumption from Phase 3, complaint status set from Phase 5).
 
 Each phase stops at its review gate before the next begins, per `IMPLEMENTATION_PHASES.md`.

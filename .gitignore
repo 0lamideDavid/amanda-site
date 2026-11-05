@@ -5,3 +5,7 @@ dist/
 !.env.example
 *.log
 .DS_Store
+
+# Design reference screenshots (Framer template) — local reference only,
+# not an app asset; too large to belong in git history.
+/templates/

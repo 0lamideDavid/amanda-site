@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amanda’s | Smart Cleaning, Swift Errand</title>
+<style>
+:root{--bg:#f7f5f0;--surface:#ffffff;--text:#1d2b2a;--muted:#5a6b69;--accent:#0f766e;--accent-ink:#ffffff;--soft:#e3f1ee;--border:#d9d4c7;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101a19;--surface:#182423;--text:#eaf2f0;--muted:#a3b7b4;--accent:#2dd4bf;--accent-ink:#06201d;--soft:#1b3330;--border:#2b3f3c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101a19;--surface:#182423;--text:#eaf2f0;--muted:#a3b7b4;--accent:#2dd4bf;--accent-ink:#06201d;--soft:#1b3330;--border:#2b3f3c;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(2rem,6vw,3.2rem)}h2{font-size:clamp(1.5rem,4vw,2rem)}h3{font-size:1.15rem}
+p{margin:0 0 1em}a{color:var(--accent)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 0}
+.brand{font-family:Georgia,serif;font-weight:700;font-size:1.15rem;color:var(--text);text-decoration:none}
+nav{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+nav a{color:var(--text);text-decoration:none;font-size:.95rem}
+.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer}
+.btn.alt{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.hero{padding:48px 0 40px}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:620px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0;padding:0;list-style:none}
+.chips li{background:var(--soft);border-radius:999px;padding:6px 14px;font-size:.9rem}
+section{padding:40px 0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px}
+.card p{margin:0;color:var(--muted)}
+.price{color:var(--accent);font-weight:700;margin-top:10px!important}
+.steps{counter-reset:s;list-style:none;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.steps li{counter-increment:s;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px}
+.steps li::before{content:counter(s);display:inline-flex;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--accent-ink);align-items:center;justify-content:center;font-weight:700;margin-bottom:8px}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:14px;min-width:480px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--border)}
+th{background:var(--soft)}
+form,.done{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px}
+.fields{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.full{grid-column:1/-1}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+input,select,textarea{width:100%;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.check input{width:auto;margin-top:5px}
+.est{background:var(--soft);border-radius:10px;padding:14px 16px;font-weight:600}
+.note{color:var(--muted);font-size:.9rem}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;font:inherit;font-size:.95rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+footer{border-top:1px solid var(--border);padding:28px 0;color:var(--muted);font-size:.92rem}
+.art{display:block;width:100%;height:auto;margin:28px 0 8px;max-height:280px}.art .s1{fill:var(--soft)}.art .s2{fill:var(--border)}.art .fa{fill:var(--accent)}.art .fs{fill:var(--surface);stroke:var(--accent);stroke-width:3}.art .sa{stroke:var(--accent);stroke-width:5;fill:none;stroke-linecap:round}.art .st{stroke:var(--text);stroke-width:6;stroke-linecap:round}.art .sm{stroke:var(--muted);stroke-width:4;stroke-linecap:round}.art .sp{fill:var(--accent)}
+.ic{width:36px;height:36px;margin-bottom:8px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#top" data-brand>Amanda’s</a>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn" href="#book">Book now</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <h1>Smart Cleaning, Swift Errand.</h1>
+      <p>One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to. Serving Plymouth and nearby areas.</p>
+      <p><a class="btn" href="#book">Request a booking</a> &nbsp; <a class="btn alt" href="#services">See services</a></p>
+      <svg class="art" viewBox="0 0 800 240" role="img" aria-label="Illustration of a sparkling clean home with a mop bucket and a shopping bag"><defs><path id="st" d="M0-12L3-3L12 0L3 3L0 12L-3 3L-12 0L-3-3Z"/></defs><path class="s1" d="M18 0H782A18 18 0 0 1 800 18V222A18 18 0 0 1 782 240H18A18 18 0 0 1 0 222V18A18 18 0 0 1 18 0Z"/><path class="s2" d="M0 200H800V222A18 18 0 0 1 782 240H18A18 18 0 0 1 0 222Z"/><rect class="fs" x="310" y="112" width="180" height="88"/><polygon class="fa" points="295,112 400,50 505,112"/><rect class="fa" x="385" y="150" width="30" height="50" rx="3"/><rect class="fs" x="335" y="132" width="34" height="34" rx="3"/><rect class="fs" x="431" y="132" width="34" height="34" rx="3"/><use href="#st" class="sp" transform="translate(352 142)"/><use href="#st" class="sp" transform="translate(448 142) scale(.8)"/><path class="fa" d="M120 160H180L172 200H128Z"/><path class="sa" d="M126 160Q150 126 174 160"/><line class="st" x1="212" y1="200" x2="240" y2="96"/><path class="fa" d="M196 200H228L224 214H200Z"/><path class="sa" d="M606 132Q620 104 634 132"/><rect class="fa" x="585" y="132" width="70" height="68" rx="8"/><path class="sp" d="M620 132Q612 100 592 92Q596 120 620 132Z"/><line class="sm" x1="530" y1="150" x2="565" y2="150"/><line class="sm" x1="538" y1="166" x2="568" y2="166"/><line class="sm" x1="530" y1="182" x2="560" y2="182"/><use href="#st" class="sp" transform="translate(270 92) scale(1.2)"/><use href="#st" class="sp" transform="translate(545 84) scale(.9)"/><use href="#st" class="sp" transform="translate(160 96) scale(.8)"/><use href="#st" class="sp" transform="translate(690 120) scale(.7)"/></svg>
+      <ul class="chips">
+        <li>Insured</li><li>DBS-checked</li><li>Photo confirmation after every job</li><li>Clear, upfront pricing</li>
+      </ul>
+    </div>
+
+    <section id="services">
+      <h2>What we do</h2>
+      <div class="grid">
+        <div class="card"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 1.8 1.8.7-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"/></svg><h3>Regular home cleaning</h3><p>Weekly or fortnightly kitchens, bathrooms, floors and dusting, tailored to your checklist.</p><p class="price">£18 an hour, 2-hour minimum</p></div>
+        <div class="card"><svg class="ic" viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7z"/><path d="M9 8a3 3 0 016 0"/></svg><h3>Errands &amp; concierge</h3><p>Shopping, prescriptions, post, returns, and waiting in for deliveries or tradespeople.</p><p class="price">£20 an hour, 1-hour minimum</p></div>
+        <div class="card"><svg class="ic" viewBox="0 0 24 24"><path d="M3 18V7"/><path d="M3 14h18v4"/><path d="M21 14v-2a3 3 0 00-3-3h-7v5"/></svg><h3>Holiday-let turnovers</h3><p>Clean, change linen, restock and send a photo report, with key-holding if you need it.</p><p class="price">£55 per turnover</p></div>
+        <div class="card"><svg class="ic" viewBox="0 0 24 24"><path d="M9 21V11h6v10z"/><path d="M10 11V8h4v3"/><path d="M14 6h4M14 8.5h3"/></svg><h3>End-of-tenancy &amp; deep cleans</h3><p>Ovens, appliances, limescale, inside windows and steam-cleaned carpets, ready for inspection.</p><p class="price">From £180 per job</p></div>
+        <div class="card"><svg class="ic" viewBox="0 0 24 24"><path d="M5 21V4h9v17"/><path d="M14 10h5v11"/><path d="M3 21h18M8 8h3M8 12h3M8 16h3"/></svg><h3>Small commercial cleaning</h3><p>After-hours cleaning for offices, salons and practices on a regular contract.</p><p class="price">Quoted after a site visit</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><h3>Request</h3><p>Fill in the short booking form below with what you need and when.</p></li>
+        <li><h3>Confirm</h3><p>We reply to confirm the time, the price and anything we need to know.</p></li>
+        <li><h3>Relax</h3><p>We do the job, send photos, and you pay once it is done.</p></li>
+      </ol>
+    </section>
+
+    <section id="pricing">
+      <h2>Pricing</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>Service</th><th>Price</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Regular home cleaning</td><td>£18/hr</td><td>2-hour minimum; supplies included</td></tr>
+          <tr><td>Errands &amp; concierge</td><td>£20/hr</td><td>1-hour minimum; fuel included locally</td></tr>
+          <tr><td>Holiday-let turnover</td><td>£55 each</td><td>Small to medium property; larger homes quoted</td></tr>
+          <tr><td>End-of-tenancy / deep clean</td><td>From £180</td><td>Fixed price after photos or a quick visit</td></tr>
+          <tr><td>Commercial cleaning</td><td>Quote</td><td>Regular weekly contract</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note" style="margin-top:12px">Ask about our Home Care Plan: a regular clean plus errand hours at a small discount.</p>
+    </section>
+
+    <section id="book">
+      <h2>Request a booking</h2>
+      <form id="bf">
+        <div class="fields">
+          <div><label for="service">Service</label><select id="service" required></select></div>
+          <div id="qtyBox" hidden><label for="qty" id="qtyLabel">Hours needed</label><input id="qty" type="number" min="1" max="8" value="2"></div>
+          <div><label for="freq">How often</label><select id="freq"><option>One-off</option><option>Weekly</option><option>Fortnightly</option><option>Monthly</option></select></div>
+          <div><label for="date">Preferred date</label><input id="date" type="date" required></div>
+          <div><label for="time">Preferred time</label><select id="time"><option>Morning (8am to 12pm)</option><option>Afternoon (12pm to 4pm)</option><option>Evening (4pm to 7pm)</option><option>Flexible</option></select></div>
+          <div><label for="name">Your name</label><input id="name" autocomplete="name" required></div>
+          <div><label for="phone">Phone</label><input id="phone" type="tel" autocomplete="tel" required></div>
+          <div><label for="email">Email</label><input id="email" type="email" autocomplete="email" required></div>
+          <div><label for="pc">Postcode</label><input id="pc" autocomplete="postal-code" placeholder="e.g. PL4" required></div>
+          <div class="full"><label for="notes">Address and anything we should know</label><textarea id="notes" rows="3" placeholder="Property size, access, pets, special requests"></textarea></div>
+          <div class="full est" id="est" aria-live="polite">Choose a service to see an estimate.</div>
+          <div class="full"><label class="check"><input type="checkbox" id="ok" required> <span>I agree to be contacted about this request. This is a request, not a confirmed booking.</span></label></div>
+          <div class="full"><button class="btn" type="submit">Review and send request</button></div>
+        </div>
+      </form>
+      <div class="done" id="done" hidden>
+        <h3>Almost done: send your request</h3>
+        <p>Choose how to send it. Your email or WhatsApp opens with the message ready, and nothing is stored on this page.</p>
+        <pre id="summary"></pre>
+        <div class="row">
+          <a class="btn" id="mail" href="#">Send by email</a>
+          <a class="btn" id="wa" href="#" target="_blank" rel="noopener">Send by WhatsApp</a>
+          <button class="btn alt" id="copy" type="button">Copy request</button>
+          <button class="btn alt" id="edit" type="button">Edit request</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong data-brand>Amanda’s</strong> · Smart Cleaning, Swift Errand · Plymouth, Devon</p>
+    <p>Email <a id="fmail" href="#"></a> · Phone <span id="fphone"></span></p>
+  </footer>
+</div>
+
+<script>
+// Edit these before sharing the site.
+var CONFIG = {
+  brand: "Amanda’s",
+  email: "hello@example.com",
+  whatsapp: "447000000000",   // international format, digits only
+  phone: "07000 000000"
+};
+var SERVICES = {
+  clean:      {label: "Regular home cleaning",        rate: 18, min: 2, qtyLabel: "Hours needed"},
+  errand:     {label: "Errands & concierge",          rate: 20, min: 1, qtyLabel: "Hours needed"},
+  turnover:   {label: "Holiday-let turnover",         flat: 55,          qtyLabel: "Number of turnovers"},
+  deep:       {label: "End-of-tenancy or deep clean", from: 180},
+  commercial: {label: "Small commercial cleaning",    quote: true}
+};
+var $ = function (id) { return document.getElementById(id); };
+var msg = "";
+
+document.querySelectorAll("[data-brand]").forEach(function (el) { el.textContent = CONFIG.brand; });
+document.title = CONFIG.brand + " | Smart Cleaning, Swift Errand";
+$("fmail").textContent = CONFIG.email; $("fmail").href = "mailto:" + CONFIG.email;
+$("fphone").textContent = CONFIG.phone;
+
+var sel = $("service");
+sel.add(new Option("Choose a service", ""));
+Object.keys(SERVICES).forEach(function (k) { sel.add(new Option(SERVICES[k].label, k)); });
+
+var d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+$("date").min = d.toISOString().slice(0, 10);
+
+function estimate() {
+  var s = SERVICES[sel.value], q = parseInt($("qty").value, 10) || 1, box = $("qtyBox");
+  if (!s) { box.hidden = true; return "Choose a service to see an estimate."; }
+  if (s.rate || s.flat) {
+    box.hidden = false; $("qtyLabel").textContent = s.qtyLabel;
+    $("qty").max = s.rate ? 8 : 10;
+  } else { box.hidden = true; }
+  if (s.rate) {
+    var h = Math.max(q, s.min);
+    return "Estimate: £" + (h * s.rate) + " (" + h + " hrs at £" + s.rate + "/hr, minimum " + s.min + " hr" + (s.min > 1 ? "s" : "") + ")";
+  }
+  if (s.flat) return "Estimate: £" + (q * s.flat) + " (" + q + " turnover" + (q > 1 ? "s" : "") + " at £" + s.flat + " each)";
+  if (s.from) return "From £" + s.from + ". We will confirm a fixed price after seeing photos or a quick visit.";
+  return "We will quote after a short site visit.";
+}
+function refresh() { $("est").textContent = estimate(); }
+sel.addEventListener("change", function () {
+  var s = SERVICES[sel.value];
+  if (s && s.min) $("qty").value = Math.max(s.min, 2); else if (s && s.flat) $("qty").value = 1;
+  refresh();
+});
+$("qty").addEventListener("input", refresh);
+
+$("bf").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var s = SERVICES[sel.value];
+  var when = new Date($("date").value + "T12:00").toLocaleDateString("en-GB", {weekday: "long", day: "numeric", month: "long", year: "numeric"});
+  var lines = [
+    "New booking request for " + CONFIG.brand,
+    "Service: " + s.label,
+    "How often: " + $("freq").value,
+    "Preferred date: " + when,
+    "Preferred time: " + $("time").value,
+    $("est").textContent,
+    "Name: " + $("name").value.trim(),
+    "Phone: " + $("phone").value.trim(),
+    "Email: " + $("email").value.trim(),
+    "Postcode: " + $("pc").value.trim(),
+    "Notes: " + ($("notes").value.trim() || "None")
+  ];
+  msg = lines.join("\n");
+  $("summary").textContent = msg;
+  var subject = "Booking request: " + s.label;
+  $("mail").href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(msg);
+  $("wa").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
+  $("bf").hidden = true; $("done").hidden = false;
+  $("done").scrollIntoView({behavior: "smooth", block: "start"});
+});
+$("edit").addEventListener("click", function () { $("done").hidden = true; $("bf").hidden = false; $("copy").textContent = "Copy request"; });
+$("copy").addEventListener("click", function () {
+  var b = $("copy");
+  try { navigator.clipboard.writeText(msg).then(function () { b.textContent = "Copied"; }, function () { b.textContent = "Select the text above to copy"; }); }
+  catch (err) { b.textContent = "Select the text above to copy"; }
+});
+</script>
+</body>
+</html>

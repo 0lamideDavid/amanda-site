@@ -1,10 +1,9 @@
 import { Router } from "express";
+import { asyncHandler } from "../utils/asyncHandler";
+import { showHome } from "../controllers/public.controller";
+import { handleCreateBookingRequest } from "../controllers/booking-request.controller";
 
 export const publicRouter = Router();
 
-// Placeholder landing page. The real one-page public site is a later
-// milestone (see Docs/PUBLIC_WEBSITE_SPEC.md) and is intentionally not
-// built yet.
-publicRouter.get("/", (req, res) => {
-  res.render("public/placeholder");
-});
+publicRouter.get("/", asyncHandler(showHome));
+publicRouter.post("/booking-requests", asyncHandler(handleCreateBookingRequest));
