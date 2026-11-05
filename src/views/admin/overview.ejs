@@ -10,6 +10,7 @@
     <h1>Overview</h1>
     <p><strong><%= pendingCount %></strong> pending request<%= pendingCount === 1 ? '' : 's' %> awaiting review.</p>
     <p><strong><%= upcomingConfirmedCount %></strong> upcoming confirmed appointment<%= upcomingConfirmedCount === 1 ? '' : 's' %>.</p>
+    <p><strong><%= openComplaintsCount %></strong> open complaint<%= openComplaintsCount === 1 ? '' : 's' %>. <a href="/admin/complaints">View complaints</a></p>
 
     <h2>Pending requests</h2>
     <% if (pendingRequests.length === 0) { %>

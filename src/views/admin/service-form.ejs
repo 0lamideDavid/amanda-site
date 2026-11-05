@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= service && service.id ? 'Edit service' : 'New service' %></title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <p><a href="/admin/services">&larr; Back to services</a></p>
+    <h1><%= service && service.id ? 'Edit service' : 'New service' %></h1>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+    <form method="POST" action="<%= service && service.id ? ('/admin/services/' + service.id) : '/admin/services' %>">
+      <label for="name">Name</label>
+      <input id="name" name="name" required value="<%= service ? service.name : '' %>">
+
+      <label for="description">Description</label>
+      <input id="description" name="description" required value="<%= service ? service.description : '' %>">
+
+      <label for="pricingUnit">Pricing unit</label>
+      <select id="pricingUnit" name="pricingUnit">
+        <% ['hourly','flat','from','quote'].forEach(function (u) { %>
+          <option value="<%= u %>" <%= service && service.pricingUnit === u ? 'selected' : '' %>><%= u %></option>
+        <% }) %>
+      </select>
+
+      <label for="basePrice">Base price (£, leave blank for quote-only)</label>
+      <input id="basePrice" name="basePrice" type="number" step="0.01" min="0" value="<%= service && service.basePrice !== null && service.basePrice !== undefined ? service.basePrice.toString() : '' %>">
+
+      <label for="minimum">Minimum (hours/units, if applicable)</label>
+      <input id="minimum" name="minimum" type="number" step="0.01" min="0" value="<%= service && service.minimum !== null && service.minimum !== undefined ? service.minimum.toString() : '' %>">
+
+      <label><input type="checkbox" name="active" <%= !service || service.active ? 'checked' : '' %>> Active</label>
+
+      <p><button type="submit">Save</button></p>
+    </form>
+  </main>
+</body>
+</html>

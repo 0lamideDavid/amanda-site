@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Customer detail</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <p><a href="/admin/customers">&larr; Back to customers</a></p>
+    <h1><%= customer.name %></h1>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+
+    <div class="action-form">
+      <h3>Contact details</h3>
+      <form method="POST" action="/admin/customers/<%= customer.id %>">
+        <label for="name">Name</label>
+        <input id="name" name="name" required value="<%= customer.name %>">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" required value="<%= customer.phone %>">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" value="<%= customer.email || '' %>">
+        <p><button type="submit">Save</button></p>
+      </form>
+    </div>
+
+    <h2>Booking history</h2>
+    <% if (customer.bookings.length === 0) { %>
+      <p>No bookings yet.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Requested</th><th>Service</th><th>Status</th><th>Price</th><th></th></tr></thead>
+        <tbody>
+          <% customer.bookings.forEach(function (b) { %>
+            <tr>
+              <td><%= b.requestedDate.toISOString().slice(0, 10) %></td>
+              <td><%= b.service.name %></td>
+              <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
+              <td><%= b.priceSnapshot !== null ? ('£' + b.priceSnapshot.toString()) : '—' %></td>
+              <td><a href="/admin/bookings/<%= b.id %>">View</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+
+    <h2>Complaints</h2>
+    <% if (customer.complaints.length === 0) { %>
+      <p>None.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Date</th><th>Description</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <% customer.complaints.forEach(function (c) { %>
+            <tr>
+              <td><%= c.createdAt.toISOString().slice(0, 10) %></td>
+              <td><%= c.description %></td>
+              <td><%= c.status %></td>
+              <td><a href="/admin/complaints/<%= c.id %>">View</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+    <p><a href="/admin/complaints/new?customerId=<%= customer.id %>">Log a complaint for this customer</a></p>
+  </main>
+</body>
+</html>

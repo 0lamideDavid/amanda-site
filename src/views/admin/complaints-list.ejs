@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Complaints</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Complaints</h1>
+    <p><a href="/admin/complaints/new">Log a new complaint</a></p>
+
+    <form class="filters" method="GET" action="/admin/complaints">
+      <div>
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">All</option>
+          <% statuses.forEach(function (s) { %>
+            <option value="<%= s %>" <%= filterStatus === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div><button type="submit">Filter</button></div>
+    </form>
+
+    <% if (complaints.length === 0) { %>
+      <p>No complaints match this filter.</p>
+    <% } else { %>
+      <table>
+        <thead><tr><th>Date</th><th>Customer</th><th>Booking</th><th>Description</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <% complaints.forEach(function (c) { %>
+            <tr>
+              <td><%= c.createdAt.toISOString().slice(0, 10) %></td>
+              <td><%= c.customer ? c.customer.name : '—' %></td>
+              <td><%= c.booking ? c.booking.service.name : '—' %></td>
+              <td><%= c.description %></td>
+              <td><%= c.status %></td>
+              <td><a href="/admin/complaints/<%= c.id %>">View</a></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

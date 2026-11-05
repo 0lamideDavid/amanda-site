@@ -15,7 +15,8 @@
     <% } %>
 
     <h2>Customer</h2>
-    <p><%= booking.customer.name %> &middot; <%= booking.customer.phone %><% if (booking.customer.email) { %> &middot; <%= booking.customer.email %><% } %></p>
+    <p><a href="/admin/customers/<%= booking.customer.id %>"><%= booking.customer.name %></a> &middot; <%= booking.customer.phone %><% if (booking.customer.email) { %> &middot; <%= booking.customer.email %><% } %></p>
+    <p><a href="/admin/complaints/new?bookingId=<%= booking.id %>&customerId=<%= booking.customer.id %>">Log a complaint about this booking</a></p>
     <p><%= booking.address %>, <%= booking.postcode %></p>
     <% if (booking.instructions) { %><p><em><%= booking.instructions %></em></p><% } %>
 

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Log a complaint</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <p><a href="/admin/complaints">&larr; Back to complaints</a></p>
+    <h1>Log a complaint</h1>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+    <form method="POST" action="/admin/complaints">
+      <label for="customerId">Customer ID (optional)</label>
+      <input id="customerId" name="customerId" value="<%= customerId %>">
+
+      <label for="bookingId">Booking ID (optional)</label>
+      <input id="bookingId" name="bookingId" value="<%= bookingId %>">
+
+      <label for="description">Description</label>
+      <input id="description" name="description" required>
+
+      <p><button type="submit">Log complaint</button></p>
+    </form>
+  </main>
+</body>
+</html>

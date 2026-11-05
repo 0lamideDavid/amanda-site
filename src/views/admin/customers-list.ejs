@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Customers</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Customers</h1>
+    <table>
+      <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th></th></tr></thead>
+      <tbody>
+        <% customers.forEach(function (c) { %>
+          <tr>
+            <td><%= c.name %></td>
+            <td><%= c.phone %></td>
+            <td><%= c.email || '—' %></td>
+            <td><a href="/admin/customers/<%= c.id %>">View</a></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

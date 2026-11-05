@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Complaint detail</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <p><a href="/admin/complaints">&larr; Back to complaints</a></p>
+    <h1>Complaint</h1>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+
+    <p><%= complaint.description %></p>
+    <p>
+      Customer:
+      <% if (complaint.customer) { %><a href="/admin/customers/<%= complaint.customer.id %>"><%= complaint.customer.name %></a><% } else { %>—<% } %>
+      &middot;
+      Booking:
+      <% if (complaint.booking) { %><a href="/admin/bookings/<%= complaint.booking.id %>"><%= complaint.booking.service.name %></a><% } else { %>—<% } %>
+    </p>
+
+    <div class="action-form">
+      <h3>Status</h3>
+      <form method="POST" action="/admin/complaints/<%= complaint.id %>">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <% statuses.forEach(function (s) { %>
+            <option value="<%= s %>" <%= complaint.status === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+        <label for="adminNotes">Admin notes</label>
+        <input id="adminNotes" name="adminNotes" value="<%= complaint.adminNotes || '' %>">
+        <p><button type="submit">Save</button></p>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

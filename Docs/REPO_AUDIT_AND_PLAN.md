@@ -78,9 +78,16 @@ First real admin UI (server-rendered EJS, no new frontend dependency). Scope not
 - Fixed a latent bug while touching this: `npm run build` compiled TypeScript but never copied `src/views`/`src/public` into `dist/`, so `npm start` would have served nothing. `build` now copies both.
 - Tests: `tests/calendarGrid.test.ts` (pure grid-building logic) and `tests/admin-booking-routes.test.ts` (HTTP, authenticated: list/detail render, month calendar shows the confirmed booking but never the pending one, day view separates the two sections, confirming via the real endpoint updates status, and confirming into a conflicting slot redirects with an error rather than crashing). Caught and fixed a real cross-file test-isolation bug along the way — `tests/booking.test.ts`'s cleanup used a `name: { startsWith: "Test-only" }` filter that deleted `tests/service.test.ts`'s fixtures when both files ran concurrently; narrowed it to exact names. **22/22 tests passing**, `tsc --noEmit` clean, and manually smoke-tested every new route live against the dev server with curl (login → overview → bookings list → all three calendar views → stylesheet, all 200).
 
+## Phase 5 — Admin management (done)
+
+- **Services** (`/admin/services`, `/admin/services/new`, `/admin/services/:id/edit`) — create/edit name, description, pricing unit, base price, minimum, and an active toggle. Verified by test that changing a service's price **does not** alter an existing booking's `priceSnapshot` — the specific behavior `DATABASE_SCHEMA.md` calls out. Also note: the active checkbox is handled explicitly (`req.body.active === "on"`), not `z.coerce.boolean()`, because an unchecked HTML checkbox omits the field entirely rather than sending `false` — coercing a missing field would have silently defaulted every deactivation attempt back to `true`. Caught by a dedicated test before it could ship.
+- **Customers** (`/admin/customers`, `/admin/customers/:id`) — list, and a detail page showing booking history and complaints alongside an edit form for contact details. No customer accounts, per `DATABASE_SCHEMA.md`.
+- **Complaints** (`/admin/complaints`, `/admin/complaints/new`, `/admin/complaints/:id`) — log a complaint optionally linked to a customer/booking (with a "Log a complaint" shortcut added to the booking detail page), list/filter by status, and update status + admin notes. **Decision made here, not specified in the docs:** complaint status is a fixed four-value set (`open`/`investigating`/`resolved`/`closed`) stored as a plain string column, not a Prisma enum — easy to change without a migration if it turns out to be wrong.
+- Overview page extended with an open-complaints count.
+- `tests/admin-management-routes.test.ts` — 5 new tests. **27/27 tests passing** overall, `tsc --noEmit` clean, stable across repeated runs, and manually smoke-tested live (services/customers/complaints list and new-item pages, overview).
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
-5. **Phase 5 — Admin management**: services/pricing, customers, complaints, overview.
 6. **Phase 6 — Public one-page website**: real design, section navigation, booking modal wired to the backend.
 
 Each phase stops at its review gate before the next begins, per `IMPLEMENTATION_PHASES.md`.
