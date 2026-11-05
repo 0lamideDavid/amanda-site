@@ -46,9 +46,15 @@ Implemented:
 
 `AUTHENTICATION_SPEC.md` verification checklist: all items checked except password reset, which was explicitly deferred (see decision 4 above).
 
+## Phase 2 — Foundation and data model (done)
+
+- `src/repositories/service.repository.ts` added, establishing the repository pattern for `Service` (`findActiveServices`, `findServiceById`) — no controller/UI on top of it yet, since Services management is Phase 5 and booking (which will consume it) is Phase 3.
+- `prisma/seed.ts` extended to seed the five services implied by `DATABASE_SCHEMA.md` and already surfaced in the Phase 0 audit (regular cleaning, errands, holiday-let turnover, deep clean, commercial — pricing unit, base price, and minimum per service). Idempotent: verified by running `npm run db:seed` twice, second run skips all five.
+- `tests/service.test.ts` added: confirms `findActiveServices` returns active services and excludes inactive ones. 6/6 tests passing (`npm test`), `tsc --noEmit` clean.
+- No new migration was needed — the `Service` table and its columns already exist from the Phase 1 migration.
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
-2. **Phase 2 — Foundation and data model**: the schema is already migrated as part of Phase 1 above; remaining work is seeding any other minimal dev data (e.g. sample `Service` rows) once needed.
 3. **Phase 3 — Booking workflow**: booking persistence, status transitions, scheduling vs. requested-time separation, conflict checks.
 4. **Phase 4 — Admin booking views and calendar**: list/detail, month/week/day views, pending vs. confirmed distinction.
 5. **Phase 5 — Admin management**: services/pricing, customers, complaints, overview.
