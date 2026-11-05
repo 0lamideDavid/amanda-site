@@ -1,9 +1,8 @@
 import { Router } from "express";
+import { showLoginPage, handleLogin, handleLogout } from "../controllers/auth.controller";
 
 export const authRouter = Router();
 
-// Login/logout handlers are implemented in the authentication milestone
-// once the approach in Docs/AUTHENTICATION_SPEC.md is approved.
-authRouter.get("/admin/login", (req, res) => {
-  res.render("auth/login");
-});
+authRouter.get("/admin/login", showLoginPage);
+authRouter.post("/admin/login", handleLogin);
+authRouter.post("/admin/logout", handleLogout);

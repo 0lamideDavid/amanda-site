@@ -12,16 +12,25 @@ Node.js, Express, TypeScript, EJS, PostgreSQL, Prisma, Zod, session-based admin 
 
 ```bash
 npm install
-cp .env.example .env   # fill in DATABASE_URL and SESSION_SECRET
+cp .env.example .env   # fill in DATABASE_URL, SESSION_SECRET, SEED_ADMIN_EMAIL/PASSWORD
 createdb amandas_dev   # or point DATABASE_URL at your own database
-npx prisma generate
+npx prisma migrate deploy
+npm run db:seed        # creates one AdminUser from .env, skips if it already exists
 npm run dev            # http://localhost:3000
 ```
 
-`npm run dev` starts the app with `/health`, a placeholder public page, a placeholder admin login page, and an admin area protected by `requireAdminAuth` (redirects to `/admin/login` when not authenticated).
+Log in at `http://localhost:3000/admin/login` with the seeded credentials. `/admin` is protected by `requireAdminAuth` and redirects to `/admin/login` when unauthenticated; `/admin/logout` (POST) ends the session.
 
-The Prisma schema in `prisma/schema.prisma` is currently a **draft** — see the open decisions in `Docs/REPO_AUDIT_AND_PLAN.md` before running `prisma migrate dev` against it.
+## Tests
+
+```bash
+createdb amandas_test
+DATABASE_URL=postgresql://<user>@localhost:5432/amandas_test npx prisma migrate deploy
+npm test
+```
+
+Runs integration tests (`tests/auth.test.ts`) against a real Postgres database configured via `.env.test`: unauthenticated redirect, wrong email, wrong password, and a full login → access admin → logout → locked-out-again cycle.
 
 ## Current milestone
 
-Foundation/scaffolding only. No real login, public site design, or booking UI yet — see `Docs/IMPLEMENTATION_PHASES.md` for the phase plan.
+Phase 1 (authentication) is implemented: admin login/logout, session-based auth with Postgres-backed sessions, session regeneration on login, a generic "invalid email or password" error that doesn't reveal account existence, and server-side route protection. No public site design or booking UI yet — see `Docs/IMPLEMENTATION_PHASES.md` for the phase plan.
