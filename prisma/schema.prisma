@@ -1,0 +1,89 @@
+// DRAFT SCHEMA — proposal only, per Docs/DATABASE_SCHEMA.md.
+// Do not run `prisma migrate dev` against this until the schema is approved.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Service {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  pricingUnit String // e.g. "hourly", "flat", "from", "quote"
+  basePrice   Decimal?  @db.Decimal(10, 2)
+  minimum     Decimal?  @db.Decimal(10, 2) // minimum hours/quantity, where applicable
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  bookings    Booking[]
+}
+
+model Customer {
+  id         String      @id @default(uuid())
+  name       String
+  phone      String
+  email      String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  bookings   Booking[]
+  complaints Complaint[]
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  RESCHEDULE_REQUESTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+  id               String        @id @default(uuid())
+  customerId       String
+  customer         Customer      @relation(fields: [customerId], references: [id])
+  serviceId        String
+  service          Service       @relation(fields: [serviceId], references: [id])
+  requestedDate    DateTime
+  requestedTime    String
+  scheduledStartAt DateTime?
+  scheduledEndAt   DateTime?
+  status           BookingStatus @default(PENDING)
+  address          String
+  postcode         String
+  instructions     String?
+  frequency        String?
+  quantity         Decimal?      @db.Decimal(10, 2)
+  priceSnapshot    Decimal       @db.Decimal(10, 2)
+  adminNotes       String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  complaints       Complaint[]
+}
+
+model Complaint {
+  id          String    @id @default(uuid())
+  customerId  String?
+  customer    Customer? @relation(fields: [customerId], references: [id])
+  bookingId   String?
+  booking     Booking?  @relation(fields: [bookingId], references: [id])
+  description String
+  status      String    @default("open")
+  adminNotes  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
