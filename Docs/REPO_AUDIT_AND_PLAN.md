@@ -86,6 +86,14 @@ First real admin UI (server-rendered EJS, no new frontend dependency). Scope not
 - Overview page extended with an open-complaints count.
 - `tests/admin-management-routes.test.ts` — 5 new tests. **27/27 tests passing** overall, `tsc --noEmit` clean, stable across repeated runs, and manually smoke-tested live (services/customers/complaints list and new-item pages, overview).
 
+## Full verification pass across Phases 1–5 (2026-11-05)
+
+Ran a complete check before starting Phase 6, at the user's request: clean `npm install` (0 vulnerabilities), `tsc --noEmit`, both databases dropped and rebuilt from migration history alone (`prisma migrate diff --exit-code` confirms zero drift between `schema.prisma` and the live dev DB), the seed script re-run and confirmed idempotent, the automated suite run 13+ times in a row, the actual `npm run build && npm start` production path exercised end-to-end for the first time (login → admin pages → logout all correct against compiled `dist/`), and every write path (booking confirm/start/complete, service edit, customer edit, complaint create/update) exercised live with curl against real data — including re-confirming live that editing a service's price does not change an already-created booking's `priceSnapshot`.
+
+**Found and fixed a real bug:** one of those 13+ test runs failed with a transient 500 instead of 302. Root cause: `connect-pg-simple`'s table-creation SQL has no `IF NOT EXISTS` on `CREATE TABLE "session"`. `node --test` runs each test file as a separate process against the same test database; if two processes hit their first session write at nearly the same moment, both see the table missing and both try to create it — the loser gets an unhandled error. This was also a latent production risk (concurrent processes starting against a freshly-migrated database could race the same way). Fixed by moving table creation into a real migration (`20261105170000_session_table`, with proper `IF NOT EXISTS` guards) and setting `createTableIfMissing: false` in `src/config/session.ts`, so the table is guaranteed to exist before any app process starts — structurally eliminating the race rather than just getting lucky on reruns. Re-ran the suite 8 more times after the fix with zero failures.
+
+Everything else checked out with no further issues.
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
 6. **Phase 6 — Public one-page website**: real design, section navigation, booking modal wired to the backend.
