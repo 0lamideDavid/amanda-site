@@ -53,9 +53,23 @@ Implemented:
 - `tests/service.test.ts` added: confirms `findActiveServices` returns active services and excludes inactive ones. 6/6 tests passing (`npm test`), `tsc --noEmit` clean.
 - No new migration was needed — the `Service` table and its columns already exist from the Phase 1 migration.
 
+## Phase 3 — Booking workflow (done, backend only — no routes/UI, per phase discipline)
+
+**Open business-rule gap, resolved with an explicit, documented assumption rather than silence:** `BOOKING_SYSTEM_SPEC.md` says conflict checking depends on staff assignment/working hours, which are undefined anywhere in the docs. Asked about this; the answer was "continue" without specifying staffing. Proceeded on the most conservative default — **single provider** (matches the business description, "one trusted local professional") — so any two `CONFIRMED`/`IN_PROGRESS` bookings with overlapping scheduled windows are flagged as a conflict, full stop, with no staff dimension. This is a safe-by-default assumption (it can only produce false-positive conflicts, never miss a real one) but it is an assumption, not a confirmed business rule — revisit if Amanda's ever has more than one person doing jobs, since the conflict check would then need a staff/resource dimension.
+
+Also corrected while implementing: `Booking.priceSnapshot` was non-nullable in the original draft schema, but `"from"`/`"quote"` services have no price at request time. Made it nullable (migration `20261105160051_booking_price_nullable_index`, which also adds an index on `(status, scheduledStartAt, scheduledEndAt)` for the conflict-check query) — it gets set at request time when computable (hourly/flat), otherwise left null until an admin supplies a price on confirmation.
+
+Implemented (`src/services/booking.service.ts`, `src/services/pricing.service.ts`, `src/services/customer.service.ts`, `src/repositories/{booking,customer}.repository.ts`, `src/validators/booking.validator.ts`):
+- `createBookingRequest` — finds or creates the customer by phone (customers have no accounts), computes a price snapshot from the `Service` record (hourly: rate × max(quantity, minimum); flat: rate × quantity; from/quote: left `null`), creates the booking as `PENDING`.
+- Status transitions enforced via an explicit allow-list (`PENDING`→`CONFIRMED`/`CANCELLED`, `CONFIRMED`→`RESCHEDULE_REQUESTED`/`IN_PROGRESS`/`CANCELLED`, `IN_PROGRESS`→`COMPLETED`/`CANCELLED`, terminal states fixed); invalid transitions throw `InvalidBookingTransitionError`.
+- `confirmBooking` / `rescheduleBooking` both run the overlap conflict check before writing and throw `BookingConflictError` if the window collides with another confirmed/in-progress booking.
+- `cancelBooking`, `startBooking`, `completeBooking` round out the actions from `ADMIN_DASHBOARD_SPEC.md`/`BOOKING_SYSTEM_SPEC.md`.
+- `tests/booking.test.ts` — 8 new integration tests (pricing for hourly/quote services, the full confirm→start→complete chain, invalid transitions rejected, conflict detection, successful reschedule into a free slot, customer reuse by phone). **14/14 tests passing** overall, `tsc --noEmit` clean.
+
+No HTTP routes or admin/public UI were added — reviewing requests, confirming, and rescheduling are still only reachable by calling the service functions directly (e.g. from Prisma Studio or a script), since routes/views are Phase 4 (admin) and Phase 6 (public).
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
-3. **Phase 3 — Booking workflow**: booking persistence, status transitions, scheduling vs. requested-time separation, conflict checks.
 4. **Phase 4 — Admin booking views and calendar**: list/detail, month/week/day views, pending vs. confirmed distinction.
 5. **Phase 5 — Admin management**: services/pricing, customers, complaints, overview.
 6. **Phase 6 — Public one-page website**: real design, section navigation, booking modal wired to the backend.

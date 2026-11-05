@@ -33,4 +33,4 @@ Runs integration tests (`tests/auth.test.ts`) against a real Postgres database c
 
 ## Current milestone
 
-Phase 1 (authentication) and Phase 2 (foundation/data model) are implemented: admin login/logout with Postgres-backed sessions, session regeneration on login, a generic "invalid email or password" error, server-side route protection, and a seeded `Service` table (via `npm run db:seed`) behind a `service.repository.ts`. No booking workflow, admin dashboard, or public site design yet — see `Docs/IMPLEMENTATION_PHASES.md` for the phase plan.
+Phases 1–3 are implemented: admin login/logout with Postgres-backed sessions, a seeded `Service` table, and the booking workflow (request → confirm/reschedule/cancel/start/complete) with price snapshotting and conflict detection — all at the service-layer, with no HTTP routes or UI yet. See `Docs/REPO_AUDIT_AND_PLAN.md` for what was decided along the way (notably: conflict checking currently assumes a single provider, since staffing isn't defined in the docs). No admin dashboard or public site design yet — see `Docs/IMPLEMENTATION_PHASES.md` for the phase plan.

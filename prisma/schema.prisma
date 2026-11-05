@@ -1,5 +1,4 @@
-// DRAFT SCHEMA — proposal only, per Docs/DATABASE_SCHEMA.md.
-// Do not run `prisma migrate dev` against this until the schema is approved.
+// Approved and migrated in Docs/REPO_AUDIT_AND_PLAN.md (Phase 1/2/3).
 
 generator client {
   provider = "prisma-client-js"
@@ -68,11 +67,15 @@ model Booking {
   instructions     String?
   frequency        String?
   quantity         Decimal?      @db.Decimal(10, 2)
-  priceSnapshot    Decimal       @db.Decimal(10, 2)
+  // Nullable: "from"/"quote" services have no price until an admin sets one
+  // on confirmation. Once set, later Service price changes must not alter it.
+  priceSnapshot    Decimal?      @db.Decimal(10, 2)
   adminNotes       String?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   complaints       Complaint[]
+
+  @@index([status, scheduledStartAt, scheduledEndAt])
 }
 
 model Complaint {
