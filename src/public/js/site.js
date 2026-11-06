@@ -23,6 +23,20 @@
     });
   }
 
+  // --- Mobile nav toggle ------------------------------------------
+  var mobileToggle = document.getElementById("mobile-nav-toggle");
+  var headerSection = mobileToggle ? mobileToggle.closest(".header-section") : null;
+  if (mobileToggle && headerSection) {
+    mobileToggle.addEventListener("click", function () {
+      headerSection.classList.toggle("mobile-open");
+    });
+    headerSection.querySelectorAll(".header-nav a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        headerSection.classList.remove("mobile-open");
+      });
+    });
+  }
+
   // --- Booking modal --------------------------------------------------
   var overlay = document.getElementById("booking-overlay");
   var form = document.getElementById("booking-form");
