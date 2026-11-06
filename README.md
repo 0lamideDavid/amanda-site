@@ -21,6 +21,8 @@ npm run dev            # http://localhost:3000
 
 Log in at `http://localhost:3000/admin/login` with the seeded credentials. `/admin` is protected by `requireAdminAuth` and redirects to `/admin/login` when unauthenticated; `/admin/logout` (POST) ends the session.
 
+Optionally run `npm run db:demo` to populate the dev database with sample customers, bookings (across every status), and complaints, so the admin dashboard has something to look at beyond an empty state. Dev-only — re-runnable, clears and recreates its own records each time, never touches real data.
+
 ## Tests
 
 ```bash

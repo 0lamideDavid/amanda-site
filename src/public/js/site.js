@@ -246,4 +246,32 @@
       revealEls.forEach(function (el) { revealObserver.observe(el); });
     }
   }
+
+  // --- Scroll-spy active nav link ------------------------------------
+  var navLinks = document.querySelectorAll(".header-nav a[data-section]");
+  if (navLinks.length && "IntersectionObserver" in window) {
+    var sectionLinks = {};
+    navLinks.forEach(function (link) {
+      var section = document.getElementById(link.getAttribute("data-section"));
+      if (section) sectionLinks[section.id] = link;
+    });
+    var spyObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var link = sectionLinks[entry.target.id];
+          if (!link) return;
+          navLinks.forEach(function (l) { l.classList.remove("active"); });
+          link.classList.add("active");
+        });
+      },
+      // A thin detection band near the vertical center of the viewport,
+      // so the "active" section is whichever one the user is actually
+      // looking at, not just whatever first scrolls into view.
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+    Object.keys(sectionLinks).forEach(function (id) {
+      spyObserver.observe(document.getElementById(id));
+    });
+  }
 })();

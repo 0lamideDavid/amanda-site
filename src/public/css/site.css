@@ -97,8 +97,15 @@ img { max-width: 100%; height: auto; display: block; }
 .header-container { display: flex; justify-content: space-between; align-items: center; }
 .header-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; }
 .header-logo img { height: 29px; }
-.header-nav ul { display: flex; gap: 36px; }
-.header-nav a { font-size: 16px; color: var(--color-text-medium); }
+.header-nav ul { display: flex; gap: 8px; }
+.header-nav a {
+  font-size: 16px; color: var(--color-text-medium);
+  padding: 7px 16px; border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+/* Highlighted, not underlined, per instruction: a filled pill for the
+   section currently in view, set by the scroll-spy observer in site.js. */
+.header-nav a.active { background: var(--color-card); color: var(--color-text-dark); font-weight: 600; }
 .header-actions { display: flex; align-items: center; gap: 16px; }
 .header-phone { font-size: 16px; font-weight: 600; color: var(--color-text-dark); }
 .theme-toggle {

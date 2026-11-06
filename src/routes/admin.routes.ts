@@ -32,6 +32,13 @@ export const adminRouter = Router();
 
 adminRouter.use(requireAdminAuth);
 
+// Exposed to every admin view via res.locals, so _nav.ejs can highlight
+// the current section without each controller having to pass it.
+adminRouter.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
+
 adminRouter.get("/", asyncHandler(showOverview));
 
 adminRouter.get("/bookings", asyncHandler(listBookingsPage));

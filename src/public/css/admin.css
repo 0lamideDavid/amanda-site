@@ -9,8 +9,12 @@ body { background: var(--color-background-light); }
   display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
   padding: 14px 24px; background: var(--color-surface); border-bottom: 1px solid var(--color-accent-border);
 }
-.admin-nav a { color: var(--color-text-dark); text-decoration: none; font-size: 0.95rem; }
-.admin-nav a:first-child { font-weight: 700; font-size: 1.05rem; margin-right: 4px; }
+.admin-nav a { color: var(--color-text-dark); text-decoration: none; font-size: 0.95rem; padding: 7px 14px; border-radius: 999px; transition: background-color 0.2s ease, color 0.2s ease; }
+.admin-nav a:first-child { font-weight: 700; font-size: 1.05rem; margin-right: 4px; padding: 0; }
+/* Highlighted, not underlined, same mechanism as the public site: a filled
+   pill for whichever admin section currentPath (set in admin.routes.ts)
+   indicates we're on. */
+.admin-nav a.active { background: var(--color-card); color: var(--color-text-dark); font-weight: 600; }
 .admin-nav form { margin-left: auto; }
 .admin-nav .btn { padding: 8px 18px; font-size: 0.9rem; }
 
@@ -85,3 +89,13 @@ form button[type=submit] { margin-top: 16px; }
 .auth-card h1 { font-size: 1.5rem; margin-bottom: 6px; }
 .auth-card .lede { color: var(--color-text-medium); font-size: 0.92rem; margin-bottom: 20px; }
 .auth-card form input { max-width: none; }
+
+/* ---------- Overview stat cards ---------- */
+.stat-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; margin-bottom: 28px; }
+.stat-card {
+  display: block; background: var(--color-surface); border: 1px solid var(--color-accent-border);
+  border-radius: 16px; padding: 22px; text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.stat-card:hover { border-color: var(--color-background-dark); transform: translateY(-2px); }
+.stat-card .stat-value { font-size: 2.2rem; font-weight: 700; color: var(--color-text-dark); line-height: 1; }
+.stat-card .stat-label { color: var(--color-text-medium); font-size: 0.9rem; margin-top: 8px; }

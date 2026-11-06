@@ -8,9 +8,21 @@
   <%- include('_nav') %>
   <main>
     <h1>Overview</h1>
-    <p><strong><%= pendingCount %></strong> pending request<%= pendingCount === 1 ? '' : 's' %> awaiting review.</p>
-    <p><strong><%= upcomingConfirmedCount %></strong> upcoming confirmed appointment<%= upcomingConfirmedCount === 1 ? '' : 's' %>.</p>
-    <p><strong><%= openComplaintsCount %></strong> open complaint<%= openComplaintsCount === 1 ? '' : 's' %>. <a href="/admin/complaints">View complaints</a></p>
+
+    <div class="stat-cards">
+      <a class="stat-card" href="/admin/bookings?status=PENDING">
+        <div class="stat-value"><%= pendingCount %></div>
+        <div class="stat-label">Pending request<%= pendingCount === 1 ? '' : 's' %> awaiting review</div>
+      </a>
+      <a class="stat-card" href="/admin/calendar">
+        <div class="stat-value"><%= upcomingConfirmedCount %></div>
+        <div class="stat-label">Upcoming confirmed appointment<%= upcomingConfirmedCount === 1 ? '' : 's' %></div>
+      </a>
+      <a class="stat-card" href="/admin/complaints">
+        <div class="stat-value"><%= openComplaintsCount %></div>
+        <div class="stat-label">Open complaint<%= openComplaintsCount === 1 ? '' : 's' %></div>
+      </a>
+    </div>
 
     <h2>Pending requests</h2>
     <% if (pendingRequests.length === 0) { %>

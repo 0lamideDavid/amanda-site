@@ -8,13 +8,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/admin.css?v=<%= assetVersion %>">
+<%
+function navActive(prefix) {
+  return currentPath.indexOf(prefix) === 0 ? 'active' : '';
+}
+%>
 <header class="admin-nav">
   <a href="/admin">Amanda's admin</a>
-  <a href="/admin/bookings">Bookings</a>
-  <a href="/admin/calendar">Calendar</a>
-  <a href="/admin/services">Services</a>
-  <a href="/admin/customers">Customers</a>
-  <a href="/admin/complaints">Complaints</a>
+  <a href="/admin/bookings" class="<%= navActive('/bookings') %>">Bookings</a>
+  <a href="/admin/calendar" class="<%= navActive('/calendar') %>">Calendar</a>
+  <a href="/admin/services" class="<%= navActive('/services') %>">Services</a>
+  <a href="/admin/customers" class="<%= navActive('/customers') %>">Customers</a>
+  <a href="/admin/complaints" class="<%= navActive('/complaints') %>">Complaints</a>
   <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
   <form method="POST" action="/admin/logout">
     <button class="btn btn-outline" type="submit">Log out</button>
