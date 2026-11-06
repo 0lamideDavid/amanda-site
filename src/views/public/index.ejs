@@ -70,20 +70,20 @@ function tablePricePeriod(s) {
 
 <section id="top" class="hero-section">
   <div class="section-container hero-container">
-    <div class="tagline"><span class="line"></span><p>Serving Plymouth and nearby areas</p><span class="line"></span></div>
-    <h1>
+    <div class="tagline reveal"><span class="line"></span><p>Serving Plymouth and nearby areas</p><span class="line"></span></div>
+    <h1 class="reveal" style="transition-delay:80ms">
       <span class="heading-line-1">Smart Cleaning,</span>
       <span class="heading-line-2">Swift Errand.</span>
     </h1>
-    <p class="hero-subheading">One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
-    <div class="hero-buttons">
+    <p class="hero-subheading reveal" style="transition-delay:160ms">One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
+    <div class="hero-buttons reveal" style="transition-delay:240ms">
       <a href="#" class="btn btn-dark" data-open-booking>
         <span>Request a booking</span>
         <div class="btn-icon-bg"><img src="/icons/2217_25.svg" alt=""></div>
       </a>
       <a href="#services" class="btn-secondary"><span>See services</span></a>
     </div>
-    <div class="hero-image-wrapper">
+    <div class="hero-image-wrapper reveal" style="transition-delay:320ms">
       <img src="/images/hero-main.png" alt="Placeholder — swap for a real photo of Amanda's work" class="hero-main-image">
       <div class="hero-stats-bar">
         <span class="chip">Insured</span>
@@ -97,7 +97,7 @@ function tablePricePeriod(s) {
 
 <section id="who-we-are" class="who-we-are-section">
   <div class="section-container who-we-are-container">
-    <div class="who-we-are-image-col">
+    <div class="who-we-are-image-col reveal">
       <div class="image-outer-wrapper">
         <div class="image-inner-wrapper">
           <img src="/images/who-we-are.png" alt="Placeholder — swap for a real photo of Amanda's work">
@@ -108,7 +108,7 @@ function tablePricePeriod(s) {
         </div>
       </div>
     </div>
-    <div class="who-we-are-text-col">
+    <div class="who-we-are-text-col reveal" style="transition-delay:120ms">
       <div class="tagline"><span class="line"></span><p>Who we are</p><span class="line"></span></div>
       <h2>One trusted professional, not a rotating crew</h2>
       <p class="who-we-are-description">The same person every time, for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
@@ -130,12 +130,12 @@ function tablePricePeriod(s) {
 
 <section id="how-it-works" class="how-it-works-section">
   <div class="section-container how-it-works-container">
-    <div class="how-it-works-title">
+    <div class="how-it-works-title reveal">
       <div class="tagline"><span class="line"></span><p>How it works</p><span class="line"></span></div>
       <h2>From request to spotless, in three steps</h2>
     </div>
     <div class="steps-wrapper">
-      <div class="step-card">
+      <div class="step-card reveal">
         <div class="step-number">1</div>
         <div class="step-header">
           <div class="step-icon-bg"><img src="/icons/2217_213.svg" alt=""></div>
@@ -143,7 +143,7 @@ function tablePricePeriod(s) {
         </div>
         <p>Fill in the short booking form with what you need and when.</p>
       </div>
-      <div class="step-card">
+      <div class="step-card reveal" style="transition-delay:100ms">
         <div class="step-number">2</div>
         <div class="step-header">
           <div class="step-icon-bg"><img src="/icons/2217_234.svg" alt=""></div>
@@ -151,7 +151,7 @@ function tablePricePeriod(s) {
         </div>
         <p>We reply to confirm the time, the price and anything we need to know.</p>
       </div>
-      <div class="step-card">
+      <div class="step-card reveal" style="transition-delay:200ms">
         <div class="step-number">3</div>
         <div class="step-header">
           <div class="step-icon-bg"><img src="/icons/2217_256.svg" alt=""></div>
@@ -165,14 +165,14 @@ function tablePricePeriod(s) {
 
 <section id="services" class="services-section">
   <div class="section-container services-container">
-    <div class="services-header">
+    <div class="services-header reveal">
       <div class="tagline"><span class="line"></span><p>What we do</p><span class="line"></span></div>
       <h2>Services built around your week</h2>
       <p>Clear, upfront pricing for every job — from a regular clean to the errands you never get round to.</p>
     </div>
     <div class="service-list">
-      <% services.forEach(function (s) { %>
-        <div class="service-card">
+      <% services.forEach(function (s, i) { %>
+        <div class="service-card reveal" style="transition-delay:<%= i * 80 %>ms">
           <img src="<%= s.image %>" alt="Placeholder — swap for a real photo of Amanda's work" class="service-image">
           <div class="service-content">
             <h3><%= s.name %></h3>
@@ -193,15 +193,15 @@ function tablePricePeriod(s) {
 
 <section id="pricing" class="pricing-section">
   <div class="section-container pricing-container">
-    <div class="pricing-header">
+    <div class="pricing-header reveal">
       <div class="tagline"><span class="line"></span><p>Pricing</p><span class="line"></span></div>
       <h2>Clear, upfront pricing</h2>
       <p>No hidden fees. Ask about our Home Care Plan: a regular clean plus errand hours at a small discount.</p>
     </div>
     <div class="pricing-cards-wrapper">
-      <% services.forEach(function (s) { %>
+      <% services.forEach(function (s, i) { %>
         <% var featured = s.name === 'Regular home cleaning'; %>
-        <div class="pricing-card <%= featured ? 'featured' : '' %>">
+        <div class="pricing-card <%= featured ? 'featured' : '' %> reveal" style="transition-delay:<%= i * 80 %>ms">
           <div class="card-header">
             <h3><%= s.name %></h3>
             <p><%= s.description %></p>
@@ -227,30 +227,30 @@ function tablePricePeriod(s) {
 
 <section id="why-choose-us" class="why-choose-us-section">
   <div class="section-container why-choose-us-container">
-    <div class="why-choose-us-header">
+    <div class="why-choose-us-header reveal">
       <div class="tagline"><span class="line"></span><p>Why choose us</p><span class="line"></span></div>
       <h2>Why book Amanda's direct</h2>
     </div>
     <div class="features-grid">
-      <div class="feature-item item-1">
+      <div class="feature-item item-1 reveal">
         <div class="feature-icon"><img src="/icons/2217_594.svg" alt=""></div>
         <h3>No disruption</h3>
         <p>Flexible scheduling that works around you, not the other way round.</p>
       </div>
-      <div class="feature-item item-2">
+      <div class="feature-item item-2 reveal" style="transition-delay:80ms">
         <div class="feature-icon"><img src="/icons/2217_604.svg" alt=""></div>
         <h3>Photo confirmation</h3>
         <p>See the result after every job, sent straight to you.</p>
       </div>
-      <div class="feature-image">
+      <div class="feature-image reveal" style="transition-delay:40ms">
         <img src="/images/feature.png" alt="Placeholder — swap for a real photo of Amanda's work">
       </div>
-      <div class="feature-item item-3">
+      <div class="feature-item item-3 reveal" style="transition-delay:160ms">
         <div class="feature-icon"><img src="/icons/2217_618.svg" alt=""></div>
         <h3>Clear pricing</h3>
         <p>You know the cost upfront &mdash; no surprises on the day.</p>
       </div>
-      <div class="feature-item item-4">
+      <div class="feature-item item-4 reveal" style="transition-delay:240ms">
         <div class="feature-icon"><img src="/icons/2217_628.svg" alt=""></div>
         <h3>Careful with your home</h3>
         <p>Insured and DBS-checked, treating your space like it matters.</p>
@@ -261,9 +261,9 @@ function tablePricePeriod(s) {
 
 <section id="testimonials" class="testimonials-section">
   <div class="section-container testimonials-container">
-    <a href="#" class="btn btn-accent" data-open-booking>Become a client</a>
+    <a href="#" class="btn btn-accent reveal" data-open-booking>Become a client</a>
     <div class="testimonial-slider">
-      <div class="testimonial-content">
+      <div class="testimonial-content reveal" style="transition-delay:100ms">
         <span class="placeholder-badge">Placeholder &mdash; add a real review</span>
         <p class="quote">"This space is reserved for a genuine review from one of Amanda's customers. Swap this out once the first one comes in."</p>
         <div class="author">
@@ -283,7 +283,7 @@ function tablePricePeriod(s) {
 </section>
 
 <section class="cta-band">
-  <div class="section-container">
+  <div class="section-container reveal">
     <div class="tagline"><span class="line"></span><p>Ready when you are</p><span class="line"></span></div>
     <h2>Get started today</h2>
     <p class="lede">Tell us what you need and we'll confirm a time, the price and anything we need to know. This is a request, not a confirmed booking.</p>
