@@ -8,7 +8,7 @@ export const BUSINESS_CONTACT = {
   brand: "Amanda's",
   tagline: "Smart Cleaning, Swift Errand",
   email: "hello@amandas.example",
-  phone: "07000 000000",
+  phone: "+44 7000 000000",
   whatsapp: "447000000000",
   area: "Plymouth, Devon",
 };
