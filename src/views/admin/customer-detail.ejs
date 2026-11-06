@@ -28,7 +28,7 @@
     <% if (customer.bookings.length === 0) { %>
       <p>No bookings yet.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Requested</th><th>Service</th><th>Status</th><th>Price</th><th></th></tr></thead>
         <tbody>
           <% customer.bookings.forEach(function (b) { %>
@@ -41,14 +41,14 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
 
     <h2>Complaints</h2>
     <% if (customer.complaints.length === 0) { %>
       <p>None.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Date</th><th>Description</th><th>Status</th><th></th></tr></thead>
         <tbody>
           <% customer.complaints.forEach(function (c) { %>
@@ -60,7 +60,7 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
     <p><a href="/admin/complaints/new?customerId=<%= customer.id %>">Log a complaint for this customer</a></p>
   </main>

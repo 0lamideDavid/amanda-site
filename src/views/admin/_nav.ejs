@@ -14,17 +14,24 @@ function navActive(prefix) {
   return currentPath.indexOf(prefix) === 0 ? 'active' : '';
 }
 %>
-<header class="admin-nav">
-  <a href="/admin">Amanda's admin</a>
-  <a href="/admin" class="<%= navActive('/') %>">Overview</a>
-  <a href="/admin/bookings" class="<%= navActive('/bookings') %>">Bookings</a>
-  <a href="/admin/calendar" class="<%= navActive('/calendar') %>">Calendar</a>
-  <a href="/admin/services" class="<%= navActive('/services') %>">Services</a>
-  <a href="/admin/customers" class="<%= navActive('/customers') %>">Customers</a>
-  <a href="/admin/complaints" class="<%= navActive('/complaints') %>">Complaints</a>
-  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
-  <form method="POST" action="/admin/logout">
-    <button class="btn btn-outline" type="submit">Log out</button>
-  </form>
+<header class="admin-nav" id="admin-nav">
+  <div class="admin-nav-bar">
+    <a href="/admin" class="admin-brand">Amanda's admin</a>
+    <button class="mobile-nav-toggle" id="admin-mobile-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="admin-nav-links">
+    <a href="/admin" class="<%= navActive('/') %>">Overview</a>
+    <a href="/admin/bookings" class="<%= navActive('/bookings') %>">Bookings</a>
+    <a href="/admin/calendar" class="<%= navActive('/calendar') %>">Calendar</a>
+    <a href="/admin/services" class="<%= navActive('/services') %>">Services</a>
+    <a href="/admin/customers" class="<%= navActive('/customers') %>">Customers</a>
+    <a href="/admin/complaints" class="<%= navActive('/complaints') %>">Complaints</a>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
+    <form method="POST" action="/admin/logout">
+      <button class="btn btn-outline" type="submit">Log out</button>
+    </form>
+  </nav>
 </header>
 <script src="/js/admin.js?v=<%= assetVersion %>"></script>

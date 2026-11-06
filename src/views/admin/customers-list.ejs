@@ -8,7 +8,7 @@
   <%- include('_nav') %>
   <main>
     <h1>Customers</h1>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th></th></tr></thead>
       <tbody>
         <% customers.forEach(function (c) { %>
@@ -20,7 +20,7 @@
           </tr>
         <% }) %>
       </tbody>
-    </table>
+    </table></div>
   </main>
 </body>
 </html>

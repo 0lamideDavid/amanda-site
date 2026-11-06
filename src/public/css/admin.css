@@ -5,18 +5,17 @@
 
 body { background: var(--color-background-light); }
 
-.admin-nav {
-  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
-  padding: 14px 24px; background: var(--color-surface); border-bottom: 1px solid var(--color-accent-border);
-}
-.admin-nav a { color: var(--color-text-dark); text-decoration: none; font-size: 0.95rem; padding: 7px 14px; border-radius: 999px; transition: background-color 0.2s ease, color 0.2s ease; }
-.admin-nav a:first-child { font-weight: 700; font-size: 1.05rem; margin-right: 4px; padding: 0; }
+.admin-nav { background: var(--color-surface); border-bottom: 1px solid var(--color-accent-border); }
+.admin-nav-bar { display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; }
+.admin-brand { font-weight: 700; font-size: 1.05rem; color: var(--color-text-dark); text-decoration: none; }
+.admin-nav-links { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 24px 14px; }
+.admin-nav-links a { color: var(--color-text-dark); text-decoration: none; font-size: 0.95rem; padding: 7px 14px; border-radius: 999px; transition: background-color 0.2s ease, color 0.2s ease; }
 /* Highlighted, not underlined, same mechanism as the public site: a filled
    pill for whichever admin section currentPath (set in admin.routes.ts)
    indicates we're on. */
-.admin-nav a.active { background: var(--color-card); color: var(--color-text-dark); font-weight: 600; }
-.admin-nav form { margin-left: auto; }
-.admin-nav .btn { padding: 8px 18px; font-size: 0.9rem; }
+.admin-nav-links a.active { background: var(--color-card); color: var(--color-text-dark); font-weight: 600; }
+.admin-nav-links form { margin-left: auto; }
+.admin-nav-links .btn { padding: 8px 18px; font-size: 0.9rem; }
 
 main { padding: 28px 24px; max-width: 1100px; margin: 0 auto; }
 main h1 { font-size: 1.8rem; margin-bottom: 20px; }
@@ -24,7 +23,11 @@ main h2 { font-size: 1.2rem; margin: 24px 0 8px; }
 main p { color: var(--color-text-medium); }
 main a { color: var(--color-eyebrow); }
 
-table { width: 100%; border-collapse: collapse; margin-top: 12px; background: var(--color-surface); border: 1px solid var(--color-accent-border); border-radius: 14px; overflow: hidden; }
+/* Scrolls horizontally instead of squashing illegibly on narrow screens —
+   wraps every <table> (see admin views' table-wrap divs). */
+.table-wrap { overflow-x: auto; margin-top: 12px; border-radius: 14px; }
+table { width: 100%; min-width: 520px; border-collapse: collapse; background: var(--color-surface); border: 1px solid var(--color-accent-border); border-radius: 14px; overflow: hidden; }
+.table-wrap table { margin-top: 0; }
 th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--color-accent-border); font-size: 0.92rem; }
 th { background: var(--color-card); font-weight: 600; }
 tr:last-child td { border-bottom: none; }
@@ -37,7 +40,10 @@ tr:last-child td { border-bottom: none; }
 .badge-COMPLETED { background: var(--color-card); color: var(--color-text-medium); }
 .badge-CANCELLED { background: #f8d7da; color: #842029; }
 
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--color-accent-border); margin-top: 12px; border-radius: 14px; overflow: hidden; }
+/* Same horizontal-scroll approach as tables: a 7-column grid has no room
+   to shrink further on a phone without becoming unreadable. */
+.calendar-scroll { overflow-x: auto; margin-top: 12px; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--color-accent-border); border-radius: 14px; overflow: hidden; min-width: 640px; }
 .calendar-cell { background: var(--color-surface); min-height: 90px; padding: 8px; font-size: 0.85rem; vertical-align: top; color: var(--color-text-dark); }
 .calendar-cell.not-current { background: var(--color-card); color: var(--color-text-medium); }
 /* Lime, not the dark-green token: a dark outline would have poor contrast
@@ -50,7 +56,8 @@ tr:last-child td { border-bottom: none; }
    green background became the cell's dark text instead — invisible). Each
    event's own badge-STATUS class now controls its color unopposed. */
 .calendar-event { display: block; margin-top: 4px; padding: 3px 6px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; }
-.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 12px; }
+.week-grid-scroll { overflow-x: auto; margin-top: 12px; }
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; min-width: 700px; }
 .week-day { background: var(--color-surface); border: 1px solid var(--color-accent-border); border-radius: 12px; padding: 10px; }
 .week-day.today { outline: 2px solid var(--color-accent-light); }
 
@@ -104,3 +111,34 @@ form button[type=submit] { margin-top: 16px; }
 .stat-card:hover { border-color: var(--color-background-dark); transform: translateY(-2px); }
 .stat-card .stat-value { font-size: 2.2rem; font-weight: 700; color: var(--color-text-dark); line-height: 1; }
 .stat-card .stat-label { color: var(--color-text-medium); font-size: 0.9rem; margin-top: 8px; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 992px) {
+  .admin-nav-bar { padding: 12px 16px; }
+  /* .mobile-nav-toggle's display:flex-at-this-breakpoint rule already
+     comes from site.css's import; this just collapses the links panel
+     to match it, so the hamburger appears exactly when the links hide. */
+  .admin-nav-links {
+    display: none; flex-direction: column; align-items: stretch; gap: 10px;
+    padding: 0 16px 16px;
+  }
+  .admin-nav.mobile-open .admin-nav-links { display: flex; }
+  .admin-nav-links form { margin-left: 0; }
+  .admin-nav-links .btn.btn-outline { width: 100%; justify-content: center; }
+  .admin-nav-links a { padding: 10px 14px; }
+
+  main { padding: 20px 16px; }
+  main h1 { font-size: 1.5rem; }
+
+  .filters { flex-direction: column; align-items: stretch; }
+  .filters > div { width: 100%; }
+  .filters select, .filters input { width: 100%; }
+
+  .action-form input, .action-form select, form input:not([type=checkbox]), form select, form textarea {
+    max-width: none;
+  }
+
+  .auth-card { padding: 24px; }
+
+  .stat-cards { grid-template-columns: 1fr; }
+}

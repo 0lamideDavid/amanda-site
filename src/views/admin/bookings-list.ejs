@@ -33,7 +33,7 @@
     <% if (bookings.length === 0) { %>
       <p>No bookings match this filter.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead>
           <tr><th>Requested</th><th>Scheduled</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr>
         </thead>
@@ -49,7 +49,7 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
   </main>
 </body>

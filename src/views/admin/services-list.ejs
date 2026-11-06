@@ -9,7 +9,7 @@
   <main>
     <h1>Services</h1>
     <p><a href="/admin/services/new">Add a new service</a></p>
-    <table>
+    <div class="table-wrap"><table>
       <thead><tr><th>Name</th><th>Pricing</th><th>Base price</th><th>Minimum</th><th>Active</th><th></th></tr></thead>
       <tbody>
         <% services.forEach(function (s) { %>
@@ -23,7 +23,7 @@
           </tr>
         <% }) %>
       </tbody>
-    </table>
+    </table></div>
   </main>
 </body>
 </html>

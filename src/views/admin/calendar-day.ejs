@@ -23,7 +23,7 @@
     <% if (bookings.length === 0) { %>
       <p>No scheduled work this day.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Time</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr></thead>
         <tbody>
           <% bookings.forEach(function (b) { %>
@@ -36,14 +36,14 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
 
     <h2>Pending requests for this date</h2>
     <% if (pendingRequests.length === 0) { %>
       <p>None.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Requested time</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr></thead>
         <tbody>
           <% pendingRequests.forEach(function (b) { %>
@@ -56,7 +56,7 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
   </main>
 </body>

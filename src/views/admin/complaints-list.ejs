@@ -26,7 +26,7 @@
     <% if (complaints.length === 0) { %>
       <p>No complaints match this filter.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Date</th><th>Customer</th><th>Booking</th><th>Description</th><th>Status</th><th></th></tr></thead>
         <tbody>
           <% complaints.forEach(function (c) { %>
@@ -40,7 +40,7 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
   </main>
 </body>

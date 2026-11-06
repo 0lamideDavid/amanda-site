@@ -19,6 +19,7 @@
       <a href="/admin/calendar/week?date=<%= nextDate %>">Next &rarr;</a>
     </div>
 
+    <div class="week-grid-scroll">
     <div class="week-grid">
       <% days.forEach(function (day) { %>
         <div class="week-day <%= day.isToday ? 'today' : '' %>">
@@ -34,6 +35,7 @@
           <% }) %>
         </div>
       <% }) %>
+    </div>
     </div>
   </main>
 </body>

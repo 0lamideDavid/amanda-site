@@ -28,7 +28,7 @@
     <% if (pendingRequests.length === 0) { %>
       <p>No pending requests.</p>
     <% } else { %>
-      <table>
+      <div class="table-wrap"><table>
         <thead><tr><th>Requested date</th><th>Service</th><th>Customer</th><th>Status</th><th></th></tr></thead>
         <tbody>
           <% pendingRequests.forEach(function (b) { %>
@@ -41,7 +41,7 @@
             </tr>
           <% }) %>
         </tbody>
-      </table>
+      </table></div>
     <% } %>
   </main>
 </body>

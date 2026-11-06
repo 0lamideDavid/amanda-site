@@ -19,6 +19,7 @@
       <a href="/admin/calendar/month?date=<%= nextDate %>">Next &rarr;</a>
     </div>
 
+    <div class="calendar-scroll">
     <div class="calendar-grid">
       <% ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function (d) { %>
         <div class="calendar-cell not-current"><strong><%= d %></strong></div>
@@ -35,6 +36,7 @@
           </div>
         <% }) %>
       <% }) %>
+    </div>
     </div>
     <p class="note">Only scheduled (confirmed or later) bookings appear on the calendar. Pending requests are reviewed from <a href="/admin">Overview</a> or the <a href="/admin/bookings?status=PENDING">bookings list</a>.</p>
   </main>
