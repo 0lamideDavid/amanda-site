@@ -23,13 +23,12 @@
      dark mode for self-contained pairs like .btn-dark/.step-number, which
      would break if it stopped flipping. */
   --color-on-dark: #f5f3eb;
-  /* Section eyebrow color, same hue family as the lime accent the user
-     prefers (how-it-works' eyebrow). Adaptive: a deep, saturated olive in
-     light mode for contrast against the light page background, flipping
-     to the bright lime itself once that background goes dark. The fixed-
+  /* Section eyebrow color. Light mode keeps the original sage green
+     (unchanged, per explicit instruction) — only dark mode uses the lime
+     accent for consistency with how-it-works' eyebrow there. The fixed-
      dark sections (how-it-works, cta-band) keep using --color-accent-light
      directly instead, since their background never changes with theme. */
-  --color-eyebrow: #5a6e1f;
+  --color-eyebrow: #4e7a5f;
   color-scheme: light;
 }
 
