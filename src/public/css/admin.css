@@ -1,29 +1,72 @@
-body { font: 16px/1.4 system-ui, sans-serif; margin: 0; color: #1a1a1a; background: #fafafa; }
-header.admin-nav { display: flex; gap: 16px; align-items: center; padding: 12px 20px; background: #f0f0f0; border-bottom: 1px solid #ccc; }
-header.admin-nav a { color: #1a1a1a; text-decoration: none; }
-header.admin-nav form { margin-left: auto; }
-main { padding: 20px; max-width: 1100px; margin: 0 auto; }
-table { width: 100%; border-collapse: collapse; margin-top: 12px; background: #fff; }
-th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #ddd; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.85em; font-weight: 600; white-space: nowrap; }
+/* Reuses the same design system as the public site (tokens, base
+   typography, buttons) via import, so admin stays visually consistent
+   and dark mode never drifts out of sync between the two areas again. */
+@import url("site.css");
+
+body { background: var(--color-background-light); }
+
+.admin-nav {
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  padding: 14px 24px; background: var(--color-surface); border-bottom: 1px solid var(--color-accent-border);
+}
+.admin-nav a { color: var(--color-text-dark); text-decoration: none; font-size: 0.95rem; }
+.admin-nav a:first-child { font-weight: 700; font-size: 1.05rem; margin-right: 4px; }
+.admin-nav form { margin-left: auto; }
+.admin-nav .btn { padding: 8px 18px; font-size: 0.9rem; }
+
+main { padding: 28px 24px; max-width: 1100px; margin: 0 auto; }
+main h1 { font-size: 1.8rem; margin-bottom: 20px; }
+main h2 { font-size: 1.2rem; margin: 24px 0 8px; }
+main p { color: var(--color-text-medium); }
+main a { color: var(--color-eyebrow); }
+
+table { width: 100%; border-collapse: collapse; margin-top: 12px; background: var(--color-surface); border: 1px solid var(--color-accent-border); border-radius: 14px; overflow: hidden; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--color-accent-border); font-size: 0.92rem; }
+th { background: var(--color-card); font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
 .badge-PENDING { background: #fff3cd; color: #7a5b00; }
-.badge-CONFIRMED { background: #d4edda; color: #1d6b33; }
+.badge-CONFIRMED { background: var(--color-accent-light); color: #12271c; }
 .badge-RESCHEDULE_REQUESTED { background: #ffe5d0; color: #8a4b00; }
-.badge-IN_PROGRESS { background: #cfe2ff; color: #084298; }
-.badge-COMPLETED { background: #e2e3e5; color: #41464b; }
+.badge-IN_PROGRESS { background: var(--color-background-dark); color: var(--color-on-dark); }
+.badge-COMPLETED { background: var(--color-card); color: var(--color-text-medium); }
 .badge-CANCELLED { background: #f8d7da; color: #842029; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #ccc; margin-top: 12px; }
-.calendar-cell { background: #fff; min-height: 90px; padding: 6px; font-size: 0.85em; vertical-align: top; }
-.calendar-cell.not-current { background: #f5f5f5; color: #999; }
-.calendar-cell.today { outline: 2px solid #0f766e; }
-.calendar-event { display: block; margin-top: 4px; padding: 2px 4px; border-radius: 4px; font-size: 0.85em; text-decoration: none; color: inherit; }
-.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 12px; }
-.week-day { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 8px; }
+
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--color-accent-border); margin-top: 12px; border-radius: 14px; overflow: hidden; }
+.calendar-cell { background: var(--color-surface); min-height: 90px; padding: 8px; font-size: 0.85rem; vertical-align: top; color: var(--color-text-dark); }
+.calendar-cell.not-current { background: var(--color-card); color: var(--color-text-medium); }
+/* Lime, not the dark-green token: a dark outline would have poor contrast
+   against an also-dark cell background in dark mode. Lime stays bright
+   regardless of theme, same reasoning as the dark-mode fixes elsewhere. */
+.calendar-cell.today { outline: 2px solid var(--color-accent-light); outline-offset: -2px; }
+.calendar-event { display: block; margin-top: 4px; padding: 3px 6px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; color: inherit; }
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 12px; }
+.week-day { background: var(--color-surface); border: 1px solid var(--color-accent-border); border-radius: 12px; padding: 10px; }
+.week-day.today { outline: 2px solid var(--color-accent-light); }
+
 form.inline { display: inline; margin-right: 8px; }
-.error { color: #842029; background: #f8d7da; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; }
-.filters { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; margin-top: 12px; }
-.filters label { display: block; font-size: 0.85em; font-weight: 600; }
-.cal-nav { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
-.action-form { margin-top: 16px; padding: 16px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
-.action-form label { display: block; font-weight: 600; font-size: 0.9em; margin-top: 8px; }
-.action-form input { font: inherit; padding: 6px 8px; border: 1px solid #ccc; border-radius: 6px; }
+.error { color: #842029; background: #f8d7da; padding: 10px 14px; border-radius: 10px; margin-bottom: 14px; font-size: 0.92rem; }
+
+.filters { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-top: 14px; }
+.filters label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px; }
+.filters select, .filters input { font: inherit; padding: 8px 10px; border: 1px solid var(--color-accent-border); border-radius: 10px; background: var(--color-background-light); color: var(--color-text-dark); }
+.filters button { padding: 9px 18px; }
+
+.cal-nav { display: flex; gap: 14px; align-items: center; margin-top: 10px; }
+
+.action-form { margin-top: 18px; padding: 20px; border: 1px solid var(--color-accent-border); border-radius: 16px; background: var(--color-surface); }
+.action-form h3 { margin: 0 0 4px; font-size: 1rem; }
+.action-form label { display: block; font-weight: 600; font-size: 0.88rem; margin-top: 10px; margin-bottom: 4px; }
+.action-form input, .action-form select {
+  font: inherit; padding: 9px 12px; border: 1px solid var(--color-accent-border); border-radius: 10px;
+  background: var(--color-background-light); color: var(--color-text-dark); width: 100%; max-width: 320px;
+}
+.action-form button { margin-top: 14px; }
+
+form label { font-weight: 600; font-size: 0.9rem; display: block; margin-top: 10px; margin-bottom: 4px; }
+form input:not([type=checkbox]), form select, form textarea {
+  font: inherit; padding: 9px 12px; border: 1px solid var(--color-accent-border); border-radius: 10px;
+  background: var(--color-surface); color: var(--color-text-dark); width: 100%; max-width: 420px;
+}
+form button[type=submit] { margin-top: 16px; }

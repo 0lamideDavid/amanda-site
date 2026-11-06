@@ -11,6 +11,12 @@ export const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// Fixed once per process, not per request: available to every view (public
+// and admin) automatically via Express's app.locals, so CSS/JS asset URLs
+// can bust the browser's cache on each restart without every controller
+// needing to pass it explicitly.
+app.locals.assetVersion = Date.now();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
