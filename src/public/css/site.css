@@ -23,6 +23,13 @@
      dark mode for self-contained pairs like .btn-dark/.step-number, which
      would break if it stopped flipping. */
   --color-on-dark: #f5f3eb;
+  /* Section eyebrow color, same hue family as the lime accent the user
+     prefers (how-it-works' eyebrow). Adaptive: a deep, saturated olive in
+     light mode for contrast against the light page background, flipping
+     to the bright lime itself once that background goes dark. The fixed-
+     dark sections (how-it-works, cta-band) keep using --color-accent-light
+     directly instead, since their background never changes with theme. */
+  --color-eyebrow: #5a6e1f;
   color-scheme: light;
 }
 
@@ -35,6 +42,7 @@
   --color-accent-border: #233a2c;
   --color-surface: #16281f;
   --color-card: #182a20;
+  --color-eyebrow: #e1fcad;
   color-scheme: dark;
 }
 
@@ -48,6 +56,7 @@
     --color-accent-border: #233a2c;
     --color-surface: #16281f;
     --color-card: #182a20;
+    --color-eyebrow: #e1fcad;
     color-scheme: dark;
   }
 }
@@ -103,6 +112,15 @@ img { max-width: 100%; height: auto; display: block; }
   padding: 8px 8px 8px 20px; border-radius: 36px; font-weight: 600; font-size: 16px;
   transition: all 0.3s ease; border: none; cursor: pointer; font-family: inherit;
 }
+/* The default padding is tuned for buttons with a trailing icon circle
+   (tight on the right, generous on the left, so the circle sits flush).
+   A button with no icon (e.g. "Become a client") inherits that same
+   lopsided padding and its text sits off-center — give icon-less buttons
+   even padding instead. */
+.btn:not(:has(.btn-icon-bg, .btn-icon-bg-dark)) {
+  padding: 13px 24px;
+  justify-content: center;
+}
 .btn-dark { background-color: var(--color-text-dark); color: var(--color-text-light); }
 .btn-accent { background-color: var(--color-accent-light); color: #12271c; display: flex; align-items: center; justify-content: center; }
 .btn-outline { border: 1px solid rgba(18, 39, 28, 0.2); color: var(--color-text-dark); background: transparent; }
@@ -128,7 +146,7 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .tagline { display: flex; align-items: center; gap: 16px; margin-bottom: 35px; }
 .tagline .line { width: 56px; height: 1px; background-color: var(--color-accent-border); }
-.tagline p { color: var(--color-text-green); font-size: 16px; font-weight: 600; }
+.tagline p { color: var(--color-eyebrow); font-size: 16px; font-weight: 600; }
 .hero-container h1 { font-size: 96px; line-height: 1.1; color: var(--color-text-dark); }
 .heading-line-2 { color: var(--color-text-green); }
 .hero-subheading { max-width: 640px; margin-top: 48px; font-size: 20px; color: var(--color-text-medium); line-height: 1.5; }
