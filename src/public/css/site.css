@@ -224,7 +224,10 @@ img { max-width: 100%; height: auto; display: block; }
 .services-header { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 60px; align-items: center; }
 .services-header .tagline { justify-content: flex-start; }
 .services-header h2 { font-size: 52px; line-height: 1.2; }
-.services-header p { font-size: 16px; color: var(--color-text-green); font-weight: 600; }
+/* Direct-child combinator, not a descendant selector: this must only match
+   the intro paragraph, not the .tagline p nested inside the same header,
+   which it was accidentally overriding back to the old eyebrow color. */
+.services-header > p { font-size: 16px; color: var(--color-text-green); font-weight: 600; }
 .service-list { display: flex; flex-direction: column; gap: 32px; }
 .service-card { display: flex; align-items: center; gap: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--color-accent-border); }
 .service-image { width: 240px; height: 150px; object-fit: cover; border-radius: 16px; flex-shrink: 0; }
@@ -246,7 +249,7 @@ img { max-width: 100%; height: auto; display: block; }
 .pricing-header { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; margin-bottom: 60px; }
 .pricing-header .tagline { justify-content: flex-start; }
 .pricing-header h2 { font-size: 52px; line-height: 1.2; }
-.pricing-header p { font-size: 16px; color: var(--color-text-green); font-weight: 600; }
+.pricing-header > p { font-size: 16px; color: var(--color-text-green); font-weight: 600; }
 .pricing-cards-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
 .pricing-card { background-color: var(--color-card); border: 1px solid var(--color-accent-border); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; }
 .pricing-card.featured { background-color: var(--color-text-dark); color: var(--color-text-light); }
