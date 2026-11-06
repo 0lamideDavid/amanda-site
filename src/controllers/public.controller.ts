@@ -27,6 +27,11 @@ const SERVICE_TAGS: Record<string, string[]> = {
 
 const SERVICE_IMAGES = ["/images/service-1.png", "/images/service-2.png", "/images/service-3.png"];
 
+// Fixed once per server process, not per request: busts the browser's cache
+// for /css/site.css and /js/site.js on every restart, so edits made during
+// active iteration are never masked by a stale cached copy.
+const ASSET_VERSION = Date.now();
+
 export async function showHome(req: Request, res: Response) {
   const services = await findActiveServices();
   const servicesForView = services.map((s, i) => ({
@@ -38,6 +43,7 @@ export async function showHome(req: Request, res: Response) {
   res.render("public/index", {
     services: servicesForView,
     contact: BUSINESS_CONTACT,
+    assetVersion: ASSET_VERSION,
     servicesJson: JSON.stringify(
       services.map((s) => ({
         id: s.id,

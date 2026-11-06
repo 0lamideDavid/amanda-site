@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/site.css?v=<%= assetVersion %>">
 </head>
 <body>
 
@@ -387,6 +387,6 @@ function tablePricePeriod(s) {
 </div>
 
 <script>window.AMANDAS_SERVICES = <%- servicesJson %>;</script>
-<script src="/js/site.js"></script>
+<script src="/js/site.js?v=<%= assetVersion %>"></script>
 </body>
 </html>

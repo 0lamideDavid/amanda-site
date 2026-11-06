@@ -61,6 +61,12 @@
   }
   function closeModal() {
     if (!overlay) return;
+    // Blur first: if a form field still has focus when the overlay is
+    // hidden, some browsers shift focus (and scroll) on their own as a
+    // side effect, which can race against the explicit restore below.
+    if (document.activeElement && overlay.contains(document.activeElement)) {
+      document.activeElement.blur();
+    }
     overlay.hidden = true;
     document.body.style.position = "";
     document.body.style.top = "";
