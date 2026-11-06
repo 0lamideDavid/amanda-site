@@ -133,6 +133,10 @@ The first pass (above) was wrong on two counts, per direct user feedback: it res
 
 **Verified:** `tsc --noEmit` clean, all 35 tests still passing, `npm run build` confirmed to copy the new `images/`/`icons/` folders correctly, and every one of the 26 image/icon references on the live page checked individually with curl — all 200, no broken paths. Grepped the rendered output to confirm the fabricated content (client names, stats, invented experience-years badge) is actually gone, not just reworded. Still not visually reviewed in a real browser — same caveat as before.
 
+### Phase 6 — content audit against the mockup
+
+Reported bug: service cards read "2hr min" instead of "2-hour minimum." Root cause: one shared price-formatting function served both the service cards and the pricing table despite the mockup phrasing each differently ("£18 an hour, 2-hour minimum" vs. "£18/hr") — split into two formatters matching each context exactly. While fixing it, did a full line-by-line audit of every public-page string against the mockup and found several more real mismatches, now corrected: two seeded `Service.description` values had dropped words (fixed in `seed.ts` and in the already-seeded dev DB directly, since the seed script skips existing rows); the pricing-card tags for three services didn't match the mockup's actual notes column (were invented text, not sourced); the hero heading used the wrong case/pluralization of the brand's own tagline; a few sentences had picked up an Oxford comma not present in the source. All verified live by grepping the rendered page for both the wrong and the corrected text.
+
 ## Plan for the rest of the milestones (unchanged from `IMPLEMENTATION_PHASES.md`)
 
 Phases 1–6 are now all implemented. Remaining: your visual review of the live public page (light and dark), and any content/business-rule decisions from the open items noted above (single-provider conflict assumption from Phase 3, complaint status set from Phase 5).
