@@ -20,9 +20,9 @@ export const BUSINESS_CONTACT = {
 const SERVICE_TAGS: Record<string, string[]> = {
   "Regular home cleaning": ["2-hour minimum", "Supplies included"],
   "Errands & concierge": ["1-hour minimum", "Fuel included locally"],
-  "Holiday-let turnover": ["Photo report included", "Key-holding available"],
-  "End-of-tenancy / deep clean": ["Fixed price after photos", "Carpets steam-cleaned"],
-  "Small commercial cleaning": ["Quoted after site visit", "Weekly contract"],
+  "Holiday-let turnover": ["Small to medium property", "Larger homes quoted"],
+  "End-of-tenancy / deep clean": ["Fixed price after photos or a quick visit"],
+  "Small commercial cleaning": ["Regular weekly contract"],
 };
 
 const SERVICE_IMAGES = ["/images/service-1.png", "/images/service-2.png", "/images/service-3.png"];

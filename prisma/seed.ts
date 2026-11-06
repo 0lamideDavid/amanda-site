@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 const SERVICES = [
   {
     name: "Regular home cleaning",
-    description: "Weekly or fortnightly kitchens, bathrooms, floors and dusting, tailored to a checklist.",
+    description: "Weekly or fortnightly kitchens, bathrooms, floors and dusting, tailored to your checklist.",
     pricingUnit: "hourly",
     basePrice: "18.00",
     minimum: "2",
@@ -25,7 +25,7 @@ const SERVICES = [
   },
   {
     name: "Holiday-let turnover",
-    description: "Clean, change linen, restock and send a photo report, with key-holding if needed.",
+    description: "Clean, change linen, restock and send a photo report, with key-holding if you need it.",
     pricingUnit: "flat",
     basePrice: "55.00",
     minimum: null,

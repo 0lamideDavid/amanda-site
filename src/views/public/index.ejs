@@ -19,16 +19,26 @@
 <body>
 
 <%
-function priceValue(s) {
+// Service-card phrasing, matching the approved mockup's card copy exactly
+// (e.g. "£18 an hour, 2-hour minimum", "From £180 per job").
+function cardPriceLine(s) {
+  if (s.basePrice === null) return 'Quoted after a site visit';
+  if (s.pricingUnit === 'hourly') return '£' + s.basePrice.toString() + ' an hour, ' + (s.minimum ? s.minimum.toString() : '1') + '-hour minimum';
+  if (s.pricingUnit === 'flat') return '£' + s.basePrice.toString() + ' per visit';
+  if (s.pricingUnit === 'from') return 'From £' + s.basePrice.toString() + ' per job';
+  return 'Quoted after a site visit';
+}
+// Pricing-table phrasing, matching the mockup's table exactly
+// (e.g. "£18/hr", "£55 each", "From £180", "Quote").
+function tablePriceValue(s) {
   if (s.basePrice === null) return 'Quote';
   if (s.pricingUnit === 'from') return 'From £' + s.basePrice.toString();
   return '£' + s.basePrice.toString();
 }
-function pricePeriod(s) {
-  if (s.basePrice === null) return 'after a visit';
-  if (s.pricingUnit === 'hourly') return '/hour' + (s.minimum ? ', ' + s.minimum.toString() + 'hr min' : '');
-  if (s.pricingUnit === 'flat') return '/visit';
-  if (s.pricingUnit === 'from') return 'fixed quote';
+function tablePricePeriod(s) {
+  if (s.basePrice === null) return '';
+  if (s.pricingUnit === 'hourly') return '/hr';
+  if (s.pricingUnit === 'flat') return 'each';
   return '';
 }
 %>
@@ -60,12 +70,12 @@ function pricePeriod(s) {
 
 <section id="top" class="hero-section">
   <div class="section-container hero-container">
-    <div class="tagline"><span class="line"></span><p>Serving <%= contact.area %></p><span class="line"></span></div>
+    <div class="tagline"><span class="line"></span><p>Serving Plymouth and nearby areas</p><span class="line"></span></div>
     <h1>
-      <span class="heading-line-1">Smart cleaning,</span>
-      <span class="heading-line-2">swift errands.</span>
+      <span class="heading-line-1">Smart Cleaning,</span>
+      <span class="heading-line-2">Swift Errand.</span>
     </h1>
-    <p class="hero-subheading">One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean, and the jobs you never get round to.</p>
+    <p class="hero-subheading">One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
     <div class="hero-buttons">
       <a href="#" class="btn btn-dark" data-open-booking>
         <span>Request a booking</span>
@@ -101,7 +111,7 @@ function pricePeriod(s) {
     <div class="who-we-are-text-col">
       <div class="tagline"><span class="line"></span><p>Who we are</p><span class="line"></span></div>
       <h2>One trusted professional, not a rotating crew</h2>
-      <p class="who-we-are-description">The same person every time, for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean, and the jobs you never get round to.</p>
+      <p class="who-we-are-description">The same person every time, for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
       <ul class="features-list">
         <li><img src="/icons/2217_87.svg" alt=""> Insured</li>
         <li><img src="/icons/2217_97.svg" alt=""> DBS-checked</li>
@@ -139,7 +149,7 @@ function pricePeriod(s) {
           <div class="step-icon-bg"><img src="/icons/2217_234.svg" alt=""></div>
           <h3>Confirm</h3>
         </div>
-        <p>We reply to confirm the time, the price, and anything we need to know.</p>
+        <p>We reply to confirm the time, the price and anything we need to know.</p>
       </div>
       <div class="step-card">
         <div class="step-number">3</div>
@@ -147,7 +157,7 @@ function pricePeriod(s) {
           <div class="step-icon-bg"><img src="/icons/2217_256.svg" alt=""></div>
           <h3>Relax</h3>
         </div>
-        <p>We do the job, send photos, and you pay once it's done.</p>
+        <p>We do the job, send photos, and you pay once it is done.</p>
       </div>
     </div>
   </div>
@@ -166,7 +176,7 @@ function pricePeriod(s) {
           <img src="<%= s.image %>" alt="Placeholder — swap for a real photo of Amanda's work" class="service-image">
           <div class="service-content">
             <h3><%= s.name %></h3>
-            <p><%= priceValue(s) %> <%= pricePeriod(s) %></p>
+            <p><%= cardPriceLine(s) %></p>
             <div class="service-tags">
               <% s.tags.forEach(function (t) { %><span class="tag"><%= t %></span><% }) %>
             </div>
@@ -197,8 +207,8 @@ function pricePeriod(s) {
             <p><%= s.description %></p>
           </div>
           <div class="card-price">
-            <span class="price-value"><%= priceValue(s) %></span>
-            <span class="price-period"><%= pricePeriod(s) %></span>
+            <span class="price-value"><%= tablePriceValue(s) %></span>
+            <span class="price-period"><%= tablePricePeriod(s) %></span>
           </div>
           <a href="#" class="btn <%= featured ? 'btn-accent' : 'btn-dark' %> full-width" data-open-booking data-service-id="<%= s.id %>">Request this</a>
           <% if (s.tags.length) { %>
@@ -276,7 +286,7 @@ function pricePeriod(s) {
   <div class="section-container">
     <div class="tagline"><span class="line"></span><p>Ready when you are</p><span class="line"></span></div>
     <h2>Get started today</h2>
-    <p class="lede">Tell us what you need and we'll confirm a time, the price, and anything we need to know. This is a request, not a confirmed booking.</p>
+    <p class="lede">Tell us what you need and we'll confirm a time, the price and anything we need to know. This is a request, not a confirmed booking.</p>
     <a href="#" class="btn btn-accent" data-open-booking>Request a booking</a>
   </div>
 </section>
