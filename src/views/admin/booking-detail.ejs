@@ -21,11 +21,11 @@
     <% if (booking.instructions) { %><p><em><%= booking.instructions %></em></p><% } %>
 
     <h2>Requested</h2>
-    <p><%= booking.requestedDate.toISOString().slice(0, 10) %>, <%= booking.requestedTime %><% if (booking.frequency) { %> &middot; <%= booking.frequency %><% } %></p>
+    <p><%= formatLocalDate(booking.requestedDate) %>, <%= booking.requestedTime %><% if (booking.frequency) { %> &middot; <%= booking.frequency %><% } %></p>
 
     <h2>Scheduled</h2>
     <% if (booking.scheduledStartAt && booking.scheduledEndAt) { %>
-      <p><%= booking.scheduledStartAt.toISOString().slice(0, 16).replace('T', ' ') %> to <%= booking.scheduledEndAt.toISOString().slice(0, 16).replace('T', ' ') %></p>
+      <p><%= formatLocalDateTime(booking.scheduledStartAt) %> to <%= formatLocalDateTime(booking.scheduledEndAt) %></p>
     <% } else { %>
       <p>Not yet scheduled.</p>
     <% } %>

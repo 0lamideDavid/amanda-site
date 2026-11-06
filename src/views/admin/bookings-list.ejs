@@ -40,8 +40,8 @@
         <tbody>
           <% bookings.forEach(function (b) { %>
             <tr>
-              <td><%= b.requestedDate.toISOString().slice(0, 10) %> (<%= b.requestedTime %>)</td>
-              <td><%= b.scheduledStartAt ? b.scheduledStartAt.toISOString().slice(0, 16).replace('T', ' ') : '—' %></td>
+              <td><%= formatLocalDate(b.requestedDate) %> (<%= b.requestedTime %>)</td>
+              <td><%= b.scheduledStartAt ? formatLocalDateTime(b.scheduledStartAt) : '—' %></td>
               <td><%= b.service.name %></td>
               <td><%= b.customer.name %></td>
               <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>

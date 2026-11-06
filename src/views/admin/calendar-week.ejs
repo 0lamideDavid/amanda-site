@@ -15,7 +15,7 @@
     </p>
     <div class="cal-nav">
       <a href="/admin/calendar/week?date=<%= prevDate %>">&larr; Previous</a>
-      <strong>Week of <%= days[0].date.toISOString().slice(0, 10) %></strong>
+      <strong>Week of <%= formatLocalDate(days[0].date) %></strong>
       <a href="/admin/calendar/week?date=<%= nextDate %>">Next &rarr;</a>
     </div>
 
@@ -28,7 +28,7 @@
           <% } %>
           <% day.items.forEach(function (b) { %>
             <a class="calendar-event badge-<%= b.status %>" href="/admin/bookings/<%= b.id %>">
-              <%= b.scheduledStartAt.toISOString().slice(11, 16) %>&ndash;<%= b.scheduledEndAt.toISOString().slice(11, 16) %><br>
+              <%= formatLocalTime(b.scheduledStartAt) %>&ndash;<%= formatLocalTime(b.scheduledEndAt) %><br>
               <%= b.service.name %> &mdash; <%= b.customer.name %>
             </a>
           <% }) %>

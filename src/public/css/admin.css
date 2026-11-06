@@ -44,7 +44,12 @@ tr:last-child td { border-bottom: none; }
    against an also-dark cell background in dark mode. Lime stays bright
    regardless of theme, same reasoning as the dark-mode fixes elsewhere. */
 .calendar-cell.today { outline: 2px solid var(--color-accent-light); outline-offset: -2px; }
-.calendar-event { display: block; margin-top: 4px; padding: 3px 6px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; color: inherit; }
+/* No "color: inherit" here on purpose — it used to come after the
+   .badge-STATUS rules and win the cascade tie, silently overriding their
+   intended text color (e.g. badge-IN_PROGRESS's white text on its dark
+   green background became the cell's dark text instead — invisible). Each
+   event's own badge-STATUS class now controls its color unopposed. */
+.calendar-event { display: block; margin-top: 4px; padding: 3px 6px; border-radius: 6px; font-size: 0.82rem; text-decoration: none; }
 .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 12px; }
 .week-day { background: var(--color-surface); border: 1px solid var(--color-accent-border); border-radius: 12px; padding: 10px; }
 .week-day.today { outline: 2px solid var(--color-accent-light); }

@@ -258,11 +258,17 @@
     var spyObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
           var link = sectionLinks[entry.target.id];
           if (!link) return;
-          navLinks.forEach(function (l) { l.classList.remove("active"); });
-          link.classList.add("active");
+          if (entry.isIntersecting) {
+            navLinks.forEach(function (l) { l.classList.remove("active"); });
+            link.classList.add("active");
+          } else {
+            // Scrolled back out of this section (e.g. up into the hero,
+            // which has no nav link) — clear its highlight. Without this,
+            // a link stayed highlighted forever once first activated.
+            link.classList.remove("active");
+          }
         });
       },
       // A thin detection band near the vertical center of the viewport,

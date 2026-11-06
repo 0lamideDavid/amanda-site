@@ -28,7 +28,7 @@
         <tbody>
           <% bookings.forEach(function (b) { %>
             <tr>
-              <td><%= b.scheduledStartAt.toISOString().slice(11, 16) %>&ndash;<%= b.scheduledEndAt.toISOString().slice(11, 16) %></td>
+              <td><%= formatLocalTime(b.scheduledStartAt) %>&ndash;<%= formatLocalTime(b.scheduledEndAt) %></td>
               <td><%= b.service.name %></td>
               <td><%= b.customer.name %></td>
               <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>

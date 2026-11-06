@@ -5,6 +5,7 @@ import { sessionMiddleware } from "./config/session";
 import { publicRouter } from "./routes/public.routes";
 import { authRouter } from "./routes/auth.routes";
 import { adminRouter } from "./routes/admin.routes";
+import { formatLocalDate, formatLocalTime, formatLocalDateTime } from "./utils/dateRange";
 
 export const app = express();
 
@@ -16,6 +17,12 @@ app.set("views", path.join(__dirname, "views"));
 // can bust the browser's cache on each restart without every controller
 // needing to pass it explicitly.
 app.locals.assetVersion = Date.now();
+
+// Available to every view as plain functions, so templates never need to
+// call the UTC-converting date.toISOString().slice(...) pattern directly.
+app.locals.formatLocalDate = formatLocalDate;
+app.locals.formatLocalTime = formatLocalTime;
+app.locals.formatLocalDateTime = formatLocalDateTime;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

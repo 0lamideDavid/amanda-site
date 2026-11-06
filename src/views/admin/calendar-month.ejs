@@ -29,7 +29,7 @@
             <div><%= day.date.getDate() %></div>
             <% day.items.forEach(function (b) { %>
               <a class="calendar-event badge-<%= b.status %>" href="/admin/bookings/<%= b.id %>">
-                <%= b.scheduledStartAt.toISOString().slice(11, 16) %> <%= b.service.name %>
+                <%= formatLocalTime(b.scheduledStartAt) %> <%= b.service.name %>
               </a>
             <% }) %>
           </div>

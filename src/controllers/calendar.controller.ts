@@ -9,6 +9,7 @@ import {
   startOfDay,
   endOfDay,
   parseDateParam,
+  formatLocalDate,
 } from "../utils/dateRange";
 
 type BookingWithRelations = Awaited<ReturnType<typeof listBookingsScheduledBetween>>[number];
@@ -31,8 +32,8 @@ export async function showMonthView(req: Request, res: Response) {
   res.render("admin/calendar-month", {
     date,
     weeks,
-    prevDate: prevMonth.toISOString().slice(0, 10),
-    nextDate: nextMonth.toISOString().slice(0, 10),
+    prevDate: formatLocalDate(prevMonth),
+    nextDate: formatLocalDate(nextMonth),
   });
 }
 
@@ -51,8 +52,8 @@ export async function showWeekView(req: Request, res: Response) {
   res.render("admin/calendar-week", {
     date,
     days,
-    prevDate: prevWeek.toISOString().slice(0, 10),
-    nextDate: nextWeek.toISOString().slice(0, 10),
+    prevDate: formatLocalDate(prevWeek),
+    nextDate: formatLocalDate(nextWeek),
   });
 }
 
@@ -78,7 +79,7 @@ export async function showDayView(req: Request, res: Response) {
     date: start,
     bookings: bookings.sort((a, b) => getScheduledStart(a).getTime() - getScheduledStart(b).getTime()),
     pendingRequests: sameDayPending,
-    prevDate: prevDay.toISOString().slice(0, 10),
-    nextDate: nextDay.toISOString().slice(0, 10),
+    prevDate: formatLocalDate(prevDay),
+    nextDate: formatLocalDate(nextDay),
   });
 }
