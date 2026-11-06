@@ -43,15 +43,31 @@
   var done = document.getElementById("booking-done");
   var closeBtn = document.getElementById("booking-close");
 
+  // Plain `overflow: hidden` on body doesn't reliably hold scroll position
+  // in every browser, especially with a sticky header — closing the modal
+  // could leave the page scrolled to wherever the browser felt like. Pin
+  // the body in place with its current scroll offset instead, and restore
+  // that exact offset on close.
+  var savedScrollY = 0;
   function openModal() {
     if (!overlay) return;
+    savedScrollY = window.scrollY || window.pageYOffset || 0;
     overlay.hidden = false;
-    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = "-" + savedScrollY + "px";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
   }
   function closeModal() {
     if (!overlay) return;
     overlay.hidden = true;
-    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, savedScrollY);
   }
   document.querySelectorAll("[data-open-booking]").forEach(function (el) {
     el.addEventListener("click", function (e) {
