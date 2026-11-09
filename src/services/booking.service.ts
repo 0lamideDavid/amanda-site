@@ -1,4 +1,4 @@
-import { Prisma, type Booking, type BookingStatus } from "@prisma/client";
+import { Prisma, type BookingStatus } from "@prisma/client";
 import {
   createBooking,
   findBookingById,
@@ -10,6 +10,16 @@ import { findOrCreateCustomer } from "./customer.service";
 import { computePriceSnapshot } from "./pricing.service";
 import { BookingConflictError, InvalidBookingTransitionError } from "./booking.errors";
 import type { CreateBookingRequestInput } from "../validators/booking.validator";
+import {
+  sendBookingRequestReceivedEmail,
+  sendNewBookingRequestAdminEmail,
+  sendBookingConfirmedEmail,
+  sendBookingRescheduledEmail,
+  sendBookingCancelledEmail,
+  sendBookingCompletedEmail,
+} from "./email.service";
+
+type BookingWithRelations = NonNullable<Awaited<ReturnType<typeof findBookingById>>>;
 
 // A submitted request is never a confirmed appointment (Docs/BOOKING_SYSTEM_SPEC.md).
 // RESCHEDULE_REQUESTED is reachable only by rescheduling an already-confirmed
@@ -30,7 +40,7 @@ function assertTransition(current: BookingStatus, next: BookingStatus) {
   }
 }
 
-async function requireBooking(bookingId: string): Promise<Booking> {
+async function requireBooking(bookingId: string): Promise<BookingWithRelations> {
   const booking = await findBookingById(bookingId);
   if (!booking) throw new Error(`Booking ${bookingId} not found.`);
   return booking;
@@ -50,7 +60,7 @@ export async function createBookingRequest(input: CreateBookingRequestInput) {
   const customer = await findOrCreateCustomer(input.customer);
   const priceSnapshot = computePriceSnapshot(service, input.quantity);
 
-  return createBooking({
+  const booking = await createBooking({
     customerId: customer.id,
     serviceId: service.id,
     requestedDate: input.requestedDate,
@@ -63,6 +73,15 @@ export async function createBookingRequest(input: CreateBookingRequestInput) {
     priceSnapshot,
     status: "PENDING",
   });
+
+  // Best-effort: email failures never block the booking itself (see
+  // email.service.ts's sendNotificationEmail).
+  await Promise.all([
+    sendBookingRequestReceivedEmail(customer, service, booking),
+    sendNewBookingRequestAdminEmail(customer, service, booking),
+  ]);
+
+  return booking;
 }
 
 export async function confirmBooking(
@@ -73,12 +92,15 @@ export async function confirmBooking(
   assertTransition(booking.status, "CONFIRMED");
   await assertNoConflict(input.scheduledStartAt, input.scheduledEndAt, bookingId);
 
-  return updateBooking(bookingId, {
+  const updated = await updateBooking(bookingId, {
     status: "CONFIRMED",
     scheduledStartAt: input.scheduledStartAt,
     scheduledEndAt: input.scheduledEndAt,
     priceSnapshot: input.priceSnapshot != null ? new Prisma.Decimal(input.priceSnapshot) : undefined,
   });
+
+  await sendBookingConfirmedEmail(booking.customer, booking.service, updated);
+  return updated;
 }
 
 export async function rescheduleBooking(
@@ -91,20 +113,26 @@ export async function rescheduleBooking(
   }
   await assertNoConflict(input.scheduledStartAt, input.scheduledEndAt, bookingId);
 
-  return updateBooking(bookingId, {
+  const updated = await updateBooking(bookingId, {
     status: "CONFIRMED",
     scheduledStartAt: input.scheduledStartAt,
     scheduledEndAt: input.scheduledEndAt,
   });
+
+  await sendBookingRescheduledEmail(booking.customer, booking.service, updated);
+  return updated;
 }
 
 export async function cancelBooking(bookingId: string, adminNotes?: string) {
   const booking = await requireBooking(bookingId);
   assertTransition(booking.status, "CANCELLED");
-  return updateBooking(bookingId, {
+  const updated = await updateBooking(bookingId, {
     status: "CANCELLED",
     adminNotes: adminNotes ?? booking.adminNotes,
   });
+
+  await sendBookingCancelledEmail(booking.customer, booking.service, updated);
+  return updated;
 }
 
 export async function startBooking(bookingId: string) {
@@ -116,5 +144,8 @@ export async function startBooking(bookingId: string) {
 export async function completeBooking(bookingId: string) {
   const booking = await requireBooking(bookingId);
   assertTransition(booking.status, "COMPLETED");
-  return updateBooking(bookingId, { status: "COMPLETED" });
+  const updated = await updateBooking(bookingId, { status: "COMPLETED" });
+
+  await sendBookingCompletedEmail(booking.customer, booking.service, updated);
+  return updated;
 }

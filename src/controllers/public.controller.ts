@@ -1,17 +1,6 @@
 import type { Request, Response } from "express";
 import { findActiveServices } from "../repositories/service.repository";
-
-// Contact details shown in the footer/nav. Not a pricing or business rule
-// the spec asks to be database-driven, so a small constant here (unlike
-// Service pricing, which must stay in the database).
-export const BUSINESS_CONTACT = {
-  brand: "Amanda's",
-  tagline: "Smart Cleaning, Swift Errand",
-  email: "hello@amandas.example",
-  phone: "+44 7000 000000",
-  whatsapp: "447000000000",
-  area: "Plymouth, Devon",
-};
+import { BUSINESS_CONTACT } from "../config/business";
 
 // Display-only tags for the services/pricing cards, taken from the real
 // notes already present in the approved HTML mockup's pricing table (not

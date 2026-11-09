@@ -23,6 +23,14 @@ Log in at `http://localhost:3000/admin/login` with the seeded credentials. `/adm
 
 Optionally run `npm run db:demo` to populate the dev database with sample customers, bookings (across every status), and complaints, so the admin dashboard has something to look at beyond an empty state. Dev-only — re-runnable, clears and recreates its own records each time, never touches real data.
 
+## Email notifications
+
+Booking events send email via [Resend](https://resend.com): customers get "request received" / "confirmed" / "rescheduled" / "cancelled" / "completed" emails (skipped silently if they didn't give an email — it's optional on the booking form), and the admin gets a "new booking request" alert with a link straight into the dashboard.
+
+Set `RESEND_API_KEY` and `EMAIL_FROM` in `.env` to enable sending. Unconfigured, every send is a no-op (logged, never an error) — the app and all booking operations work fine without it, which is also what happens by default in dev/test. `ADMIN_NOTIFICATION_EMAIL` is optional and falls back to `SEED_ADMIN_EMAIL` if unset. `APP_BASE_URL` is used to build absolute links in emails (e.g. "Review in admin") — set it to the real deployed URL in production.
+
+Templates live in `src/views/emails/` (one reusable EJS shell, table-based HTML for email-client compatibility) and reuse the same color palette as the public site. `src/services/email.service.ts` is the single place that renders and sends them; `src/services/booking.service.ts` calls it at each status-change trigger point.
+
 ## Tests
 
 ```bash
