@@ -14,14 +14,25 @@ const SERVICE_TAGS: Record<string, string[]> = {
   "Small commercial cleaning": ["Regular weekly contract"],
 };
 
-const SERVICE_IMAGES = ["/images/service-1.png", "/images/service-2.png", "/images/service-3.png"];
+// Keyed by service name so each service always gets an image that matches
+// what it actually is, rather than cycling through a fixed-size array (which
+// previously gave "Errands & concierge" a photo of someone cleaning an
+// office monitor just because of where it fell in alphabetical order).
+const SERVICE_IMAGES: Record<string, string> = {
+  "Regular home cleaning": "/images/service-home.png",
+  "Errands & concierge": "/images/service-errands.jpg",
+  "Holiday-let turnover": "/images/service-turnover.jpg",
+  "End-of-tenancy / deep clean": "/images/service-deep-clean.png",
+  "Small commercial cleaning": "/images/service-commercial.png",
+};
+const DEFAULT_SERVICE_IMAGE = "/images/service-home.png";
 
 export async function showHome(req: Request, res: Response) {
   const services = await findActiveServices();
-  const servicesForView = services.map((s, i) => ({
+  const servicesForView = services.map((s) => ({
     ...s,
     tags: SERVICE_TAGS[s.name] ?? [],
-    image: SERVICE_IMAGES[i % SERVICE_IMAGES.length],
+    image: SERVICE_IMAGES[s.name] ?? DEFAULT_SERVICE_IMAGE,
   }));
 
   res.render("public/index", {
