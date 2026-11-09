@@ -10,12 +10,20 @@ datasource db {
 }
 
 model AdminUser {
-  id           String   @id @default(uuid())
-  name         String
-  email        String   @unique
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  // At invite time this is a random, never-guessable sentinel hash (not a
+  // real password) so login is naturally blocked until the invite is
+  // accepted and a real password is set — avoids making this column
+  // nullable just to represent "not yet set".
   passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  // Both null once the invite has been accepted (or for an admin created
+  // directly via the seed script, which sets a real password immediately).
+  inviteToken          String?   @unique
+  inviteTokenExpiresAt DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 }
 
 model Service {

@@ -31,6 +31,14 @@ Set `RESEND_API_KEY` and `EMAIL_FROM` in `.env` to enable sending. Unconfigured,
 
 Templates live in `src/views/emails/` (one reusable EJS shell, table-based HTML for email-client compatibility) and reuse the same color palette as the public site. `src/services/email.service.ts` is the single place that renders and sends them; `src/services/booking.service.ts` calls it at each status-change trigger point.
 
+## Rate limiting
+
+The public `POST /booking-requests` endpoint is rate-limited to 5 requests per 15 minutes per IP (`src/middleware/rateLimiter.ts`, via `express-rate-limit`), returning a 429 with the same `{ ok: false, errors: {...} }` JSON shape used elsewhere. Disabled in tests (`NODE_ENV === "test"`) since limiter state is per-process and shared across the test app instance.
+
+## Inviting admins
+
+Existing admins can invite new ones from `/admin/team`: enter a name and email, and the invitee gets an email with a link to set their own password (expires in 48 hours). Re-inviting a still-pending admin reissues a fresh token on the same row rather than creating a duplicate; inviting an email that's already active is rejected. Accepting an invite sets a real password, logs the invitee in immediately, and the token can't be reused afterward. See `src/services/adminInvite.service.ts` and `src/repositories/adminUser.repository.ts`.
+
 ## Tests
 
 ```bash

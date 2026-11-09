@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set your password | Amanda's admin</title>
+  <script>
+    (function () {
+      var saved = localStorage.getItem("amandas-theme");
+      if (saved === "dark" || saved === "light") document.documentElement.setAttribute("data-theme", saved);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css?v=<%= assetVersion %>">
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="brand-name">Amanda's admin</span>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
+      </div>
+      <h1>Welcome, <%= admin.name.split(" ")[0] %></h1>
+      <p class="lede">Set a password for <%= admin.email %> to finish joining the admin team.</p>
+      <% if (error) { %>
+        <p class="error" role="alert"><%= error %></p>
+      <% } %>
+      <form method="POST" action="/admin/accept-invite">
+        <input type="hidden" name="token" value="<%= token %>">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8">
+        <label for="confirmPassword">Confirm password</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required minlength="8">
+        <button class="btn btn-accent full-width" type="submit">Set password and log in</button>
+      </form>
+    </div>
+  </div>
+  <script src="/js/admin.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

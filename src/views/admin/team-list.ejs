@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Team</title>
+</head>
+<body>
+  <%- include('_nav') %>
+  <main>
+    <h1>Team</h1>
+    <% if (error) { %><p class="error"><%= error %></p><% } %>
+    <% if (success) { %><p class="error" style="background:var(--color-accent-light);color:#12271c;"><%= success %></p><% } %>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Joined</th></tr></thead>
+        <tbody>
+          <% admins.forEach(function (a) { %>
+            <tr>
+              <td><%= a.name %></td>
+              <td><%= a.email %></td>
+              <td>
+                <% if (a.inviteToken) { %>
+                  <span class="badge badge-PENDING">Invite pending</span>
+                <% } else { %>
+                  <span class="badge badge-CONFIRMED">Active</span>
+                <% } %>
+              </td>
+              <td><%= formatLocalDate(a.createdAt) %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="action-form">
+      <h3>Invite another admin</h3>
+      <p>They'll get an email with a link to set their own password. The link expires in 48 hours.</p>
+      <form method="POST" action="/admin/team/invite">
+        <label for="name">Name</label>
+        <input id="name" name="name" required>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+        <p><button class="btn btn-accent" type="submit">Send invite</button></p>
+      </form>
+    </div>
+  </main>
+</body>
+</html>

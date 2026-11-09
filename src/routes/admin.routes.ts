@@ -27,6 +27,7 @@ import {
   showComplaintDetail,
   handleUpdateComplaint,
 } from "../controllers/complaint.controller";
+import { listTeamPage, handleInviteAdmin } from "../controllers/team.controller";
 
 export const adminRouter = Router();
 
@@ -69,3 +70,6 @@ adminRouter.get("/complaints/new", asyncHandler(showNewComplaintForm));
 adminRouter.post("/complaints", asyncHandler(handleCreateComplaint));
 adminRouter.get("/complaints/:id", asyncHandler(showComplaintDetail));
 adminRouter.post("/complaints/:id", asyncHandler(handleUpdateComplaint));
+
+adminRouter.get("/team", asyncHandler(listTeamPage));
+adminRouter.post("/team/invite", asyncHandler(handleInviteAdmin));

@@ -216,3 +216,19 @@ export async function sendNewBookingRequestAdminEmail(customer: Customer, servic
     ctaUrl: `${env.APP_BASE_URL}/admin/bookings/${booking.id}`,
   });
 }
+
+export async function sendAdminInviteEmail(toEmail: string, name: string, inviteUrl: string) {
+  await sendNotificationEmail({
+    to: toEmail,
+    subject: "You've been invited to Amanda's admin",
+    eyebrow: "Admin invite",
+    title: `${name.split(" ")[0]}, you've been invited`,
+    introHtml: "You've been invited to manage bookings, services, customers and complaints for Amanda's. Set a password to get started.",
+    introText: "You've been invited to manage bookings, services, customers and complaints for Amanda's. Set a password to get started.",
+    detailRows: [],
+    outroHtml: "This link expires in 48 hours.",
+    outroText: "This link expires in 48 hours.",
+    ctaText: "Set your password",
+    ctaUrl: inviteUrl,
+  });
+}

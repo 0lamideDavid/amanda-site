@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invite link invalid | Amanda's admin</title>
+  <script>
+    (function () {
+      var saved = localStorage.getItem("amandas-theme");
+      if (saved === "dark" || saved === "light") document.documentElement.setAttribute("data-theme", saved);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css?v=<%= assetVersion %>">
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="brand-name">Amanda's admin</span>
+      </div>
+      <h1>This invite link doesn't work</h1>
+      <p class="lede"><%= message %> Ask another admin to send you a new invite from the Team page.</p>
+      <p><a class="btn btn-outline" href="/admin/login">Go to login</a></p>
+    </div>
+  </div>
+</body>
+</html>
