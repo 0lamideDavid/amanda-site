@@ -8,7 +8,18 @@ import { env, isProduction } from "./env";
 // default in-memory store — fine for read-only public views.
 function buildStore() {
   if (!env.DATABASE_URL) return undefined; // express-session uses MemoryStore
-  const pgPool = new Pool({ connectionString: env.DATABASE_URL });
+  const isRemoteDb =
+    env.DATABASE_URL.includes("supabase.co") ||
+    env.DATABASE_URL.includes("pooler.supabase.com") ||
+    env.DATABASE_URL.includes("sslmode=require");
+  const pgPool = new Pool({
+    connectionString: env.DATABASE_URL,
+    ssl: isRemoteDb ? { rejectUnauthorized: false } : undefined,
+  });
+  // Prevent unhandled error events on idle or disconnected clients from crashing the process
+  pgPool.on("error", (err) => {
+    console.error("Postgres session pool error:", err);
+  });
   const PgSession = connectPgSimple(session);
   return new PgSession({ pool: pgPool, tableName: "session", createTableIfMissing: false });
 }

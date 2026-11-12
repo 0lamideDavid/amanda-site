@@ -9,8 +9,19 @@ import { formatLocalDate, formatLocalTime, formatLocalDateTime } from "./utils/d
 
 export const app = express();
 
+// Required behind Vercel's reverse proxy:
+// 1. Secure cookies work correctly (app can detect HTTPS)
+// 2. Rate limiter keys off real client IP, not the proxy's IP
+app.set("trust proxy", 1);
+
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views")); // src/views in dev; Vercel preserves structure
+// Check process.cwd() (where Vercel Serverless locates included files) and __dirname
+app.set("views", [
+  path.join(process.cwd(), "src", "views"),
+  path.join(process.cwd(), "dist", "views"),
+  path.join(__dirname, "views"),
+  path.join(__dirname, "../src/views"),
+]);
 
 // Fixed once per process, not per request: available to every view (public
 // and admin) automatically via Express's app.locals, so CSS/JS asset URLs
@@ -26,6 +37,8 @@ app.locals.formatLocalDateTime = formatLocalDateTime;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(process.cwd(), "src", "public")));
+app.use(express.static(path.join(process.cwd(), "dist", "public")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(sessionMiddleware);
 
