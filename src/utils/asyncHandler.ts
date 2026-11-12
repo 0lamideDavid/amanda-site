@@ -8,9 +8,11 @@ import type { Request, Response, NextFunction, RequestHandler } from "express";
 export function asyncHandler(
   fn: (req: Request, res: Response, next: NextFunction) => unknown,
 ): RequestHandler {
-  return (req, res, next) => {
-    // Promise.resolve wraps a sync handler's return value too, so this is
-    // safe to use on both sync and async handlers.
-    Promise.resolve(fn(req, res, next)).catch(next);
+  return async (req, res, next) => {
+    try {
+      await fn(req, res, next);
+    } catch (err) {
+      next(err);
+    }
   };
 }

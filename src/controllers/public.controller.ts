@@ -70,18 +70,31 @@ export async function showHome(req: Request, res: Response) {
     image: SERVICE_IMAGES[s.name] ?? DEFAULT_SERVICE_IMAGE,
   }));
 
-  res.render("public/index", {
-    services: servicesForView,
-    contact: BUSINESS_CONTACT,
-    servicesJson: JSON.stringify(
-      services.map((s) => ({
-        id: s.id,
-        name: s.name,
-        description: s.description,
-        pricingUnit: s.pricingUnit,
-        basePrice: s.basePrice !== null ? Number(s.basePrice) : null,
-        minimum: s.minimum !== null ? Number(s.minimum) : null,
-      })),
-    ),
+  return new Promise<void>((resolve, reject) => {
+    res.render(
+      "public/index",
+      {
+        services: servicesForView,
+        contact: BUSINESS_CONTACT,
+        servicesJson: JSON.stringify(
+          services.map((s) => ({
+            id: s.id,
+            name: s.name,
+            description: s.description,
+            pricingUnit: s.pricingUnit,
+            basePrice: s.basePrice !== null ? Number(s.basePrice) : null,
+            minimum: s.minimum !== null ? Number(s.minimum) : null,
+          })),
+        ),
+      },
+      (err, html) => {
+        if (err) {
+          console.error("Template render error:", err);
+          return reject(err);
+        }
+        res.send(html);
+        resolve();
+      },
+    );
   });
 }

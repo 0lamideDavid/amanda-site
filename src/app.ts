@@ -44,15 +44,44 @@ app.use(sessionMiddleware);
 
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
+app.get("/debug", (req, res) => {
+  const fs = require("node:fs");
+  const candidateDirs = [
+    path.join(process.cwd(), "src", "views"),
+    path.join(process.cwd(), "views"),
+    path.join(process.cwd(), "dist", "views"),
+    path.join(__dirname, "views"),
+    path.join(__dirname, "../src/views"),
+    path.join(__dirname, "../views"),
+  ];
+  const candidates = candidateDirs.map((d: string) => ({
+    dir: d,
+    exists: fs.existsSync(d),
+    files: fs.existsSync(d) ? fs.readdirSync(d) : [],
+  }));
+  res.json({
+    cwd: process.cwd(),
+    __dirname,
+    viewsSetting: app.get("views"),
+    filesInCwd: fs.existsSync(process.cwd()) ? fs.readdirSync(process.cwd()) : [],
+    candidates,
+    envDatabaseUrl: !!process.env.DATABASE_URL,
+  });
+});
+
 app.use(authRouter);
 app.use("/admin", adminRouter);
 app.use("/", publicRouter);
 
-// Catches anything forwarded via next(err) by asyncHandler — never leaks
-// error details to the client, just logs server-side and responds plainly.
+// Catches anything forwarded via next(err) by asyncHandler — logs server-side
+// and returns error details to assist in production debugging.
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  console.error(err);
+  console.error("SERVER ERROR:", err);
   if (res.headersSent) return next(err);
-  res.status(500).send("Something went wrong. Please try again.");
+  res.status(500).json({
+    error: "Internal Server Error",
+    message: err?.message || String(err),
+    stack: err?.stack,
+  });
 };
 app.use(errorHandler);
