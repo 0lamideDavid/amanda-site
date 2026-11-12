@@ -10,7 +10,7 @@ import { formatLocalDate, formatLocalTime, formatLocalDateTime } from "./utils/d
 export const app = express();
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "views")); // src/views in dev; Vercel preserves structure
 
 // Fixed once per process, not per request: available to every view (public
 // and admin) automatically via Express's app.locals, so CSS/JS asset URLs
