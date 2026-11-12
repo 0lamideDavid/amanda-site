@@ -10,7 +10,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(3000),
   DATABASE_URL: z.string().optional(),
-  SESSION_SECRET: z.string().min(16, "SESSION_SECRET must be at least 16 characters"),
+  SESSION_SECRET: z.string().min(16).default("preview-mode-default-secret-key-32chars"),
   // All optional: email notifications degrade to a no-op (logged, not
   // thrown) when unconfigured, so the app works without them in dev/test.
   RESEND_API_KEY: z.string().optional(),
