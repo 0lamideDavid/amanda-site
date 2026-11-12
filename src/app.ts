@@ -6,6 +6,15 @@ import { publicRouter } from "./routes/public.routes";
 import { authRouter } from "./routes/auth.routes";
 import { adminRouter } from "./routes/admin.routes";
 import { formatLocalDate, formatLocalTime, formatLocalDateTime } from "./utils/dateRange";
+import { BUSINESS_CONTACT } from "./config/business";
+
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled Rejection:", reason);
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Uncaught Exception:", error);
+});
 
 export const app = express();
 
@@ -66,6 +75,26 @@ app.get("/debug", (req, res) => {
     filesInCwd: fs.existsSync(process.cwd()) ? fs.readdirSync(process.cwd()) : [],
     candidates,
     envDatabaseUrl: !!process.env.DATABASE_URL,
+  });
+});
+
+app.get("/debug-home", (req, res) => {
+  res.render("public/index", {
+    services: [
+      {
+        id: "1",
+        name: "Regular home cleaning",
+        description: null,
+        pricingUnit: "hourly",
+        basePrice: 18,
+        minimum: 2,
+        active: true,
+        tags: ["2-hour minimum", "Supplies included"],
+        image: "/images/service-home.png",
+      },
+    ],
+    contact: BUSINESS_CONTACT,
+    servicesJson: "[]",
   });
 });
 
