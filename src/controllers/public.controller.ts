@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { findActiveServices } from "../repositories/service.repository";
 import { BUSINESS_CONTACT } from "../config/business";
+import { env } from "../config/env";
 
 // Display-only tags for the services/pricing cards, taken from the real
 // notes already present in the approved HTML mockup's pricing table (not
@@ -27,8 +28,22 @@ const SERVICE_IMAGES: Record<string, string> = {
 };
 const DEFAULT_SERVICE_IMAGE = "/images/service-home.png";
 
+// Fallback services used when no database is configured (design/preview mode).
+const FALLBACK_SERVICES = Object.keys(SERVICE_TAGS).map((name, i) => ({
+  id: String(i + 1),
+  name,
+  description: null as string | null,
+  pricingUnit: "hour" as string,
+  basePrice: null as number | null,
+  minimum: null as number | null,
+  active: true,
+}));
+
 export async function showHome(req: Request, res: Response) {
-  const services = await findActiveServices();
+  const services = env.DATABASE_URL
+    ? await findActiveServices()
+    : FALLBACK_SERVICES;
+
   const servicesForView = services.map((s) => ({
     ...s,
     tags: SERVICE_TAGS[s.name] ?? [],

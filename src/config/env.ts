@@ -9,7 +9,7 @@ dotenv.config({
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(3000),
-  DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
+  DATABASE_URL: z.string().optional(),
   SESSION_SECRET: z.string().min(16, "SESSION_SECRET must be at least 16 characters"),
   // All optional: email notifications degrade to a no-op (logged, not
   // thrown) when unconfigured, so the app works without them in dev/test.
