@@ -55,7 +55,7 @@ type HomeService = {
 // until the user configures the IPv4 connection pooler URL (aws-0-*.pooler.supabase.com).
 const isUnreachableDirectSupabase =
   Boolean(env.DATABASE_URL) &&
-  env.DATABASE_URL!.includes(".supabase.co:5432") &&
+  env.DATABASE_URL!.includes("supabase.co") &&
   !env.DATABASE_URL!.includes("pooler.supabase.com");
 
 export async function showHome(req: Request, res: Response) {

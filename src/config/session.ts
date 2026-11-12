@@ -9,7 +9,7 @@ import { env, isProduction } from "./env";
 function buildStore() {
   if (!env.DATABASE_URL) return undefined; // express-session uses MemoryStore
   const isDirectSupabase =
-    env.DATABASE_URL.includes(".supabase.co:5432") &&
+    env.DATABASE_URL.includes("supabase.co") &&
     !env.DATABASE_URL.includes("pooler.supabase.com");
   if (isDirectSupabase) {
     console.warn("Direct Supabase connection (db.*.supabase.co:5432) detected on serverless; using MemoryStore to avoid IPv6 connection failure. Use Supabase pooler URL instead.");

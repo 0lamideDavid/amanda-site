@@ -75,6 +75,9 @@ app.get("/debug", (req, res) => {
     filesInCwd: fs.existsSync(process.cwd()) ? fs.readdirSync(process.cwd()) : [],
     candidates,
     envDatabaseUrl: !!process.env.DATABASE_URL,
+    sanitizedDbUrl: process.env.DATABASE_URL
+      ? process.env.DATABASE_URL.replace(/:\/\/[^:]+:[^@]+@/, "://***:***@")
+      : null,
   });
 });
 
