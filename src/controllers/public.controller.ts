@@ -49,15 +49,20 @@ type HomeService = {
   active: boolean;
 };
 
+// Supabase direct connections (db.*.supabase.co:5432) are IPv6-only.
+// In AWS Lambda / Vercel Serverless (IPv4-only), connecting directly to port 5432
+// causes native network aborts. We check for this to protect the serverless process
+// until the user configures the IPv4 connection pooler URL (aws-0-*.pooler.supabase.com).
+const isUnreachableDirectSupabase =
+  Boolean(env.DATABASE_URL) &&
+  env.DATABASE_URL!.includes(".supabase.co:5432") &&
+  !env.DATABASE_URL!.includes("pooler.supabase.com");
+
 export async function showHome(req: Request, res: Response) {
   let services: HomeService[] = FALLBACK_SERVICES;
-  if (env.DATABASE_URL) {
+  if (env.DATABASE_URL && !isUnreachableDirectSupabase) {
     try {
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        const timer = setTimeout(() => reject(new Error("Database connection timed out")), 3000);
-        if (typeof timer.unref === "function") timer.unref();
-      });
-      services = await Promise.race([findActiveServices(), timeoutPromise]);
+      services = await findActiveServices();
     } catch (err) {
       console.warn("Could not load services from database, falling back to static services:", err);
       services = FALLBACK_SERVICES;
