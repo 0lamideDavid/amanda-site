@@ -39,10 +39,30 @@ const FALLBACK_SERVICES = Object.keys(SERVICE_TAGS).map((name, i) => ({
   active: true,
 }));
 
+type HomeService = {
+  id: string;
+  name: string;
+  description: string | null;
+  pricingUnit: string;
+  basePrice: unknown;
+  minimum: unknown;
+  active: boolean;
+};
+
 export async function showHome(req: Request, res: Response) {
-  const services = env.DATABASE_URL
-    ? await findActiveServices()
-    : FALLBACK_SERVICES;
+  let services: HomeService[] = FALLBACK_SERVICES;
+  if (env.DATABASE_URL) {
+    try {
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        const timer = setTimeout(() => reject(new Error("Database connection timed out")), 3000);
+        if (typeof timer.unref === "function") timer.unref();
+      });
+      services = await Promise.race([findActiveServices(), timeoutPromise]);
+    } catch (err) {
+      console.warn("Could not load services from database, falling back to static services:", err);
+      services = FALLBACK_SERVICES;
+    }
+  }
 
   const servicesForView = services.map((s) => ({
     ...s,

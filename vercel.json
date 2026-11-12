@@ -3,11 +3,11 @@
   "buildCommand": "npx prisma generate",
   "functions": {
     "api/index.ts": {
-      "includeFiles": "{src/**,prisma/**}"
+      "includeFiles": "src/**"
     }
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index.ts" }
+    { "source": "/(.*)", "destination": "/api" }
   ]
 }
 
