@@ -26,14 +26,15 @@ Use the prepared import file: **`vercel-env-import.env`** (in the repo root, git
 
 | Setting | Value | Notes |
 |---|---|---|
-| Framework Preset | whatever auto-detection chooses (likely "Other") | `vercel.json` now fully configures the build: `buildCommand` generates the Prisma client and copies static assets to `public/`, and `outputDirectory: "public"` satisfies the static-output requirement. No manual override needed. |
+| Framework Preset | **Express** (auto-detected — leave as is) | The build runs in Vercel's backend-framework mode; `vercel.json` supplies the build command, function config and rewrites. **Do not change this to "Other"** — that mode requires a static output directory this project doesn't have and will fail with `STATIC_BUILD_NO_OUT_DIR`. |
 | Node.js Version | 22.x — **automatic** | `package.json` now pins `"engines": { "node": "22.x" }`, so Vercel applies it on every build. No manual setting needed. |
 | Root Directory | `./` (empty) | Default. |
 
 ## 3. Build behaviour (all handled by `vercel.json`)
 
-- `buildCommand`: `npx prisma generate && cp -R src/public public` — generates the Prisma client and exposes `src/public` assets as Vercel-served static files (CDN edge, single source of truth — the repo does **not** commit a root `public/`; it's build output, git-ignored).
-- Static assets (`/css/*`, `/js/*`, `/images/*`, `/icons/*`) are served by Vercel's CDN; all other paths rewrite to the Express app in `api/index.ts`.
+- `buildCommand`: `npx prisma generate` — generates the Prisma client used by the function at runtime.
+- The function entry is `api/index.ts` (exports the Express app); `src/**` is bundled via `includeFiles`.
+- Static assets (`/css/*`, `/js/*`, `/images/*`, `/icons/*`) are served by `express.static` from the bundled `src/public` — they go through the function, not a CDN.
 
 ## 4. Deploy checklist (in order)
 
