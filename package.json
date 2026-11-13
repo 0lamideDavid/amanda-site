@@ -4,6 +4,9 @@
   "private": true,
   "description": "Amanda's cleaning and errand service: public site + admin system",
   "main": "dist/server.js",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "tsx watch src/server.ts",

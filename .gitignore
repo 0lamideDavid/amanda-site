@@ -5,6 +5,8 @@ dist/
 env.ini
 *.ini
 !.env.example
+vercel-env-import.env
+/public/
 *.log
 .DS_Store
 
