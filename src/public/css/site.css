@@ -137,6 +137,11 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 992px) {
   .header-nav, .header-actions .header-phone { display: none; }
+  /* On mobile the dark-mode toggle lives inside the opened menu (with the
+     phone and Book now), not in the closed top bar — the top bar shows only
+     logo, Book now and the hamburger. */
+  .theme-toggle { display: none; }
+  .header-section.mobile-open .header-actions .theme-toggle { display: inline-flex; }
   .mobile-nav-toggle { display: flex; flex-direction: column; gap: 5px; }
   .mobile-nav-toggle span { display: block; width: 25px; height: 3px; background-color: var(--color-text-dark); }
 
