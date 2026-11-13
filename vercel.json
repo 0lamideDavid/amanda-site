@@ -1,7 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npx prisma generate && cp -R src/public public",
-  "outputDirectory": "public",
+  "buildCommand": "npx prisma generate",
   "functions": {
     "api/index.ts": {
       "includeFiles": "src/**"
