@@ -57,10 +57,10 @@ function tablePricePeriod(s) {
     <div class="header-actions">
       <a href="tel:<%= contact.phone.replace(/\s+/g,'') %>" class="header-phone"><%= contact.phone %></a>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
-      <a href="#" class="btn btn-dark" data-open-booking>
+      <button type="button" class="btn btn-dark" data-open-booking>
         <span>Book now</span>
         <div class="btn-icon-bg"><img src="/icons/2217_846.svg" alt=""></div>
-      </a>
+      </button>
     </div>
     <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation">
       <span></span><span></span><span></span>
@@ -77,19 +77,29 @@ function tablePricePeriod(s) {
     </h1>
     <p class="hero-subheading reveal" style="transition-delay:160ms">One trusted local professional for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
     <div class="hero-buttons reveal" style="transition-delay:240ms">
-      <a href="#" class="btn btn-dark" data-open-booking>
+      <button type="button" class="btn btn-dark" data-open-booking>
         <span>Request a booking</span>
         <div class="btn-icon-bg"><img src="/icons/2217_25.svg" alt=""></div>
-      </a>
+      </button>
       <a href="#services" class="btn-secondary"><span>See services</span></a>
     </div>
     <div class="hero-image-wrapper reveal" style="transition-delay:320ms">
       <img src="/images/hero-main.png" alt="Placeholder — swap for a real photo of Amanda's work" class="hero-main-image">
       <div class="hero-stats-bar">
-        <span class="chip">Insured</span>
-        <span class="chip">DBS-checked</span>
-        <span class="chip">Photo confirmation after every job</span>
-        <span class="chip">Clear, upfront pricing</span>
+        <div class="hero-stats-track">
+          <div class="hero-stats-group">
+            <span class="chip">Insured</span>
+            <span class="chip">DBS-checked</span>
+            <span class="chip">Photo confirmation after every job</span>
+            <span class="chip">Clear, upfront pricing</span>
+          </div>
+          <div class="hero-stats-group" aria-hidden="true">
+            <span class="chip">Insured</span>
+            <span class="chip">DBS-checked</span>
+            <span class="chip">Photo confirmation after every job</span>
+            <span class="chip">Clear, upfront pricing</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -120,10 +130,10 @@ function tablePricePeriod(s) {
         <li><img src="/icons/2217_127.svg" alt=""> Supplies included</li>
         <li><img src="/icons/2217_137.svg" alt=""> Flexible scheduling</li>
       </ul>
-      <a href="#services" class="btn btn-dark">
+      <button type="button" class="btn btn-dark" data-scroll-to="#services">
         <span>See our services</span>
         <div class="btn-icon-bg"><img src="/icons/2217_148.svg" alt=""></div>
-      </a>
+      </button>
     </div>
   </div>
 </section>
@@ -181,10 +191,10 @@ function tablePricePeriod(s) {
               <% s.tags.forEach(function (t) { %><span class="tag"><%= t %></span><% }) %>
             </div>
           </div>
-          <a href="#" class="btn btn-outline" data-open-booking data-service-id="<%= s.id %>">
+          <button type="button" class="btn btn-outline" data-open-booking data-service-id="<%= s.id %>">
             <span>Book this</span>
             <div class="btn-icon-bg-dark"><img src="/icons/2217_317.svg" alt=""></div>
-          </a>
+          </button>
         </div>
       <% }) %>
     </div>
@@ -210,7 +220,7 @@ function tablePricePeriod(s) {
             <span class="price-value"><%= tablePriceValue(s) %></span>
             <span class="price-period"><%= tablePricePeriod(s) %></span>
           </div>
-          <a href="#" class="btn <%= featured ? 'btn-accent' : 'btn-dark' %> full-width" data-open-booking data-service-id="<%= s.id %>">Request this</a>
+          <button type="button" class="btn <%= featured ? 'btn-accent' : 'btn-dark' %> full-width" data-open-booking data-service-id="<%= s.id %>">Request this</button>
           <% if (s.tags.length) { %>
             <div class="card-features">
               <h4>What's included</h4>
@@ -261,7 +271,7 @@ function tablePricePeriod(s) {
 
 <section id="testimonials" class="testimonials-section">
   <div class="section-container testimonials-container">
-    <a href="#" class="btn btn-accent reveal" data-open-booking>Become a client</a>
+    <button type="button" class="btn btn-accent reveal" data-open-booking>Become a client</button>
     <div class="testimonial-slider">
       <div class="testimonial-content reveal" style="transition-delay:100ms">
         <span class="placeholder-badge">Placeholder &mdash; add a real review</span>
@@ -287,7 +297,7 @@ function tablePricePeriod(s) {
     <div class="tagline"><span class="line"></span><p>Ready when you are</p><span class="line"></span></div>
     <h2>Get started today</h2>
     <p class="lede">Tell us what you need and we'll confirm a time, the price and anything we need to know. This is a request, not a confirmed booking.</p>
-    <a href="#" class="btn btn-accent" data-open-booking>Request a booking</a>
+    <button type="button" class="btn btn-accent" data-open-booking>Request a booking</button>
   </div>
 </section>
 

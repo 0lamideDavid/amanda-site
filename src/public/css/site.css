@@ -129,7 +129,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .btn-dark { background-color: var(--color-text-dark); color: var(--color-text-light); }
 .btn-accent { background-color: var(--color-accent-light); color: #12271c; display: flex; align-items: center; justify-content: center; }
-.btn-outline { border: 1px solid rgba(18, 39, 28, 0.2); color: var(--color-text-dark); background: transparent; }
+.btn-outline { border: 1px solid var(--color-accent-border); color: var(--color-text-dark); background: transparent; }
 .btn-icon-bg { background-color: var(--color-accent-light); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; }
 .btn-icon-bg-dark { background-color: var(--color-background-dark); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; }
 .btn.full-width { width: 100%; justify-content: center; padding: 15px 20px; border-radius: 24px; }
@@ -166,8 +166,22 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-secondary::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background-color: var(--color-text-dark); }
 .hero-image-wrapper { margin-top: 80px; width: 100%; }
 .hero-main-image { border-radius: 20px; width: 100%; }
-.hero-stats-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 32px; }
-.chip { background: var(--color-card); border: 1px solid var(--color-accent-border); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; color: var(--color-text-dark); }
+/* Hero trust chips as a continuous marquee (duplicated group makes the
+   -50% translate loop seamless). Pauses on hover; static for users who
+   prefer reduced motion. */
+.hero-stats-bar { overflow: hidden; width: 100%; margin-top: 32px; }
+.hero-stats-track { display: flex; width: max-content; animation: hero-stats-marquee 28s linear infinite; }
+.hero-stats-group { display: flex; gap: 16px; padding-right: 16px; }
+@keyframes hero-stats-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.hero-stats-bar:hover .hero-stats-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-stats-track { animation: none; flex-wrap: wrap; justify-content: center; }
+  .hero-stats-group[aria-hidden="true"] { display: none; }
+}
+.chip { background: var(--color-card); border: 1px solid var(--color-accent-border); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; color: var(--color-text-dark); white-space: nowrap; }
 
 @media (max-width: 992px) { .hero-container h1 { font-size: 64px; } }
 @media (max-width: 768px) { .hero-container h1 { font-size: 48px; } .hero-subheading { font-size: 18px; } }
@@ -190,6 +204,9 @@ img { max-width: 100%; height: auto; display: block; }
 .who-we-are-text-col .tagline { justify-content: flex-start; margin-bottom: 16px; }
 .who-we-are-text-col h2 { font-size: 52px; line-height: 1.2; margin-bottom: 24px; }
 .who-we-are-description { font-size: 18px; color: var(--color-text-medium); margin-bottom: 32px; }
+/* Content-sized pill, not a column-wide bar: the button is a block-level
+   flex box, which would otherwise stretch across the whole grid column. */
+.who-we-are-text-col .btn { width: fit-content; }
 .features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; margin-bottom: 40px; }
 .features-list li { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; color: var(--color-text-dark); }
 .features-list img { width: 17px; height: 17px; }
@@ -228,7 +245,12 @@ img { max-width: 100%; height: auto; display: block; }
   display: grid; place-items: center; font-size: 13px; font-weight: 700;
 }
 
-@media (max-width: 992px) { .steps-wrapper { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 992px) {
+  .steps-wrapper { grid-template-columns: 1fr; gap: 24px; }
+  /* Match the other sections: on mobile the eyebrow tagline (with its
+     flanking lines) centers above the centered heading. */
+  .how-it-works-title .tagline { justify-content: center; }
+}
 
 /* ---------- Services ---------- */
 .services-section { padding: 120px 0; }

@@ -89,6 +89,14 @@
       }
     });
   });
+  // Buttons that scroll to a page section instead of opening the modal
+  // (e.g. "See our services" in the who-we-are section).
+  document.querySelectorAll("[data-scroll-to]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var target = document.querySelector(el.getAttribute("data-scroll-to"));
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    });
+  });
   if (closeBtn) closeBtn.addEventListener("click", closeModal);
   if (overlay) {
     overlay.addEventListener("click", function (e) {
