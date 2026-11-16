@@ -37,6 +37,12 @@
      dark green, not a bright stroke (--color-on-dark at ~12% blends to
      almost exactly the contrast the adaptive lines have on dark bgs). */
   --color-eyebrow-line-on-dark: rgba(245, 243, 235, 0.15);
+  /* Darker accent border for LIGHT mode, for elements where the faint
+     accent-border all but vanishes on light backgrounds: the eyebrow
+     flanking lines and the outline-button borders. Sage, matching the
+     eyebrow text. Dark mode flips this back to accent-border below, and
+     fixed-dark sections keep --color-eyebrow-line-on-dark. */
+  --color-accent-border-strong: #4e7a5f;
   color-scheme: light;
 }
 
@@ -50,6 +56,7 @@
   --color-surface: #16281f;
   --color-card: #182a20;
   --color-eyebrow: #e1fcad;
+  --color-accent-border-strong: var(--color-accent-border);
   color-scheme: dark;
 }
 
@@ -64,6 +71,7 @@
     --color-surface: #16281f;
     --color-card: #182a20;
     --color-eyebrow: #e1fcad;
+    --color-accent-border-strong: var(--color-accent-border);
     color-scheme: dark;
   }
 }
@@ -137,7 +145,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .btn-dark { background-color: var(--color-text-dark); color: var(--color-text-light); }
 .btn-accent { background-color: var(--color-accent-light); color: #12271c; display: flex; align-items: center; justify-content: center; }
-.btn-outline { border: 1px solid var(--color-accent-border); color: var(--color-text-dark); background: transparent; }
+.btn-outline { border: 1px solid var(--color-accent-border-strong); color: var(--color-text-dark); background: transparent; }
 .btn-icon-bg { background-color: var(--color-accent-light); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; }
 .btn-icon-bg-dark { background-color: var(--color-background-dark); width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; }
 .btn.full-width { width: 100%; justify-content: center; padding: 15px 20px; border-radius: 24px; }
@@ -168,8 +176,10 @@ img { max-width: 100%; height: auto; display: block; }
 .hero-section { background-color: var(--color-background-light); padding-top: 80px; padding-bottom: 80px; }
 .hero-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .tagline { display: flex; align-items: center; gap: 16px; margin-bottom: 35px; }
-.tagline .line { width: 56px; height: 1px; background-color: var(--color-accent-border); }
-.tagline p { color: var(--color-eyebrow); font-size: 16px; font-weight: 600; }
+/* Lines use the stronger light-mode border (see --color-accent-border-strong):
+   the faint accent-border vanished on the light sections' backgrounds. The
+   fixed-dark sections override with --color-eyebrow-line-on-dark below. */
+.tagline .line { width: 56px; height: 1px; background-color: var(--color-accent-border-strong); }
 .hero-container h1 { font-size: 96px; line-height: 1.1; color: var(--color-text-dark); }
 .heading-line-2 { color: var(--color-text-green); }
 .hero-subheading { max-width: 640px; margin-top: 48px; font-size: 20px; color: var(--color-text-medium); line-height: 1.5; }
