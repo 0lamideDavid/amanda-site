@@ -152,6 +152,10 @@ img { max-width: 100%; height: auto; display: block; }
   .header-section.mobile-open .header-actions .theme-toggle { display: inline-flex; }
   .mobile-nav-toggle { display: flex; flex-direction: column; gap: 5px; }
   .mobile-nav-toggle span { display: block; width: 25px; height: 3px; background-color: var(--color-text-dark); }
+  /* Group the top-bar actions with the hamburger instead of letting
+     space-between strand "Book now" mid-bar. Only in the closed bar: the
+     opened menu reflows .header-actions to a full-width row. */
+  .header-section:not(.mobile-open) .header-actions { margin-left: auto; margin-right: 16px; }
 
   .header-section.mobile-open .header-container { flex-wrap: wrap; }
   .header-section.mobile-open .header-nav { display: flex; width: 100%; order: 3; }
