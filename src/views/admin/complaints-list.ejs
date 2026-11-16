@@ -32,8 +32,8 @@
           <% complaints.forEach(function (c) { %>
             <tr>
               <td><%= formatLocalDate(c.createdAt) %></td>
-              <td><%= c.customer ? c.customer.name : '—' %></td>
-              <td><%= c.booking ? c.booking.service.name : '—' %></td>
+              <td><%= c.customer ? c.customer.name : 'None' %></td>
+              <td><%= c.booking ? c.booking.service.name : 'None' %></td>
               <td><%= c.description %></td>
               <td><%= c.status %></td>
               <td><a href="/admin/complaints/<%= c.id %>">View</a></td>

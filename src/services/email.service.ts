@@ -103,7 +103,7 @@ export async function sendBookingRequestReceivedEmail(customer: Customer, servic
     to: customer.email,
     subject: "We've received your booking request",
     eyebrow: "Request received",
-    title: `Thanks, ${customer.name.split(" ")[0]} — we've got your request`,
+    title: `Thanks, ${customer.name.split(" ")[0]}, we've got your request`,
     introHtml: "We'll review it and confirm the time, date and price as soon as we can. This is a request, not a confirmed booking yet.",
     introText: "We'll review it and confirm the time, date and price as soon as we can. This is a request, not a confirmed booking yet.",
     detailRows: [
@@ -174,7 +174,7 @@ export async function sendBookingCompletedEmail(customer: Customer, service: Ser
   if (!customer.email) return;
   await sendNotificationEmail({
     to: customer.email,
-    subject: "All done — thank you!",
+    subject: "All done. Thank you!",
     eyebrow: "Job complete",
     title: "Thanks for choosing Amanda's",
     introHtml: "Hope everything's left exactly how you wanted. If you noticed anything we should know about, just reply to this email.",
@@ -207,7 +207,7 @@ export async function sendNewBookingRequestAdminEmail(customer: Customer, servic
       { label: "Requested time", value: booking.requestedTime },
       { label: "Customer", value: customer.name },
       { label: "Phone", value: customer.phone },
-      { label: "Email", value: customer.email ?? "—" },
+      { label: "Email", value: customer.email ?? "Not provided" },
       { label: "Address", value: `${booking.address}, ${booking.postcode}` },
       { label: "Notes", value: booking.instructions ?? "None" },
       { label: "Estimated price", value: money(booking.priceSnapshot) },

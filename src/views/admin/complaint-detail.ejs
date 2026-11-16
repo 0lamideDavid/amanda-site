@@ -14,10 +14,10 @@
     <p><%= complaint.description %></p>
     <p>
       Customer:
-      <% if (complaint.customer) { %><a href="/admin/customers/<%= complaint.customer.id %>"><%= complaint.customer.name %></a><% } else { %>—<% } %>
+      <% if (complaint.customer) { %><a href="/admin/customers/<%= complaint.customer.id %>"><%= complaint.customer.name %></a><% } else { %>None<% } %>
       &middot;
       Booking:
-      <% if (complaint.booking) { %><a href="/admin/bookings/<%= complaint.booking.id %>"><%= complaint.booking.service.name %></a><% } else { %>—<% } %>
+      <% if (complaint.booking) { %><a href="/admin/bookings/<%= complaint.booking.id %>"><%= complaint.booking.service.name %></a><% } else { %>None<% } %>
     </p>
 
     <div class="action-form">

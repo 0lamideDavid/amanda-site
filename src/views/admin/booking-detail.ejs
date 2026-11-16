@@ -47,7 +47,7 @@
           <label for="confirm-end">Scheduled end</label>
           <input id="confirm-end" type="datetime-local" name="scheduledEndAt" required>
           <% if (booking.priceSnapshot === null) { %>
-            <label for="confirm-price">Price (£) — this service has no automatic estimate</label>
+            <label for="confirm-price">Price (£) (this service has no automatic estimate)</label>
             <input id="confirm-price" type="number" step="0.01" min="0" name="priceSnapshot" required>
           <% } %>
           <p><button type="submit">Confirm booking</button></p>

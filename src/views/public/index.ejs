@@ -84,7 +84,7 @@ function tablePricePeriod(s) {
       <a href="#services" class="btn-secondary"><span>See services</span></a>
     </div>
     <div class="hero-image-wrapper reveal" style="transition-delay:320ms">
-      <img src="/images/hero-main.png" alt="Placeholder — swap for a real photo of Amanda's work" class="hero-main-image">
+      <img src="/images/hero-main.png" alt="Placeholder: swap for a real photo of Amanda's work" class="hero-main-image">
       <div class="hero-stats-bar">
         <div class="hero-stats-track">
           <div class="hero-stats-group">
@@ -107,33 +107,37 @@ function tablePricePeriod(s) {
 
 <section id="who-we-are" class="who-we-are-section">
   <div class="section-container who-we-are-container">
-    <div class="who-we-are-image-col reveal">
-      <div class="image-outer-wrapper">
-        <div class="image-inner-wrapper">
-          <img src="/images/who-we-are.png" alt="Placeholder — swap for a real photo of Amanda's work">
-        </div>
-        <div class="experience-card">
-          <img src="/icons/2217_87-white.svg" alt="">
-          <p class="experience-text">Insured &amp; DBS-checked</p>
+    <div class="who-we-are-header reveal">
+      <div class="tagline"><span class="line"></span><p>Who we are</p><span class="line"></span></div>
+      <h2>One trusted professional,<br>not a rotating crew</h2>
+    </div>
+    <div class="who-we-are-body">
+      <div class="who-we-are-text-col reveal" style="transition-delay:120ms">
+        <p class="who-we-are-description">The same person every time, for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
+        <ul class="features-list">
+          <li><img src="/icons/2217_87.svg" alt=""> Insured</li>
+          <li><img src="/icons/2217_97.svg" alt=""> DBS-checked</li>
+          <li><img src="/icons/2217_107.svg" alt=""> Photo confirmation after every job</li>
+          <li><img src="/icons/2217_117.svg" alt=""> Clear, upfront pricing</li>
+          <li><img src="/icons/2217_127.svg" alt=""> Supplies included</li>
+          <li><img src="/icons/2217_137.svg" alt=""> Flexible scheduling</li>
+        </ul>
+        <button type="button" class="btn btn-dark" data-scroll-to="#services">
+          <span>See our services</span>
+          <div class="btn-icon-bg"><img src="/icons/2217_148.svg" alt=""></div>
+        </button>
+      </div>
+      <div class="who-we-are-image-col reveal">
+        <div class="image-outer-wrapper">
+          <div class="image-inner-wrapper">
+            <img src="/images/who-we-are.png" alt="Placeholder: swap for a real photo of Amanda's work">
+          </div>
+          <div class="experience-card">
+            <img src="/icons/2217_87-white.svg" alt="">
+            <p class="experience-text">Insured &amp; DBS-checked</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="who-we-are-text-col reveal" style="transition-delay:120ms">
-      <div class="tagline"><span class="line"></span><p>Who we are</p><span class="line"></span></div>
-      <h2>One trusted professional, not a rotating crew</h2>
-      <p class="who-we-are-description">The same person every time, for your regular clean, your holiday-let changeover, your end-of-tenancy deep clean and the jobs you never get round to.</p>
-      <ul class="features-list">
-        <li><img src="/icons/2217_87.svg" alt=""> Insured</li>
-        <li><img src="/icons/2217_97.svg" alt=""> DBS-checked</li>
-        <li><img src="/icons/2217_107.svg" alt=""> Photo confirmation after every job</li>
-        <li><img src="/icons/2217_117.svg" alt=""> Clear, upfront pricing</li>
-        <li><img src="/icons/2217_127.svg" alt=""> Supplies included</li>
-        <li><img src="/icons/2217_137.svg" alt=""> Flexible scheduling</li>
-      </ul>
-      <button type="button" class="btn btn-dark" data-scroll-to="#services">
-        <span>See our services</span>
-        <div class="btn-icon-bg"><img src="/icons/2217_148.svg" alt=""></div>
-      </button>
     </div>
   </div>
 </section>
@@ -142,7 +146,8 @@ function tablePricePeriod(s) {
   <div class="section-container how-it-works-container">
     <div class="how-it-works-title reveal">
       <div class="tagline"><span class="line"></span><p>How it works</p><span class="line"></span></div>
-      <h2>From request to spotless, in three steps</h2>
+      <h2>From request to spotless,<br>in three steps</h2>
+      <p class="section-lede">Request, confirm, relax. You pay once the job is done.</p>
     </div>
     <div class="steps-wrapper">
       <div class="step-card reveal">
@@ -178,12 +183,12 @@ function tablePricePeriod(s) {
     <div class="services-header reveal">
       <div class="tagline"><span class="line"></span><p>What we do</p><span class="line"></span></div>
       <h2>Services built around your week</h2>
-      <p>Clear, upfront pricing for every job — from a regular clean to the errands you never get round to.</p>
+      <p>Clear, upfront pricing for every job, from a regular clean to the errands you never get round to.</p>
     </div>
     <div class="service-list">
       <% services.forEach(function (s, i) { %>
         <div class="service-card reveal" style="transition-delay:<%= i * 80 %>ms">
-          <img src="<%= s.image %>" alt="Placeholder — swap for a real photo of Amanda's work" class="service-image">
+          <img src="<%= s.image %>" alt="Placeholder: swap for a real photo of Amanda's work" class="service-image">
           <div class="service-content">
             <h3><%= s.name %></h3>
             <p><%= cardPriceLine(s) %></p>
@@ -253,12 +258,12 @@ function tablePricePeriod(s) {
         <p>See the result after every job, sent straight to you.</p>
       </div>
       <div class="feature-image reveal" style="transition-delay:40ms">
-        <img src="/images/feature.png" alt="Placeholder — swap for a real photo of Amanda's work">
+        <img src="/images/feature.png" alt="Placeholder: swap for a real photo of Amanda's work">
       </div>
       <div class="feature-item item-3 reveal" style="transition-delay:160ms">
         <div class="feature-icon"><img src="/icons/2217_618.svg" alt=""></div>
         <h3>Clear pricing</h3>
-        <p>You know the cost upfront &mdash; no surprises on the day.</p>
+        <p>You know the cost upfront. No surprises on the day.</p>
       </div>
       <div class="feature-item item-4 reveal" style="transition-delay:240ms">
         <div class="feature-icon"><img src="/icons/2217_628.svg" alt=""></div>
@@ -274,7 +279,7 @@ function tablePricePeriod(s) {
     <button type="button" class="btn btn-accent reveal" data-open-booking>Become a client</button>
     <div class="testimonial-slider">
       <div class="testimonial-content reveal" style="transition-delay:100ms">
-        <span class="placeholder-badge">Placeholder &mdash; add a real review</span>
+        <span class="placeholder-badge">Placeholder: add a real review</span>
         <p class="quote">"This space is reserved for a genuine review from one of Amanda's customers. Swap this out once the first one comes in."</p>
         <div class="author">
           <img src="/images/testimonial-avatar.png" alt="">
@@ -323,7 +328,7 @@ function tablePricePeriod(s) {
   <div class="modal">
     <button class="modal-close" id="booking-close" type="button" aria-label="Close">&times;</button>
     <h2>Request a booking</h2>
-    <p class="lede">This is a request, not a confirmed booking &mdash; we'll reply to confirm the time and price.</p>
+    <p class="lede">This is a request, not a confirmed booking. We'll reply to confirm the time and price.</p>
     <p class="form-error" id="form-errors"></p>
 
     <form id="booking-form">
@@ -390,7 +395,7 @@ function tablePricePeriod(s) {
     <div class="done" id="booking-done" hidden>
       <div class="accent-icon">&check;</div>
       <h3>Request received</h3>
-      <p>Thanks &mdash; we'll be in touch by phone or email to confirm the time and price.</p>
+      <p>Thanks. We'll be in touch by phone or email to confirm the time and price.</p>
       <p><button class="btn btn-outline" id="booking-edit" type="button">Send another request</button></p>
     </div>
   </div>

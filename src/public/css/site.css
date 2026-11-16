@@ -36,13 +36,30 @@
      as the other sections' lines — a faint tone-on-tone line against the
      dark green, not a bright stroke (--color-on-dark at ~12% blends to
      almost exactly the contrast the adaptive lines have on dark bgs). */
-  --color-eyebrow-line-on-dark: rgba(245, 243, 235, 0.15);
+  /* Eyebrow flanking line on the fixed-dark blocks: lime, matching the
+     lime eyebrow label there (and their line/label pair stays consistent in
+     both themes). */
+  --color-eyebrow-line-on-dark: var(--color-accent-light);
   /* Darker accent border for LIGHT mode, for elements where the faint
      accent-border all but vanishes on light backgrounds: the eyebrow
      flanking lines and the outline-button borders. Sage, matching the
      eyebrow text. Dark mode flips this back to accent-border below, and
      fixed-dark sections keep --color-eyebrow-line-on-dark. */
   --color-accent-border-strong: #4e7a5f;
+  /* Eyebrow flanking-line colour. Light mode: sage, visible against the
+     cream sections. Dark mode: lime, matching the eyebrow label, so no
+     white lines sit beside a lime label. */
+  --color-eyebrow-line: var(--color-accent-border-strong);
+  /* Per-section backgrounds. The lower page (testimonials, CTA band, footer)
+     keeps the dark-mode tones in both themes; the rest reuses the shared
+     tokens in light mode and is re-tuned for dark mode below. */
+  --color-section-how-it-works: var(--color-background-dark);
+  --color-section-testimonials: #16281f;
+  --color-section-cta: #16281f;
+  --color-section-footer: #0f1f17;
+  --color-section-services: var(--color-background-light);
+  --color-section-why-choose-us: var(--color-background-light);
+  --color-section-pricing: var(--color-surface);
   color-scheme: light;
 }
 
@@ -57,6 +74,12 @@
   --color-card: #182a20;
   --color-eyebrow: #e1fcad;
   --color-accent-border-strong: var(--color-accent-border);
+  --color-eyebrow-line: var(--color-accent-light);
+  --color-eyebrow-line-on-dark: var(--color-accent-light);
+  --color-section-how-it-works: #16281f;
+  --color-section-services: #16281f;
+  --color-section-why-choose-us: #16281f;
+  --color-section-pricing: #0f1f17;
   color-scheme: dark;
 }
 
@@ -72,6 +95,12 @@
     --color-card: #182a20;
     --color-eyebrow: #e1fcad;
     --color-accent-border-strong: var(--color-accent-border);
+    --color-eyebrow-line: var(--color-accent-light);
+    --color-eyebrow-line-on-dark: var(--color-accent-light);
+    --color-section-how-it-works: #16281f;
+    --color-section-services: #16281f;
+    --color-section-why-choose-us: #16281f;
+    --color-section-pricing: #0f1f17;
     color-scheme: dark;
   }
 }
@@ -175,11 +204,15 @@ img { max-width: 100%; height: auto; display: block; }
 /* ---------- Hero ---------- */
 .hero-section { background-color: var(--color-background-light); padding-top: 80px; padding-bottom: 80px; }
 .hero-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.tagline { display: flex; align-items: center; gap: 16px; margin-bottom: 35px; }
-/* Lines use the stronger light-mode border (see --color-accent-border-strong):
-   the faint accent-border vanished on the light sections' backgrounds. The
+.tagline { display: flex; align-items: center; gap: 16px; margin-bottom: 35px; justify-content: center; }
+/* Lines use the eyebrow line token (see --color-eyebrow-line): sage in light
+   mode, and in dark mode the same faint tone-on-dark line the fixed-dark
+   blocks use, so every eyebrow matches the How it works one. The
    fixed-dark sections override with --color-eyebrow-line-on-dark below. */
-.tagline .line { width: 56px; height: 1px; background-color: var(--color-accent-border-strong); }
+.tagline .line { width: 56px; height: 1px; background-color: var(--color-eyebrow-line); }
+/* Eyebrow label: the accent colour (lime in dark mode), never the plain
+   body text colour. */
+.tagline p { color: var(--color-eyebrow); font-size: 16px; font-weight: 600; }
 .hero-container h1 { font-size: 96px; line-height: 1.1; color: var(--color-text-dark); }
 .heading-line-2 { color: var(--color-text-green); }
 .hero-subheading { max-width: 640px; margin-top: 48px; font-size: 20px; color: var(--color-text-medium); line-height: 1.5; }
@@ -210,7 +243,15 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ---------- Who we are ---------- */
 .who-we-are-section { padding: 120px 0; }
-.who-we-are-container { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+/* Header block on top, centred like the other sections; the image and the
+   feature list share the row beneath it, image on the right. */
+.who-we-are-container { display: flex; flex-direction: column; }
+.who-we-are-header { text-align: center; margin-bottom: 80px; }
+.who-we-are-header .tagline { justify-content: center; margin-bottom: 16px; }
+.who-we-are-header h2 { font-size: 52px; line-height: 1.2; margin-bottom: 24px; }
+/* Sits in the text column, beside the image and above the checklist. */
+.who-we-are-description { font-size: 18px; color: var(--color-text-medium); margin-bottom: 32px; max-width: 460px; }
+.who-we-are-body { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .who-we-are-image-col { position: relative; }
 .image-outer-wrapper { position: relative; padding: 16px; border: 1px solid var(--color-text-dark); border-radius: 28px; }
 .image-inner-wrapper img { border-radius: 20px; width: 100%; }
@@ -223,9 +264,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .experience-card img { width: 28px; height: 28px; margin-bottom: 10px; }
 .experience-text { font-size: 13px; line-height: 1.4; max-width: 130px; }
-.who-we-are-text-col .tagline { justify-content: flex-start; margin-bottom: 16px; }
-.who-we-are-text-col h2 { font-size: 52px; line-height: 1.2; margin-bottom: 24px; }
-.who-we-are-description { font-size: 18px; color: var(--color-text-medium); margin-bottom: 32px; }
 /* Content-sized pill, not a column-wide bar: the button is a block-level
    flex box, which would otherwise stretch across the whole grid column. */
 .who-we-are-text-col .btn { width: fit-content; }
@@ -234,14 +272,15 @@ img { max-width: 100%; height: auto; display: block; }
 .features-list img { width: 17px; height: 17px; }
 
 @media (max-width: 992px) {
-  .who-we-are-container { grid-template-columns: 1fr; gap: 100px; }
-  .who-we-are-image-col { max-width: 500px; margin: 0 auto; }
+  .who-we-are-body { grid-template-columns: 1fr; gap: 60px; }
+  /* Image first on the way down, as it was before the flip to the right. */
+  .who-we-are-image-col { max-width: 500px; margin: 0 auto; order: -1; }
   .who-we-are-text-col { text-align: center; }
-  .who-we-are-text-col .tagline { justify-content: center; }
   .who-we-are-text-col .btn { margin: 0 auto; }
+  .features-list { max-width: 420px; margin-left: auto; margin-right: auto; }
 }
 @media (max-width: 768px) {
-  .who-we-are-text-col h2 { font-size: 40px; }
+  .who-we-are-header h2 { font-size: 40px; }
   .features-list { grid-template-columns: 1fr; max-width: 300px; margin-left: auto; margin-right: auto; }
   /* Desktop look on mobile: the card hangs off the frame's bottom-right
      corner, covering the outline. The frame gets a 20px inset on both sides
@@ -253,7 +292,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ---------- How it works ---------- */
-.how-it-works-section { background-color: var(--color-background-dark); color: var(--color-on-dark); padding: 120px 0; }
+.how-it-works-section { background-color: var(--color-section-how-it-works); color: var(--color-on-dark); padding: 120px 0; }
 .how-it-works-container { display: flex; flex-direction: column; align-items: center; }
 .how-it-works-title { text-align: center; margin-bottom: 80px; }
 .how-it-works-title .tagline p { color: var(--color-accent-light); }
@@ -261,6 +300,9 @@ img { max-width: 100%; height: auto; display: block; }
    and disappears on this always-dark background. */
 .how-it-works-title .tagline .line { background-color: var(--color-eyebrow-line-on-dark); }
 .how-it-works-title h2 { font-size: 52px; line-height: 1.2; margin-top: 16px; color: var(--color-on-dark); }
+/* Section description, centred under the title like the other sections.
+   Fixed light colour: this block's background is always dark, in both themes. */
+.how-it-works-title .section-lede { font-size: 18px; line-height: 1.5; color: #d8e3da; margin: 16px auto 0; max-width: 560px; }
 .steps-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; width: 100%; }
 .step-card {
   background-color: var(--color-background-light); color: var(--color-text-dark);
@@ -278,20 +320,19 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 992px) {
   .steps-wrapper { grid-template-columns: 1fr; gap: 24px; }
-  /* Match the other sections: on mobile the eyebrow tagline (with its
-     flanking lines) centers above the centered heading. */
-  .how-it-works-title .tagline { justify-content: center; }
 }
 
 /* ---------- Services ---------- */
-.services-section { padding: 120px 0; }
-.services-header { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 60px; align-items: center; }
-.services-header .tagline { justify-content: flex-start; }
+.services-section { background-color: var(--color-section-services); padding: 120px 0; }
+/* Centred header block (eyebrow, title, description), like every other
+   section. */
+.services-header { text-align: center; margin-bottom: 60px; }
+.services-header .tagline { justify-content: center; }
 .services-header h2 { font-size: 52px; line-height: 1.2; }
 /* Direct-child combinator, not a descendant selector: this must only match
    the intro paragraph, not the .tagline p nested inside the same header,
    which it was accidentally overriding back to the old eyebrow color. */
-.services-header > p { font-size: 16px; color: var(--color-text-green); font-weight: 600; }
+.services-header > p { font-size: 16px; color: var(--color-text-green); font-weight: 600; max-width: 640px; margin-left: auto; margin-right: auto; }
 .service-list { display: flex; flex-direction: column; gap: 32px; }
 .service-card { display: flex; align-items: center; gap: 40px; padding-bottom: 32px; border-bottom: 1px solid var(--color-accent-border); }
 .service-image { width: 240px; height: 150px; object-fit: cover; border-radius: 16px; flex-shrink: 0; }
@@ -302,18 +343,18 @@ img { max-width: 100%; height: auto; display: block; }
 .service-tags .tag { background-color: var(--color-text-dark); color: var(--color-text-light); padding: 6px 12px; border-radius: 32px; font-size: 12px; font-weight: 600; }
 
 @media (max-width: 992px) {
-  .services-header { grid-template-columns: 1fr; text-align: center; }
-  .services-header .tagline { justify-content: center; }
   .service-card { flex-direction: column; align-items: flex-start; }
   .service-image { width: 100%; height: auto; }
 }
 
 /* ---------- Pricing ---------- */
-.pricing-section { background-color: var(--color-surface); padding: 120px 0; }
-.pricing-header { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; margin-bottom: 60px; }
-.pricing-header .tagline { justify-content: flex-start; }
+.pricing-section { background-color: var(--color-section-pricing); padding: 120px 0; }
+/* Centred header block (eyebrow, title, description), like every other
+   section. */
+.pricing-header { text-align: center; margin-bottom: 60px; }
+.pricing-header .tagline { justify-content: center; }
 .pricing-header h2 { font-size: 52px; line-height: 1.2; }
-.pricing-header > p { font-size: 16px; color: var(--color-text-green); font-weight: 600; }
+.pricing-header > p { font-size: 16px; color: var(--color-text-green); font-weight: 600; max-width: 640px; margin-left: auto; margin-right: auto; }
 .pricing-cards-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
 .pricing-card { background-color: var(--color-card); border: 1px solid var(--color-accent-border); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; }
 .pricing-card.featured { background-color: var(--color-text-dark); color: var(--color-text-light); }
@@ -331,10 +372,10 @@ img { max-width: 100%; height: auto; display: block; }
 .card-features li { font-size: 13px; color: #41584b; }
 .pricing-card.featured .card-features li { color: var(--color-text-light); }
 
-@media (max-width: 992px) { .pricing-header { grid-template-columns: 1fr; text-align: center; } .pricing-header .tagline { justify-content: center; } }
+@media (max-width: 992px) { .pricing-cards-wrapper { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); } }
 
 /* ---------- Why choose us ---------- */
-.why-choose-us-section { padding: 120px 0; }
+.why-choose-us-section { background-color: var(--color-section-why-choose-us); padding: 120px 0; }
 .why-choose-us-header { text-align: center; margin-bottom: 60px; }
 .why-choose-us-header .tagline { justify-content: center; }
 .why-choose-us-header h2 { font-size: 52px; line-height: 1.2; margin-top: 16px; }
@@ -363,7 +404,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ---------- Testimonials (placeholder) ---------- */
-.testimonials-section { background-color: var(--color-background-dark); color: var(--color-on-dark); padding: 120px 0; }
+.testimonials-section { background-color: var(--color-section-testimonials); color: var(--color-on-dark); padding: 120px 0; }
 .testimonials-container { display: flex; justify-content: space-between; align-items: center; gap: 60px; flex-wrap: wrap; }
 .testimonial-slider { flex-grow: 1; display: flex; align-items: center; gap: 40px; }
 .placeholder-badge {
@@ -386,7 +427,7 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 992px) { .testimonials-container { flex-direction: column; text-align: center; } .testimonial-slider { flex-direction: column; } .author { justify-content: center; } }
 
 /* ---------- Booking CTA band (new, reuses Industries' dark two-col weight) ---------- */
-.cta-band { background-color: var(--color-background-deep-dark); color: var(--color-on-dark); padding: 100px 0; text-align: center; }
+.cta-band { background-color: var(--color-section-cta); color: var(--color-on-dark); padding: 100px 0; text-align: center; }
 .cta-band .tagline { justify-content: center; }
 .cta-band .tagline p { color: var(--color-accent-light); }
 .cta-band .tagline .line { background-color: var(--color-eyebrow-line-on-dark); }
@@ -395,7 +436,7 @@ img { max-width: 100%; height: auto; display: block; }
 .cta-band .btn { margin: 0 auto; }
 
 /* ---------- Footer (new) ---------- */
-.site-footer { background-color: var(--color-background-dark); color: var(--color-on-dark); padding: 60px 0 28px; }
+.site-footer { background-color: var(--color-section-footer); color: var(--color-on-dark); padding: 60px 0 28px; }
 .footer-cols { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
 .footer-brand { font-size: 20px; font-weight: 700; }
 .footer-tagline { color: #cfe0d4; margin-top: 8px; font-size: 15px; }

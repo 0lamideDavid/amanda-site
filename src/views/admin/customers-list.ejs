@@ -15,7 +15,7 @@
           <tr>
             <td><%= c.name %></td>
             <td><%= c.phone %></td>
-            <td><%= c.email || '—' %></td>
+            <td><%= c.email || 'Not provided' %></td>
             <td><a href="/admin/customers/<%= c.id %>">View</a></td>
           </tr>
         <% }) %>

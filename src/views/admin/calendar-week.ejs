@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Calendar &mdash; week</title>
+  <title>Calendar (week)</title>
 </head>
 <body>
   <%- include('_nav') %>
@@ -30,7 +30,7 @@
           <% day.items.forEach(function (b) { %>
             <a class="calendar-event badge-<%= b.status %>" href="/admin/bookings/<%= b.id %>">
               <%= formatLocalTime(b.scheduledStartAt) %>&ndash;<%= formatLocalTime(b.scheduledEndAt) %><br>
-              <%= b.service.name %> &mdash; <%= b.customer.name %>
+              <%= b.service.name %>: <%= b.customer.name %>
             </a>
           <% }) %>
         </div>

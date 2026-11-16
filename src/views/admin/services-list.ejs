@@ -16,8 +16,8 @@
           <tr>
             <td><%= s.name %></td>
             <td><%= s.pricingUnit %></td>
-            <td><%= s.basePrice !== null ? ('£' + s.basePrice.toString()) : '—' %></td>
-            <td><%= s.minimum !== null ? s.minimum.toString() : '—' %></td>
+            <td><%= s.basePrice !== null ? ('£' + s.basePrice.toString()) : 'Not set' %></td>
+            <td><%= s.minimum !== null ? s.minimum.toString() : 'Not set' %></td>
             <td><%= s.active ? 'Yes' : 'No' %></td>
             <td><a href="/admin/services/<%= s.id %>/edit">Edit</a></td>
           </tr>

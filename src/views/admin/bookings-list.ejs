@@ -41,7 +41,7 @@
           <% bookings.forEach(function (b) { %>
             <tr>
               <td><%= formatLocalDate(b.requestedDate) %> (<%= b.requestedTime %>)</td>
-              <td><%= b.scheduledStartAt ? formatLocalDateTime(b.scheduledStartAt) : '—' %></td>
+              <td><%= b.scheduledStartAt ? formatLocalDateTime(b.scheduledStartAt) : 'Not scheduled' %></td>
               <td><%= b.service.name %></td>
               <td><%= b.customer.name %></td>
               <td><span class="badge badge-<%= b.status %>"><%= b.status %></span></td>
