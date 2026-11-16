@@ -29,6 +29,14 @@
      dark sections (how-it-works, cta-band) keep using --color-accent-light
      directly instead, since their background never changes with theme. */
   --color-eyebrow: #4e7a5f;
+  /* Eyebrow flanking-line color for the fixed-dark sections (how-it-works,
+     cta-band). Never overridden in dark mode: those sections' backgrounds
+     stay dark regardless of theme, and --color-accent-border flips dark in
+     dark mode, which made the lines vanish against them. Same visual weight
+     as the other sections' lines — a faint tone-on-tone line against the
+     dark green, not a bright stroke (--color-on-dark at ~12% blends to
+     almost exactly the contrast the adaptive lines have on dark bgs). */
+  --color-eyebrow-line-on-dark: rgba(245, 243, 235, 0.15);
   color-scheme: light;
 }
 
@@ -221,6 +229,12 @@ img { max-width: 100%; height: auto; display: block; }
 @media (max-width: 768px) {
   .who-we-are-text-col h2 { font-size: 40px; }
   .features-list { grid-template-columns: 1fr; max-width: 300px; margin-left: auto; margin-right: auto; }
+  /* Desktop look on mobile: the card hangs off the frame's bottom-right
+     corner, covering the outline. The frame gets a 20px inset on both sides
+     (slightly smaller image, still centered) so the overhang lands exactly
+     on the container's inner edge instead of the viewport edge — the
+     container's 20px padding absorbs it. */
+  .who-we-are-image-col .image-outer-wrapper { margin-left: 20px; margin-right: 20px; }
   .experience-card { width: 160px; height: 160px; right: -20px; bottom: -20px; }
 }
 
@@ -229,6 +243,9 @@ img { max-width: 100%; height: auto; display: block; }
 .how-it-works-container { display: flex; flex-direction: column; align-items: center; }
 .how-it-works-title { text-align: center; margin-bottom: 80px; }
 .how-it-works-title .tagline p { color: var(--color-accent-light); }
+/* See --color-eyebrow-line-on-dark: accent-border flips dark in dark mode
+   and disappears on this always-dark background. */
+.how-it-works-title .tagline .line { background-color: var(--color-eyebrow-line-on-dark); }
 .how-it-works-title h2 { font-size: 52px; line-height: 1.2; margin-top: 16px; color: var(--color-on-dark); }
 .steps-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; width: 100%; }
 .step-card {
@@ -358,6 +375,7 @@ img { max-width: 100%; height: auto; display: block; }
 .cta-band { background-color: var(--color-background-deep-dark); color: var(--color-on-dark); padding: 100px 0; text-align: center; }
 .cta-band .tagline { justify-content: center; }
 .cta-band .tagline p { color: var(--color-accent-light); }
+.cta-band .tagline .line { background-color: var(--color-eyebrow-line-on-dark); }
 .cta-band h2 { font-size: 48px; line-height: 1.2; margin-top: 16px; margin-bottom: 20px; color: var(--color-on-dark); }
 .cta-band p.lede { font-size: 18px; color: #d8e3da; max-width: 480px; margin: 0 auto 32px; }
 .cta-band .btn { margin: 0 auto; }
