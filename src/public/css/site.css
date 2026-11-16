@@ -58,7 +58,7 @@
   --color-section-cta: #16281f;
   --color-section-footer: #0f1f17;
   --color-section-services: var(--color-background-light);
-  --color-section-why-choose-us: var(--color-background-light);
+  --color-section-why-choose-us: var(--color-surface);
   --color-section-pricing: var(--color-surface);
   color-scheme: light;
 }
@@ -405,26 +405,34 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ---------- Testimonials (placeholder) ---------- */
 .testimonials-section { background-color: var(--color-section-testimonials); color: var(--color-on-dark); padding: 120px 0; }
-.testimonials-container { display: flex; justify-content: space-between; align-items: center; gap: 60px; flex-wrap: wrap; }
-.testimonial-slider { flex-grow: 1; display: flex; align-items: center; gap: 40px; }
+.testimonials-container { display: flex; flex-direction: column; align-items: center; gap: 48px; }
+/* Stacked and centred: review, reviewer, pagination, then the button. */
+.testimonial-slider { width: 100%; max-width: 760px; display: flex; flex-direction: column; align-items: center; gap: 36px; }
+.testimonial-track { width: 100%; }
+.testimonial-content { display: none; text-align: center; }
+.testimonial-content.is-active { display: block; animation: testimonial-in 0.6s ease; }
+@keyframes testimonial-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .placeholder-badge {
   display: inline-block; background: rgba(245,243,235,0.12); color: var(--color-on-dark);
   font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 5px 12px; border-radius: 999px; margin-bottom: 16px;
 }
 .quote { font-size: 26px; font-weight: 600; line-height: 1.4; margin-bottom: 32px; }
-.author { display: flex; align-items: center; gap: 16px; }
+.author { display: flex; align-items: center; justify-content: center; gap: 16px; }
 .author img { width: 41px; height: 41px; border-radius: 50%; }
-.author-info { display: flex; flex-direction: column; }
+.author-info { display: flex; flex-direction: column; align-items: center; }
 .author-name { font-size: 14px; font-weight: 600; }
 .author-title { font-size: 14px; opacity: 0.8; }
-.slider-controls { display: flex; gap: 10px; }
+.slider-controls { display: flex; gap: 10px; justify-content: center; }
 /* Fixed dark circle, not adaptive: it sits inside the always-dark
    testimonials section and holds a hardcoded-white arrow icon, which
    would disappear if this background ever flipped light in dark mode. */
 .slider-btn { background-color: var(--color-background-deep-dark); border: none; width: 41px; height: 41px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; }
 
-@media (max-width: 992px) { .testimonials-container { flex-direction: column; text-align: center; } .testimonial-slider { flex-direction: column; } .author { justify-content: center; } }
+@media (max-width: 992px) { .testimonials-container { gap: 40px; } }
 
 /* ---------- Booking CTA band (new, reuses Industries' dark two-col weight) ---------- */
 .cta-band { background-color: var(--color-section-cta); color: var(--color-on-dark); padding: 100px 0; text-align: center; }

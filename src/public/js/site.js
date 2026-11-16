@@ -255,6 +255,67 @@
     }
   }
 
+  // --- Testimonial slider ----------------------------------------------
+  // Advances to the next review every 3 seconds. The slides live in the
+  // markup (one .testimonial-content per review), so adding a review is
+  // just adding another block. The timer only runs with more than one
+  // slide, pauses on hover and while the tab is hidden, and never starts
+  // for visitors who prefer reduced motion.
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".testimonial-track .testimonial-content"));
+  var sliderEl = document.querySelector(".testimonial-slider");
+  var sliderPrev = document.querySelector(".slider-btn-prev");
+  var sliderNext = document.querySelector(".slider-btn-next");
+  var slideIndex = 0;
+  var slideTimer = null;
+
+  function showSlide(index) {
+    if (!slides.length) return;
+    slideIndex = (index + slides.length) % slides.length;
+    slides.forEach(function (slide, i) {
+      var active = i === slideIndex;
+      slide.classList.toggle("is-active", active);
+      slide.setAttribute("aria-hidden", active ? "false" : "true");
+    });
+  }
+
+  function stopSlideTimer() {
+    if (slideTimer) {
+      window.clearInterval(slideTimer);
+      slideTimer = null;
+    }
+  }
+
+  function startSlideTimer() {
+    stopSlideTimer();
+    if (slides.length < 2 || reduceMotion) return;
+    slideTimer = window.setInterval(function () { showSlide(slideIndex + 1); }, 3000);
+  }
+
+  if (slides.length) {
+    showSlide(0);
+    if (sliderPrev) {
+      sliderPrev.addEventListener("click", function () {
+        showSlide(slideIndex - 1);
+        startSlideTimer();
+      });
+    }
+    if (sliderNext) {
+      sliderNext.addEventListener("click", function () {
+        showSlide(slideIndex + 1);
+        startSlideTimer();
+      });
+    }
+    if (sliderEl) {
+      sliderEl.addEventListener("mouseenter", stopSlideTimer);
+      sliderEl.addEventListener("mouseleave", startSlideTimer);
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stopSlideTimer();
+      else startSlideTimer();
+    });
+    startSlideTimer();
+  }
+
   // --- Scroll-spy active nav link ------------------------------------
   var navLinks = document.querySelectorAll(".header-nav a[data-section]");
   if (navLinks.length && "IntersectionObserver" in window) {
